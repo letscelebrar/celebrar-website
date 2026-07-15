@@ -82,7 +82,40 @@
   }
 
   /* ── HERO ────────────────────────────────────── */
-  .hero{position:relative;background:linear-gradient(rgba(62,42,30,0.55),rgba(62,42,30,0.55)),url('assets/hero-bg.jpg');background-size:cover;background-position:center top;padding:110px 24px 130px;text-align:center;overflow:hidden;}
+  .hero{position:relative;background:var(--wood-dark);padding:110px 24px 130px;text-align:center;overflow:hidden;}
+  .hero-photo{position:absolute;inset:-6%;background-image:url('assets/hero-bg.jpg');background-size:cover;background-position:center top;animation:heroZoom 24s ease-in-out infinite;z-index:0;}
+  .hero-overlay{position:absolute;inset:0;background:linear-gradient(rgba(62,42,30,0.55),rgba(62,42,30,0.55));z-index:1;}
+  .hero-twinkle{position:absolute;z-index:1;pointer-events:none;opacity:.3;animation:twinkle 4s ease-in-out infinite;}
+  @keyframes heroZoom{0%{transform:scale(1);}50%{transform:scale(1.08);}100%{transform:scale(1);}}
+  @keyframes twinkle{0%,100%{opacity:.15;transform:scale(.85);}50%{opacity:.65;transform:scale(1.1);}}
+  @media (prefers-reduced-motion: reduce){
+    .hero-photo{animation:none;}
+    .hero-twinkle{animation:none;opacity:.2;}
+  }
+
+  /* ── SCROLL REVEAL ───────────────────────────── */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1);}
+  .reveal.is-visible{opacity:1;transform:translateY(0);}
+  .highlight.reveal:nth-child(1){transition-delay:0s;}
+  .highlight.reveal:nth-child(2){transition-delay:.1s;}
+  .highlight.reveal:nth-child(3){transition-delay:.2s;}
+  .step.reveal:nth-child(1){transition-delay:0s;}
+  .step.reveal:nth-child(2){transition-delay:.1s;}
+  .step.reveal:nth-child(3){transition-delay:.2s;}
+  .pickup-card.reveal:nth-child(1),.pickup-card-static.reveal:nth-child(1){transition-delay:0s;}
+  .pickup-card.reveal:nth-child(2),.pickup-card-static.reveal:nth-child(2){transition-delay:.1s;}
+  .product-card.reveal:nth-child(1){transition-delay:0s;}
+  .product-card.reveal:nth-child(2){transition-delay:.08s;}
+  .product-card.reveal:nth-child(3){transition-delay:.16s;}
+  .product-card.reveal:nth-child(4){transition-delay:.24s;}
+  /* .product-card/.pickup-card each define their own `transition` shorthand for hover (further
+     down in this stylesheet); since it's the same CSS property, that later rule would otherwise
+     fully replace .reveal's transition instead of merging with it. This combined, higher-specificity
+     rule guarantees both the reveal fade-up AND the hover lift/shadow animate correctly. */
+  .product-card.reveal,.pickup-card.reveal{transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1),box-shadow .2s ease;}
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1;transform:none;transition:none;}
+  }
   .hero .container{position:relative;z-index:2;max-width:760px;}
   .hero h1{font-family:'Homemade Apple',cursive;font-weight:400;text-transform:none;letter-spacing:.5px;font-size:clamp(40px,7vw,68px);margin-bottom:22px;color:var(--butter-soft);line-height:1.15;}
   .hero p{font-size:19px;color:var(--cream);opacity:.92;max-width:560px;margin:0 auto 36px;}
@@ -290,6 +323,12 @@
 
 <!-- ═══════════════ HERO ═══════════════ -->
 <section class="hero" id="home">
+  <div class="hero-photo"></div>
+  <div class="hero-overlay"></div>
+  <img class="hero-twinkle" src="assets/doodle-3.png" alt="" style="width:24px;top:15%;left:8%;animation-duration:3.6s;" />
+  <img class="hero-twinkle" src="assets/doodle-5.png" alt="" style="width:18px;top:73%;left:15%;animation-delay:1.1s;animation-duration:4.2s;" />
+  <img class="hero-twinkle" src="assets/doodle-8.png" alt="" style="width:22px;top:20%;right:9%;animation-delay:2.2s;animation-duration:3.9s;" />
+  <img class="hero-twinkle" src="assets/doodle-7.png" alt="" style="width:19px;top:68%;right:16%;animation-delay:3.3s;animation-duration:4.5s;" />
   <div class="container">
     <h1>Made to Celebrate Who Matters</h1>
     <p>Handcrafted giftable desserts with <strong>no gluten ingredients</strong> and <strong>low sugar</strong>, created for <strong>thoughtful gestures, meaningful moments, and the people who matter most</strong>.</p>
@@ -303,16 +342,16 @@
 <!-- ═══════════════ ABOUT ═══════════════ -->
 <section class="section" id="about">
   <div class="container about-grid">
-    <div class="about-photo"><img src="assets/about.jpg" alt="Celebrar teddy madeleines, freshly finished with ribbons and hats" loading="lazy" /></div>
+    <div class="about-photo reveal"><img src="assets/about.jpg" alt="Celebrar teddy madeleines, freshly finished with ribbons and hats" loading="lazy" /></div>
     <div class="about-text">
-      <h2 class="section-title" style="font-size:clamp(30px,4vw,42px);text-align:left;">Why Celebrar?</h2>
+      <h2 class="section-title reveal" style="font-size:clamp(30px,4vw,42px);text-align:left;">Why Celebrar?</h2>
       <p><span class="accent-em">Sometimes, it's hard to put your feelings into words.</span></p>
       <p>Whether it's a simple "thank you," "good luck," or "I'm thinking of you," a small gift can say it for you.</p>
       <p>Celebrar creates thoughtful desserts that make showing you care <span style="font-weight:700;font-style:italic;">feel easy</span>. Beautifully packaged, personal, and ready to gift.</p>
       <div class="highlights">
-        <div class="highlight"><div class="icon"><img src="assets/logo-icon-brown.svg" alt="" /></div><div><h4>Easy to Give</h4><p>Thoughtfully packaged and ready to make someone's day with almost no effort.</p></div></div>
-        <div class="highlight"><div class="icon"><img src="assets/logo-icon-brown.svg" alt="" /></div><div><h4>Made More Personal</h4><p>Add a custom gift tag and accessories to make your gift feel uniquely theirs.</p></div></div>
-        <div class="highlight"><div class="icon"><img src="assets/logo-icon-brown.svg" alt="" /></div><div><h4>Simply Better Ingredients</h4><p>Made with 100% pure butter, no gluten ingredients*, and lower sugar because thoughtful gifts should taste just as good as they look.</p><p class="disclaimer">*Made in a shared kitchen. Tools and surfaces are sanitized before each production.</p></div></div>
+        <div class="highlight reveal"><div class="icon"><img src="assets/logo-icon-brown.svg" alt="" /></div><div><h4>Easy to Give</h4><p>Thoughtfully packaged and ready to make someone's day with almost no effort.</p></div></div>
+        <div class="highlight reveal"><div class="icon"><img src="assets/logo-icon-brown.svg" alt="" /></div><div><h4>Made More Personal</h4><p>Add a custom gift tag and accessories to make your gift feel uniquely theirs.</p></div></div>
+        <div class="highlight reveal"><div class="icon"><img src="assets/logo-icon-brown.svg" alt="" /></div><div><h4>Simply Better Ingredients</h4><p>Made with no gluten ingredients*, lower sugar, and premium ingredients because thoughtful gifts should taste just as good as they look.</p><p class="disclaimer">*Made in a shared kitchen. Tools and surfaces are sanitized before each production.</p></div></div>
       </div>
     </div>
   </div>
@@ -321,9 +360,9 @@
 <!-- ═══════════════ MENU ═══════════════ -->
 <section class="section" id="menu" style="background:var(--butter-soft);">
   <div class="container">
-    <span class="section-label">Shop</span>
-    <h2 class="section-title">Find Something They'll Love</h2>
-    <p class="section-sub">Tap a treat to pick your flavor, size, and add-ons, and watch the price update as you go.</p>
+    <span class="section-label reveal">Shop</span>
+    <h2 class="section-title reveal">Find Something They'll Love</h2>
+    <p class="section-sub reveal">Tap a treat to pick your flavor, size, and add-ons, and watch the price update as you go.</p>
     <div class="menu-grid" id="menuGrid"></div>
     <p class="menu-note">Add everything you love to your cart, then check out with one WhatsApp message.</p>
     <div style="text-align:center;margin-top:36px;padding-top:28px;border-top:1.5px solid var(--wood-line);">
@@ -341,12 +380,12 @@
 <!-- ═══════════════ HOW IT WORKS ═══════════════ -->
 <section class="section" id="how">
   <div class="container">
-    <span class="section-label">How to Order</span>
-    <h2 class="section-title">Thoughtful Gifting in 3 Simple Steps</h2>
+    <span class="section-label reveal">How to Order</span>
+    <h2 class="section-title reveal">Thoughtful Gifting in 3 Simple Steps</h2>
     <div class="steps">
-      <div class="step"><div class="num">1</div><h4>Tell Us What You Need</h4><p>Choose your treats, preferred date, and any custom requests.</p></div>
-      <div class="step"><div class="num">2</div><h4>We'll Confirm Everything</h4><p>We'll get in touch to confirm your order, availability, and payment details via WhatsApp.</p></div>
-      <div class="step"><div class="num">3</div><h4>Ready to Gift</h4><p>Receive your order beautifully packaged, ready to brighten someone's day.</p></div>
+      <div class="step reveal"><div class="num">1</div><h4>Tell Us What You Need</h4><p>Choose your treats, preferred date, and any custom requests.</p></div>
+      <div class="step reveal"><div class="num">2</div><h4>We'll Confirm Everything</h4><p>We'll get in touch to confirm your order, availability, and payment details via WhatsApp.</p></div>
+      <div class="step reveal"><div class="num">3</div><h4>Ready to Gift</h4><p>Receive your order beautifully packaged, ready to brighten someone's day.</p></div>
     </div>
     <div style="text-align:center;margin-top:40px;">
       <a href="#menu" class="btn btn-primary">Order Now</a>
@@ -357,10 +396,10 @@
 <!-- ═══════════════ TESTIMONIALS ═══════════════ -->
 <section class="section" id="testimonials" style="background:var(--butter-soft);">
   <div class="container">
-    <span class="section-label">What Customers Say</span>
-    <h2 class="section-title">Loved by Our Customers</h2>
-    <p class="section-sub">Real messages from our customers on WhatsApp, shared with their privacy in mind.</p>
-    <div class="testi-carousel">
+    <span class="section-label reveal">What Customers Say</span>
+    <h2 class="section-title reveal">Loved by Our Customers</h2>
+    <p class="section-sub reveal">Real messages from our customers on WhatsApp, shared with their privacy in mind.</p>
+    <div class="testi-carousel reveal">
       <button type="button" class="testi-arrow" id="testiPrev" aria-label="Previous testimonial">&#8249;</button>
       <div class="testi-track" id="testiTrack"></div>
       <button type="button" class="testi-arrow" id="testiNext" aria-label="Next testimonial">&#8250;</button>
@@ -371,30 +410,30 @@
 <!-- ═══════════════ FAQ ═══════════════ -->
 <section class="section" id="faq" style="background:var(--butter-soft);">
   <div class="container">
-    <span class="section-label">Questions</span>
-    <h2 class="section-title">Frequently Asked Questions</h2>
+    <span class="section-label reveal">Questions</span>
+    <h2 class="section-title reveal">Frequently Asked Questions</h2>
     <div class="faq-lang-toggle" id="faqLangToggle">
       <button type="button" class="faq-lang-btn active" data-lang="en">EN</button>
       <button type="button" class="faq-lang-btn" data-lang="id">ID</button>
     </div>
     <div class="faq-pills" id="faqPills"></div>
-    <div class="faq-list" id="faqList"></div>
+    <div class="faq-list reveal" id="faqList"></div>
   </div>
 </section>
 
 <!-- ═══════════════ PICKUP LOCATIONS ═══════════════ -->
 <section class="section" id="pickup">
   <div class="container">
-    <span class="section-label">Find Us</span>
-    <h2 class="section-title">Pickup Locations</h2>
-    <p class="section-sub">Both locations are available for self pickup, or you can arrange your own courier for delivery. Tap a card to open it in Google Maps.</p>
+    <span class="section-label reveal">Find Us</span>
+    <h2 class="section-title reveal">Pickup Locations</h2>
+    <p class="section-sub reveal">Both locations are available for self pickup, or you can arrange your own courier for delivery. Tap a card to open it in Google Maps.</p>
     <div class="pickup-grid">
-      <a class="pickup-card" href="https://maps.app.goo.gl/3ns7BLpdJK2iW6AMA" target="_blank" rel="noopener">
+      <a class="pickup-card reveal" href="https://maps.app.goo.gl/3ns7BLpdJK2iW6AMA" target="_blank" rel="noopener">
         <h4>Gilimanuk Studio</h4>
         <p>Jln. Gilimanuk, Daan Mogot, West Jakarta<br>Main studio, Mon-Sun 9am-6pm</p>
         <span class="map-link">Open in Google Maps →</span>
       </a>
-      <a class="pickup-card" href="https://maps.app.goo.gl/ZYt4uhK2ngBSVeLR8" target="_blank" rel="noopener">
+      <a class="pickup-card reveal" href="https://maps.app.goo.gl/ZYt4uhK2ngBSVeLR8" target="_blank" rel="noopener">
         <h4>Batuceper</h4>
         <p>Sun Toli, Kawasan Industri TritonVille, Batuceper, Tangerang<br>Mon-Fri, 9am-5pm</p>
         <span class="map-link">Open in Google Maps →</span>
@@ -460,7 +499,7 @@
   Object.keys(CARD_META).forEach((key) => {
     const c = CARD_META[key];
     const card = document.createElement("div");
-    card.className = "product-card";
+    card.className = "product-card reveal";
     card.innerHTML = `
       <div class="product-card-photo"><img src="${c.gallery[0]}" alt="${c.name}" loading="lazy" /></div>
       <div class="tags">${c.tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
@@ -1388,6 +1427,22 @@
   const navLinks = document.getElementById("navLinks");
   hamburgerBtn.addEventListener("click", () => navLinks.classList.toggle("open"));
   navLinks.querySelectorAll("a").forEach(a => a.addEventListener("click", () => navLinks.classList.remove("open")));
+
+  /* ══════════════ SCROLL REVEAL ══════════════ */
+  function initScrollReveal(){
+    const items = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) { items.forEach(el => el.classList.add('is-visible')); return; }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+    items.forEach(el => io.observe(el));
+  }
+  initScrollReveal();
 </script>
 
 </body>
