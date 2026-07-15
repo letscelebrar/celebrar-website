@@ -30,7 +30,7 @@
     --shadow:0 4px 18px rgba(62,42,30,0.12);
     --shadow-md:0 10px 34px rgba(62,42,30,0.22);
   }
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
   html{scroll-behavior:smooth;}
   body{font-family:'Quicksand',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden;line-height:1.6;}
   h1,h2,h3,h4{font-family:'Dongle',sans-serif;font-weight:700;color:var(--toasted);line-height:1.05;letter-spacing:.3px;text-transform:capitalize;}
@@ -47,8 +47,17 @@
   .section-title::after{content:"";display:block;width:60px;height:4px;background:var(--sky);border-radius:2px;margin:10px auto 0;}
   .about-text .section-title::after{margin:10px 0 0;}
   .section-sub{font-size:17px;color:var(--text-soft);max-width:600px;line-height:1.7;text-align:center;margin:0 auto;}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:15px 32px;border-radius:100px;font-family:'Quicksand',sans-serif;font-weight:700;font-size:16px;cursor:pointer;border:2px solid transparent;transition:transform .15s ease, box-shadow .15s ease, background .15s ease;white-space:nowrap;}
-  .btn:hover{transform:translateY(-2px);}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:15px 32px;border-radius:100px;font-family:'Quicksand',sans-serif;font-weight:700;font-size:16px;cursor:pointer;border:2px solid transparent;transition:transform .2s cubic-bezier(.16,1,.3,1), box-shadow .2s cubic-bezier(.16,1,.3,1), background .15s ease;white-space:nowrap;}
+  .btn:active{transform:translateY(0) scale(.97);transition-duration:.08s;}
+  /* Hover lift/scale only on devices with a real pointer (mouse/trackpad) — on touch, :hover
+     fires on tap and can stay "stuck" until the next tap elsewhere, which looks buggy.
+     Touch devices get the :active press-down feedback above instead. */
+  @media (hover:hover) and (pointer:fine){
+    .btn:hover{transform:translateY(-2px) scale(1.025);box-shadow:var(--shadow-md);}
+    .nav-links a.cta:hover{transform:scale(1.04);box-shadow:var(--shadow);}
+    .wa-float:hover{transform:scale(1.05);box-shadow:0 8px 26px rgba(37,211,102,0.5);}
+    .cart-bar button:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 14px 38px rgba(62,42,30,.3);}
+  }
   .btn-primary{background:var(--toasted);color:#fff;box-shadow:var(--shadow);}
   .btn-primary:hover{background:var(--toasted-dark);}
   .btn-outline{background:transparent;border-color:var(--toasted);color:var(--toasted);}
@@ -68,8 +77,9 @@
   .nav-links{display:flex;align-items:center;gap:36px;list-style:none;}
   .nav-links a{font-weight:600;font-size:16px;color:var(--text);transition:color .15s;}
   .nav-links a:hover{color:var(--toasted);}
-  .nav-links a.cta{background:var(--toasted);color:#fff;padding:10px 22px;border-radius:100px;}
+  .nav-links a.cta{background:var(--toasted);color:#fff;padding:10px 22px;border-radius:100px;transition:background .15s ease, transform .2s cubic-bezier(.16,1,.3,1), box-shadow .2s cubic-bezier(.16,1,.3,1);}
   .nav-links a.cta:hover{background:var(--toasted-dark);color:#fff;}
+  .nav-links a.cta:active{transform:scale(.96);}
   .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:6px;}
   .hamburger span{width:24px;height:2.5px;background:var(--toasted);border-radius:2px;}
   @media (max-width:860px){
@@ -113,8 +123,16 @@
      fully replace .reveal's transition instead of merging with it. This combined, higher-specificity
      rule guarantees both the reveal fade-up AND the hover lift/shadow animate correctly. */
   .product-card.reveal,.pickup-card.reveal{transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1),box-shadow .2s ease;}
+  /* On phones, items now replay their fade-up every time they re-enter the viewport (see
+     initScrollReveal). A shorter travel distance + snappier duration keeps that feel light and
+     premium instead of sluggish, since mobile scroll speed is usually faster than a desktop scroll. */
+  @media (max-width:700px){
+    .reveal{transform:translateY(14px);transition:opacity .45s cubic-bezier(.16,1,.3,1),transform .45s cubic-bezier(.16,1,.3,1);}
+    .product-card.reveal,.pickup-card.reveal{transition:opacity .45s cubic-bezier(.16,1,.3,1),transform .45s cubic-bezier(.16,1,.3,1),box-shadow .2s ease;}
+  }
   @media (prefers-reduced-motion: reduce){
     .reveal{opacity:1;transform:none;transition:none;}
+    img[loading="lazy"]{opacity:1;transition:none;}
   }
   .hero .container{position:relative;z-index:2;max-width:760px;}
   .hero h1{font-family:'Homemade Apple',cursive;font-weight:400;text-transform:none;letter-spacing:.5px;font-size:clamp(40px,7vw,68px);margin-bottom:22px;color:var(--butter-soft);line-height:1.15;}
@@ -128,6 +146,8 @@
   .about-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:64px;align-items:center;}
   .about-photo{aspect-ratio:4/5;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-md);background:var(--butter-soft);}
   .about-photo img{width:100%;height:100%;object-fit:cover;object-position:center 80%;display:block;}
+  img[loading="lazy"]{opacity:0;transition:opacity .5s ease;}
+  img[loading="lazy"].img-loaded{opacity:1;}
   .about-text p{margin-bottom:16px;color:var(--text);font-size:16px;}
   .highlights{margin-top:32px;display:flex;flex-direction:column;gap:20px;}
   .highlight{display:flex;gap:16px;align-items:flex-start;}
@@ -213,7 +233,9 @@
   .cart-item .ci-name{font-weight:700;font-size:15.5px;color:var(--text);}
   .cart-item .ci-lines{font-size:12.5px;color:var(--text-soft);margin-top:3px;line-height:1.5;}
   .cart-item .ci-price{font-weight:700;color:var(--toasted);font-size:14.5px;white-space:nowrap;}
-  .cart-item .ci-remove{background:none;border:none;color:var(--text-soft);font-size:13px;cursor:pointer;margin-top:6px;text-decoration:underline;}
+  .cart-item .ci-actions{display:flex;gap:16px;margin-top:6px;}
+  .cart-item .ci-edit{background:none;border:none;color:var(--toasted);font-size:13px;font-weight:700;cursor:pointer;text-decoration:underline;padding:0;}
+  .cart-item .ci-remove{background:none;border:none;color:var(--text-soft);font-size:13px;cursor:pointer;text-decoration:underline;padding:0;}
   .cart-empty{text-align:center;padding:30px 0;color:var(--text-soft);}
   .cart-total-row{display:flex;justify-content:space-between;align-items:center;padding:16px 0 6px;font-weight:700;font-size:17px;color:var(--text);}
   .checkout-fields{margin-top:20px;border-top:1px solid var(--wood-line);padding-top:20px;}
@@ -283,8 +305,9 @@
   .added-state .added-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
 
   /* ── HELP (WA) BUTTON ─────────────────────────── */
-  .wa-float{position:fixed;right:24px;bottom:24px;z-index:300;background:var(--wa-green);color:#fff;border:none;border-radius:100px;display:flex;align-items:center;gap:9px;padding:13px 20px 13px 16px;box-shadow:0 6px 20px rgba(37,211,102,0.4);cursor:pointer;font-family:'Quicksand',sans-serif;}
+  .wa-float{position:fixed;right:24px;bottom:24px;z-index:300;background:var(--wa-green);color:#fff;border:none;border-radius:100px;display:flex;align-items:center;gap:9px;padding:13px 20px 13px 16px;box-shadow:0 6px 20px rgba(37,211,102,0.4);cursor:pointer;font-family:'Quicksand',sans-serif;transition:background .15s ease, transform .2s cubic-bezier(.16,1,.3,1), box-shadow .2s cubic-bezier(.16,1,.3,1);}
   .wa-float:hover{background:var(--wa-green-d);}
+  .wa-float:active{transform:scale(.95);}
   .wa-float svg{width:22px;height:22px;flex:none;}
   .wa-float .wa-text{display:flex;flex-direction:column;align-items:flex-start;line-height:1.2;}
   .wa-float .wa-text .wa-line1{font-size:10.5px;opacity:.85;}
@@ -293,7 +316,8 @@
   /* ── CART BAR (bottom-center) ─────────────────── */
   .cart-bar{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:300;display:none;}
   .cart-bar.show{display:block;}
-  .cart-bar button{display:flex;align-items:center;gap:14px;background:var(--wood-dark);color:#fff;border:none;border-radius:100px;padding:10px 12px 10px 18px;box-shadow:var(--shadow-md);cursor:pointer;font-family:'Quicksand',sans-serif;}
+  .cart-bar button{display:flex;align-items:center;gap:14px;background:var(--wood-dark);color:#fff;border:none;border-radius:100px;padding:10px 12px 10px 18px;box-shadow:var(--shadow-md);cursor:pointer;font-family:'Quicksand',sans-serif;transition:transform .2s cubic-bezier(.16,1,.3,1), box-shadow .2s cubic-bezier(.16,1,.3,1);}
+  .cart-bar button:active{transform:translateY(0) scale(.96);}
   .cart-bar .cb-count{background:var(--toasted);color:#fff;font-weight:700;font-size:13px;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
   .cart-bar .cb-total{font-family:'Dongle',sans-serif;font-size:19px;font-weight:700;color:var(--butter-soft);}
   .cart-bar .cb-cta{background:var(--butter-soft);color:var(--wood-dark);font-weight:700;font-size:14px;padding:9px 18px;border-radius:100px;}
@@ -483,6 +507,20 @@
   function kLabel(kVal){ return (kVal % 1 === 0 ? kVal : kVal.toFixed(1)) + 'K'; }
   function priceStr(kVal){ return 'IDR ' + kLabel(kVal); }
 
+  /* ══════════════ lazy image fade-in (prevents abrupt pop-in on scroll) ══════════════ */
+  function wireLazyFade(root){
+    (root || document).querySelectorAll('img[loading="lazy"]').forEach(img=>{
+      if (img.dataset.fadeWired) return;
+      img.dataset.fadeWired = '1';
+      if (img.complete && img.naturalWidth > 0) {
+        img.classList.add('img-loaded');
+      } else {
+        img.addEventListener('load', ()=> img.classList.add('img-loaded'));
+      }
+    });
+  }
+  wireLazyFade(document);
+
   /* ══════════════ card meta (for the menu grid) ══════════════ */
   const CARD_META = {
     stack:   { name:"Teddy Stack (5-24 Teddies)", tags:["Surprise Someone","Celebrate Together","Humble Centerpiece"], from:"88K",
@@ -509,6 +547,7 @@
     `;
     menuGrid.appendChild(card);
   });
+  wireLazyFade(menuGrid);
 
   /* ══════════════ modal shell helpers ══════════════ */
   const overlay = document.getElementById("modalOverlay");
@@ -519,13 +558,13 @@
 
   // Shown right after "Add to Cart" so it's obvious the item was added, and that
   // adding the SAME product again (e.g. a second flavor) is a normal, expected thing to do.
-  function showAddedConfirmation(productKey, productName){
+  function showAddedConfirmation(productKey, productName, isEdit){
     modalContent.innerHTML = `
       <button class="modal-close" onclick="closeModal()">✕</button>
       <div class="added-state">
         <div class="check">✓</div>
-        <h4>Added to Cart</h4>
-        <p>${productName} is in your cart. Want a different flavor or size of the same treat? Just add it again.</p>
+        <h4>${isEdit ? 'Cart Updated' : 'Added to Cart'}</h4>
+        <p>${isEdit ? `Your ${productName} has been updated in your cart.` : `${productName} is in your cart. Want a different flavor or size of the same treat? Just add it again.`}</p>
         <div class="added-actions">
           <button type="button" class="btn btn-outline" onclick="openModal('${productKey}')">Add Another</button>
           <button type="button" class="btn btn-primary" onclick="openCartModal()">View Cart</button>
@@ -585,7 +624,7 @@
         <div id="${prefix}DrizzleWrap" style="display:none;margin-top:12px;">
           <div class="config-field"><label>Rich Chocolate (IDR 5K/pc)</label>${stepperHTML(prefix+'DrizzleChocMinus',prefix+'DrizzleChocPlus',prefix+'DrizzleChocVal')}</div>
           <div class="config-field"><label>Silky Cream Cheese (IDR 5K/pc)</label>${stepperHTML(prefix+'DrizzleCreamMinus',prefix+'DrizzleCreamPlus',prefix+'DrizzleCreamVal')}</div>
-          <div class="field-note">*4g each. Usually enough for 2-3 teddies.</div>
+          <div class="field-note">*4-5 gr each. Usually enough for 2-3 teddies.</div>
         </div>
       </div>`;
   }
@@ -745,6 +784,17 @@
     overlay.classList.add('open');
   }
 
+  function editCartItem(id){
+    const item = cart.find(i => i.id === id);
+    if (!item) return;
+    if (item.key === 'stack') renderStackModal(item);
+    else if (item.key === 'treats') renderTreatsModal(item);
+    else if (item.key === 'sharing') renderSharingModal(item);
+    else if (item.key === 'bouquet') renderBouquetModal(item);
+    else return;
+    overlay.classList.add('open');
+  }
+
   /* ══════════════ 1. TEDDY STACK ══════════════ */
   const STACK_TABLE = {
     brownbutter:{5:88,6:102,7:116,8:130,9:144,10:158,11:172,12:186,13:200,14:214,15:228,16:242,17:256,18:270,19:284,20:298,21:312,22:326,23:340,24:354},
@@ -762,8 +812,9 @@
     {id:'green',label:'Green'},{id:'red',label:'Red'},{id:'chocolate',label:'Chocolate'},{id:'custom',label:'Custom'}
   ];
 
-  function renderStackModal(){
-    const state = { flavor:'brownbutter', qty:5, hat:'none', tag:'heart', color:'pink', greeting:false, drizzle:false, drizzleChoc:0, drizzleCream:0 };
+  function renderStackModal(editItem){
+    const defaults = { flavor:'brownbutter', qty:5, hat:'none', tag:'heart', color:'pink', greeting:false, drizzle:false, drizzleChoc:0, drizzleCream:0, tagText:'', greetingText:'', colorCustomText:'' };
+    const state = editItem ? Object.assign({}, defaults, editItem.state) : defaults;
 
     modalContent.innerHTML = `
       <button class="modal-close" onclick="closeModal()">✕</button>
@@ -802,6 +853,16 @@
       </div>
     `;
     wireProductGallery('stack');
+
+    if (editItem) {
+      document.getElementById('stTagText').value = state.tagText || '';
+      document.getElementById('stGreetingText').value = state.greetingText || '';
+      document.getElementById('stGreetingWrap').style.display = state.greeting ? 'block' : 'none';
+      document.getElementById('stColorCustomText').value = state.colorCustomText || '';
+      document.getElementById('stColorCustomWrap').style.display = state.color === 'custom' ? 'block' : 'none';
+      document.getElementById('stDrizzleWrap').style.display = state.drizzle ? 'block' : 'none';
+      document.getElementById('stAddBtn').textContent = 'Save Changes';
+    }
 
     function clampQty(){
       const min = STACK_MIN[state.flavor];
@@ -858,8 +919,14 @@
       const drizzleLine = drizzleSummaryLine(state);
       if (drizzleLine) lines.push(drizzleLine);
 
-      addToCart({ productName:'Teddy Stack (5-24 Teddies)', price: total, summaryLines: lines });
-      showAddedConfirmation('stack', 'Teddy Stack (5-24 Teddies)');
+      state.tagText = tagText;
+      state.greetingText = greetingText;
+      state.colorCustomText = document.getElementById('stColorCustomText').value.trim();
+
+      const cartItem = { key:'stack', productName:'Teddy Stack (5-24 Teddies)', price: total, summaryLines: lines, state: Object.assign({}, state) };
+      if (editItem) updateCartItem(editItem.id, cartItem);
+      else addToCart(cartItem);
+      showAddedConfirmation('stack', 'Teddy Stack (5-24 Teddies)', !!editItem);
     });
   }
 
@@ -872,8 +939,9 @@
   ];
   const MINI_HAT_OPTIONS = [{id:'party',label:'Party Hat'},{id:'grad',label:'Graduation Hat'},{id:'ribbon',label:'Ribbon'}];
 
-  function renderTreatsModal(){
-    const state = { flavor:'brownbutter', boxQty:1, msgChoice:'blank', miniSet:'none', miniHat1:'party', miniHat2:'grad', drizzle:false, drizzleChoc:0, drizzleCream:0 };
+  function renderTreatsModal(editItem){
+    const defaults = { flavor:'brownbutter', boxQty:1, msgChoice:'blank', msgText:'', miniSet:'none', miniHat1:'party', miniHat2:'grad', drizzle:false, drizzleChoc:0, drizzleCream:0 };
+    const state = editItem ? Object.assign({}, defaults, editItem.state) : defaults;
 
     modalContent.innerHTML = `
       <button class="modal-close" onclick="closeModal()">✕</button>
@@ -902,6 +970,14 @@
       </div>
     `;
     wireProductGallery('treats');
+
+    if (editItem) {
+      document.getElementById('ttMessageText').value = state.msgText || '';
+      document.getElementById('ttMsgTextWrap').style.display = state.msgChoice === 'write' ? 'block' : 'none';
+      document.getElementById('ttMiniHatsWrap').style.display = state.miniSet === 'hats' ? 'block' : 'none';
+      document.getElementById('ttDrizzleWrap').style.display = state.drizzle ? 'block' : 'none';
+      document.getElementById('ttAddBtn').textContent = 'Save Changes';
+    }
 
     function boxMin(){ return state.flavor === 'mix' ? 2 : 1; }
     function clampBox(){ if (state.boxQty < boxMin()) state.boxQty = boxMin(); }
@@ -949,16 +1025,24 @@
       ];
       const drizzleLine = drizzleSummaryLine(state);
       if (drizzleLine) lines.push(`Extra ${drizzleLine.charAt(0).toLowerCase()}${drizzleLine.slice(1)}`);
-      addToCart({ productName:'Teddy Little Treats with Drizzle', price: total, summaryLines: lines });
-      showAddedConfirmation('treats', 'Teddy Little Treats with Drizzle');
+
+      state.msgText = document.getElementById('ttMessageText').value.trim();
+
+      const cartItem = { key:'treats', productName:'Teddy Little Treats with Drizzle', price: total, summaryLines: lines, state: Object.assign({}, state) };
+      if (editItem) updateCartItem(editItem.id, cartItem);
+      else addToCart(cartItem);
+      showAddedConfirmation('treats', 'Teddy Little Treats with Drizzle', !!editItem);
     });
   }
 
   /* ══════════════ 3. TEDDY SHARING SET ══════════════ */
   const PER_PC = { brownbutter:16.5, doublechoco:17.75, mix:16.5 };
 
-  function renderSharingModal(){
-    const state = { flavor:'brownbutter', qty:12, hatMix:{}, msgChoice:'blank', drizzle:false, drizzleChoc:0, drizzleCream:0 };
+  function renderSharingModal(editItem){
+    const defaults = { flavor:'brownbutter', qty:12, hatMix:{}, msgChoice:'blank', msgText:'', drizzle:false, drizzleChoc:0, drizzleCream:0 };
+    const state = editItem
+      ? Object.assign({}, defaults, editItem.state, { hatMix: Object.assign({}, defaults.hatMix, editItem.state.hatMix) })
+      : defaults;
 
     modalContent.innerHTML = `
       <button class="modal-close" onclick="closeModal()">✕</button>
@@ -982,6 +1066,13 @@
       </div>
     `;
     wireProductGallery('sharing');
+
+    if (editItem) {
+      document.getElementById('shMessageText').value = state.msgText || '';
+      document.getElementById('shMsgTextWrap').style.display = state.msgChoice === 'write' ? 'block' : 'none';
+      document.getElementById('shDrizzleWrap').style.display = state.drizzle ? 'block' : 'none';
+      document.getElementById('shAddBtn').textContent = 'Save Changes';
+    }
 
     function updateTotal(){
       const base = PER_PC[state.flavor] * state.qty;
@@ -1019,8 +1110,13 @@
       ];
       const drizzleLine = drizzleSummaryLine(state);
       if (drizzleLine) lines.push(drizzleLine);
-      addToCart({ productName:'Teddy Sharing Set (12 pcs)', price: total, summaryLines: lines });
-      showAddedConfirmation('sharing', 'Teddy Sharing Set (12 pcs)');
+
+      state.msgText = document.getElementById('shMessageText').value.trim();
+
+      const cartItem = { key:'sharing', productName:'Teddy Sharing Set (12 pcs)', price: total, summaryLines: lines, state: Object.assign({}, state, { hatMix: Object.assign({}, state.hatMix) }) };
+      if (editItem) updateCartItem(editItem.id, cartItem);
+      else addToCart(cartItem);
+      showAddedConfirmation('sharing', 'Teddy Sharing Set (12 pcs)', !!editItem);
     });
   }
 
@@ -1028,8 +1124,11 @@
   const BOUQUET_PRICE = { brownbutter:47, doublechoco:51, mix:47 };
   const BOUQUET_MIN = { brownbutter:3, doublechoco:3, mix:4 };
 
-  function renderBouquetModal(){
-    const state = { flavor:'brownbutter', qty:3, hatMix:{}, msgChoice:'blank' };
+  function renderBouquetModal(editItem){
+    const defaults = { flavor:'brownbutter', qty:3, hatMix:{}, msgChoice:'blank', msgText:'' };
+    const state = editItem
+      ? Object.assign({}, defaults, editItem.state, { hatMix: Object.assign({}, defaults.hatMix, editItem.state.hatMix) })
+      : defaults;
 
     modalContent.innerHTML = `
       <button class="modal-close" onclick="closeModal()">✕</button>
@@ -1052,6 +1151,12 @@
       </div>
     `;
     wireProductGallery('bouquet');
+
+    if (editItem) {
+      document.getElementById('bqMessageText').value = state.msgText || '';
+      document.getElementById('bqMsgTextWrap').style.display = state.msgChoice === 'write' ? 'block' : 'none';
+      document.getElementById('bqAddBtn').textContent = 'Save Changes';
+    }
 
     function clampQty(){ if (state.qty < BOUQUET_MIN[state.flavor]) state.qty = BOUQUET_MIN[state.flavor]; }
     function updateTotal(){
@@ -1088,8 +1193,13 @@
         hatMixSummaryLine(state, state.qty),
         messageSummaryLine('bq', state)
       ];
-      addToCart({ productName:'Teddy Bouquet', price: total, summaryLines: lines });
-      showAddedConfirmation('bouquet', 'Teddy Bouquet');
+
+      state.msgText = document.getElementById('bqMessageText').value.trim();
+
+      const cartItem = { key:'bouquet', productName:'Teddy Bouquet', price: total, summaryLines: lines, state: Object.assign({}, state, { hatMix: Object.assign({}, state.hatMix) }) };
+      if (editItem) updateCartItem(editItem.id, cartItem);
+      else addToCart(cartItem);
+      showAddedConfirmation('bouquet', 'Teddy Bouquet', !!editItem);
     });
   }
 
@@ -1100,6 +1210,13 @@
   function addToCart(item){
     item.id = cartIdCounter++;
     cart.push(item);
+    updateCartBar();
+  }
+  function updateCartItem(id, item){
+    const idx = cart.findIndex(i => i.id === id);
+    if (idx === -1) { addToCart(item); return; }
+    item.id = id;
+    cart[idx] = item;
     updateCartBar();
   }
   function removeFromCart(id){
@@ -1125,7 +1242,10 @@
           <div>
             <div class="ci-name">${item.productName}</div>
             <div class="ci-lines">${item.summaryLines.join('<br>')}</div>
-            <button class="ci-remove" onclick="removeFromCart(${item.id})">Remove</button>
+            <div class="ci-actions">
+              <button class="ci-edit" onclick="editCartItem(${item.id})">Edit</button>
+              <button class="ci-remove" onclick="removeFromCart(${item.id})">Remove</button>
+            </div>
           </div>
           <div class="ci-price">${priceStr(item.price)}</div>
         </div>
@@ -1364,6 +1484,7 @@
   const testiCardsHTML = TESTI_DATA.map(src => `<div class="testi-card"><img src="${src}" alt="Customer testimonial screenshot" loading="lazy" /></div>`).join('');
   // rendered 3x back-to-back so wrapping between copies is visually identical (seamless loop)
   testiTrack.innerHTML = testiCardsHTML + testiCardsHTML + testiCardsHTML;
+  wireLazyFade(testiTrack);
 
   let testiSetWidth = testiTrack.scrollWidth / 3;
   testiTrack.scrollLeft = testiSetWidth;
@@ -1434,10 +1555,9 @@
     if (!('IntersectionObserver' in window)) { items.forEach(el => el.classList.add('is-visible')); return; }
     const io = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          io.unobserve(entry.target);
-        }
+        // toggles both ways (not a one-shot) so the fade-up replays every time an item
+        // re-enters the viewport, whether scrolling down again or back up
+        entry.target.classList.toggle('is-visible', entry.isIntersecting);
       });
     }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
     items.forEach(el => io.observe(el));
