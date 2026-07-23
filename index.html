@@ -4,7 +4,60 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Celebrar Custom Madeleines, Cookies & Cake Gifts | No Gluten, Low Sugar</title>
-<meta name="description" content="Artisanal story-led bakery crafting thoughtful desserts with no gluten ingredients, low sugar, and made to appreciate the people who matter most." />
+<meta name="description" content="Artisanal story-led bakery in Jakarta Barat crafting thoughtful custom teddy desserts with no gluten ingredients, low sugar, and made to appreciate the people who matter most. Pickup in Kalideres & Batuceper." />
+<link rel="canonical" href="https://letscelebrar.com/" />
+<link rel="preload" as="image" href="assets/hero-bg.jpg" fetchpriority="high" />
+
+<!-- Favicon (adapts to browser/OS light-dark mode: brown icon on light tabs, butter icon on dark tabs) -->
+<link rel="icon" type="image/svg+xml" href="assets/favicon-icon-brown.svg" media="(prefers-color-scheme: light)" />
+<link rel="icon" type="image/svg+xml" href="assets/favicon-icon-butter.svg" media="(prefers-color-scheme: dark)" />
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" media="(prefers-color-scheme: light)" />
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32-butter.png" media="(prefers-color-scheme: dark)" />
+<link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png" media="(prefers-color-scheme: light)" />
+<link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192-butter.png" media="(prefers-color-scheme: dark)" />
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
+
+<!-- Open Graph / social preview (WhatsApp, Instagram, Facebook) -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Celebrar" />
+<meta property="og:title" content="Celebrar Madeleine & Cookies | Custom Teddy Treats" />
+<meta property="og:description" content="Artisanal story-led bakery crafting thoughtful custom teddy desserts with no gluten ingredients and low sugar. Pickup in Kalideres & Batuceper, Jakarta." />
+<meta property="og:url" content="https://letscelebrar.com/" />
+<meta property="og:image" content="https://letscelebrar.com/assets/og-image.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content="en_US" />
+
+<!-- Twitter card (same image, some apps read this instead of OG) -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Celebrar Madeleine & Cookies | Custom Teddy Treats" />
+<meta name="twitter:description" content="Artisanal story-led bakery crafting thoughtful custom teddy desserts with no gluten ingredients and low sugar." />
+<meta name="twitter:image" content="https://letscelebrar.com/assets/og-image.jpg" />
+
+<!-- Structured data: helps Google understand this is a local bakery (matches the verified Google Business Profile) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Bakery",
+  "name": "Celebrar Madeleine & Cookies",
+  "image": "https://letscelebrar.com/assets/og-image.jpg",
+  "url": "https://letscelebrar.com/",
+  "telephone": "+6285121951412",
+  "priceRange": "$$",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Jalan Gilimanuk, JD53A, Kalideres",
+    "addressLocality": "Kota Jakarta Barat",
+    "addressRegion": "DKI Jakarta",
+    "postalCode": "11840",
+    "addressCountry": "ID"
+  },
+  "sameAs": [
+    "https://www.instagram.com/letscelebrar.id/"
+  ]
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Dongle:wght@400;700&family=Homemade+Apple&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -174,8 +227,8 @@
   /* ── MODAL ───────────────────────────────────── */
   .modal-overlay{display:none;position:fixed;inset:0;background:rgba(62,42,30,0.6);z-index:500;align-items:center;justify-content:center;padding:20px;}
   .modal-overlay.open{display:flex;}
-  .modal{background:var(--white);border-radius:var(--radius);max-width:600px;width:100%;max-height:88vh;overflow-y:auto;padding:32px;position:relative;box-shadow:var(--shadow-md);}
-  .modal-close{position:absolute;top:16px;right:16px;background:var(--butter-soft);border:none;width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;color:var(--toasted-dark);z-index:5;}
+  .modal{background:var(--white);border-radius:var(--radius);max-width:600px;width:100%;max-height:88vh;max-height:88dvh;overflow-y:auto;padding:32px;position:relative;box-shadow:var(--shadow-md);}
+  .modal-close{position:absolute;top:16px;right:16px;background:var(--butter-soft);border:none;width:44px;height:44px;border-radius:50%;font-size:18px;cursor:pointer;color:var(--toasted-dark);z-index:5;}
   .modal h3{font-size:36px;margin-bottom:6px;text-align:left;}
   .modal .tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px;}
   .modal .tags .tag{font-size:11px;font-weight:700;background:var(--butter-soft);color:var(--toasted-dark);padding:4px 10px;border-radius:100px;}
@@ -193,6 +246,8 @@
   .config-field{margin-bottom:22px;}
   .config-field > label{display:block;font-weight:700;font-size:14.5px;margin-bottom:9px;color:var(--text);}
   .config-field .field-note{font-size:12px;color:var(--text-soft);margin-top:7px;}
+  .config-field .field-error-msg{display:none;color:#D9534F;font-size:12px;font-weight:600;margin-top:7px;}
+  .config-field.has-error .field-error-msg{display:block;}
 
   .pill-group{display:flex;flex-wrap:wrap;gap:8px;}
   .pill{padding:9px 15px;border-radius:100px;border:1.5px solid var(--wood-line);background:var(--cream);font-weight:700;font-size:13px;font-family:'Quicksand',sans-serif;cursor:pointer;color:var(--text);transition:.15s;text-align:left;line-height:1.3;}
@@ -201,7 +256,7 @@
   .pill .sub{display:block;font-size:10.5px;font-weight:500;opacity:.8;margin-top:1px;}
 
   .stepper{display:flex;align-items:center;gap:16px;}
-  .stepper button{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--toasted);background:#fff;color:var(--toasted);font-size:18px;font-weight:700;cursor:pointer;line-height:1;}
+  .stepper button{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--toasted);background:#fff;color:var(--toasted);font-size:19px;font-weight:700;cursor:pointer;line-height:1;}
   .stepper button:disabled{opacity:.3;cursor:not-allowed;}
   .stepper .val{font-size:20px;font-weight:700;min-width:70px;text-align:center;font-family:'Dongle',sans-serif;}
 
@@ -291,7 +346,7 @@
   .hatmix-label{font-size:14px;font-weight:600;color:var(--text);}
   .hatmix-label .hint{display:block;font-size:11.5px;color:var(--text-soft);font-weight:500;}
   .hatmix-stepper{display:flex;align-items:center;gap:10px;}
-  .hatmix-stepper button{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--toasted);background:#fff;color:var(--toasted);font-size:15px;font-weight:700;cursor:pointer;line-height:1;}
+  .hatmix-stepper button{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--toasted);background:#fff;color:var(--toasted);font-size:16px;font-weight:700;cursor:pointer;line-height:1;}
   .hatmix-stepper button:disabled{opacity:.3;cursor:not-allowed;}
   .hatmix-stepper .val{font-size:15px;font-weight:700;min-width:18px;text-align:center;}
   .hatmix-summary{font-size:12.5px;color:var(--text-soft);margin-top:8px;}
@@ -325,6 +380,10 @@
     .wa-float .wa-text{display:none;}
     .wa-float{padding:14px;}
     .cart-bar .cb-total{display:none;}
+    /* When the cart bar is showing, stack the WA button above it instead of
+       side-by-side, so the two floating pills never crowd each other on
+       narrow screens. */
+    body.has-cart-items .wa-float{bottom:96px;}
   }
 </style>
 </head>
@@ -813,7 +872,7 @@
   ];
 
   function renderStackModal(editItem){
-    const defaults = { flavor:'brownbutter', qty:5, hat:'none', tag:'heart', color:'pink', greeting:false, drizzle:false, drizzleChoc:0, drizzleCream:0, tagText:'', greetingText:'', colorCustomText:'' };
+    const defaults = { flavor:'brownbutter', qty:6, hat:'none', tag:'heart', color:'pink', greeting:false, drizzle:false, drizzleChoc:0, drizzleCream:0, tagText:'', greetingText:'', colorCustomText:'' };
     const state = editItem ? Object.assign({}, defaults, editItem.state) : defaults;
 
     modalContent.innerHTML = `
@@ -1204,12 +1263,28 @@
   }
 
   /* ══════════════ CART ══════════════ */
+  // Persisted to localStorage so the cart survives a page reload/tab-suspend
+  // (e.g. mobile browser reloading the tab after the user switches to the
+  // WhatsApp app mid-checkout) instead of silently wiping the customer's order.
   let cart = [];
-  let cartIdCounter = 1;
+  try {
+    const savedCart = JSON.parse(localStorage.getItem('celebrarCart'));
+    if (Array.isArray(savedCart)) cart = savedCart;
+  } catch(e) { cart = []; }
+  let cartIdCounter = cart.length ? Math.max(...cart.map(i => i.id || 0)) + 1 : 1;
+
+  function saveCart(){
+    try { localStorage.setItem('celebrarCart', JSON.stringify(cart)); } catch(e) {}
+  }
+  // Reflect a restored cart in the floating cart bar immediately on page load
+  if (cart.length > 0) {
+    document.addEventListener('DOMContentLoaded', () => updateCartBar());
+  }
 
   function addToCart(item){
     item.id = cartIdCounter++;
     cart.push(item);
+    saveCart();
     updateCartBar();
   }
   function updateCartItem(id, item){
@@ -1217,10 +1292,12 @@
     if (idx === -1) { addToCart(item); return; }
     item.id = id;
     cart[idx] = item;
+    saveCart();
     updateCartBar();
   }
   function removeFromCart(id){
     cart = cart.filter(i => i.id !== id);
+    saveCart();
     updateCartBar();
     renderCartModal();
   }
@@ -1228,6 +1305,7 @@
   function updateCartBar(){
     const bar = document.getElementById('cartBar');
     bar.classList.toggle('show', cart.length > 0);
+    document.body.classList.toggle('has-cart-items', cart.length > 0);
     document.getElementById('cartBarCount').textContent = cart.length;
     document.getElementById('cartBarTotal').textContent = priceStr(cartTotal());
   }
@@ -1258,18 +1336,22 @@
       <div class="cart-total-row"><span>Total</span><span>${priceStr(cartTotal())}</span></div>
 
       <div class="checkout-fields">
-        <div class="config-field"><label>Your Name (Nama Pemesan)</label><input type="text" id="ckOrderer" /></div>
+        <div class="config-field"><label>Your Name (Nama Pemesan)</label><input type="text" id="ckOrderer" autocomplete="name" /></div>
         <div class="config-field"><label>Recipient Name (Nama Penerima)</label>
           <select id="ckRecipientType" style="width:100%;padding:11px 14px;border:1.5px solid var(--wood-line);border-radius:var(--radius-sm);font-family:'Quicksand',sans-serif;font-size:14.5px;background:var(--cream);color:var(--text);">
             <option value="same">Same as orderer (Sama dengan pemesan)</option>
             <option value="other">Other (Lainnya, isi di bawah)</option>
           </select>
-          <input type="text" id="ckRecipientName" placeholder="Recipient name (Nama penerima)" style="margin-top:10px;display:none;" />
+          <input type="text" id="ckRecipientName" autocomplete="off" placeholder="Recipient name (Nama penerima)" style="margin-top:10px;display:none;" />
+          <input type="text" id="ckRecipientPhone" inputmode="tel" autocomplete="off" placeholder="Recipient WhatsApp number (No. WhatsApp penerima)" style="margin-top:10px;display:none;" />
+          <div class="field-note" id="ckRecipientPhoneNote" style="display:none;">Only needed if you'd like us to arrange delivery for you (hanya diperlukan kalau ingin kami bantu atur pengiriman).</div>
         </div>
-        <div class="config-field"><label>Recipient Address (Alamat Penerima)</label><textarea id="ckAddress"></textarea>
+        <div class="config-field"><label>Recipient Address (Alamat Penerima)</label><textarea id="ckAddress" autocomplete="street-address"></textarea>
           <div class="field-note">To determine the nearest pickup point (untuk menentukan titik pickup terdekat).</div>
         </div>
-        <div class="config-field"><label>WhatsApp Number (No. WhatsApp)</label><input type="text" id="ckWa" placeholder="e.g. 6281234567890" /></div>
+        <div class="config-field"><label>WhatsApp Number (No. WhatsApp)</label><input type="text" id="ckWa" inputmode="tel" autocomplete="tel" placeholder="e.g. 6281234567890" />
+          <div class="field-note">This is the orderer's WhatsApp number, used to confirm your order (nomor WhatsApp pemesan, dipakai untuk konfirmasi pesanan).</div>
+        </div>
         <div class="config-field"><label>Preferred Date (Tanggal Pickup)</label><input type="date" id="ckDate" />
           <div class="field-note">Minimum order is 2 days ahead, so today and tomorrow can't be selected (minimal pesan 2 hari sebelumnya). Need it sooner? Contact our admin directly.</div>
         </div>
@@ -1290,6 +1372,7 @@
         </div>
         <div class="config-field"><label>How did you find Celebrar? (Dari mana kamu tahu Celebrar?)</label>
           <select id="ckSource" style="width:100%;padding:11px 14px;border:1.5px solid var(--wood-line);border-radius:var(--radius-sm);font-family:'Quicksand',sans-serif;font-size:14.5px;background:var(--cream);color:var(--text);">
+            <option value="" selected>Select an option (Pilih salah satu)</option>
             <option value="Family/Friends">Family / Friends</option>
             <option value="Instagram">Instagram</option>
             <option value="TikTok">TikTok</option>
@@ -1311,8 +1394,13 @@
 
     const recipientType = document.getElementById('ckRecipientType');
     const recipientName = document.getElementById('ckRecipientName');
+    const recipientPhone = document.getElementById('ckRecipientPhone');
+    const recipientPhoneNote = document.getElementById('ckRecipientPhoneNote');
     recipientType.addEventListener('change', ()=>{
-      recipientName.style.display = recipientType.value === 'other' ? 'block' : 'none';
+      const isOther = recipientType.value === 'other';
+      recipientName.style.display = isOther ? 'block' : 'none';
+      recipientPhone.style.display = isOther ? 'block' : 'none';
+      recipientPhoneNote.style.display = isOther ? 'block' : 'none';
     });
     const dateInput = document.getElementById('ckDate');
     const minDate = new Date();
@@ -1324,9 +1412,33 @@
       sourceOther.style.display = sourceSelect.value === 'Others' ? 'block' : 'none';
     });
 
+    function clearFieldErrors(){
+      modalContent.querySelectorAll('.config-field.has-error').forEach(f => {
+        f.classList.remove('has-error');
+        const input = f.querySelector('input,textarea,select');
+        if (input) input.style.borderColor = '';
+      });
+    }
+    function markFieldError(inputEl, message){
+      const field = inputEl.closest('.config-field');
+      if (!field) return null;
+      field.classList.add('has-error');
+      inputEl.style.borderColor = '#D9534F';
+      let msg = field.querySelector('.field-error-msg');
+      if (!msg){
+        msg = document.createElement('div');
+        msg.className = 'field-error-msg';
+        field.appendChild(msg);
+      }
+      msg.textContent = message;
+      return field;
+    }
+
     document.getElementById('ckOrderBtn').addEventListener('click', ()=>{
       const orderer = document.getElementById('ckOrderer').value.trim();
-      const recipient = recipientType.value === 'same' ? orderer : recipientName.value.trim();
+      const isOtherRecipient = recipientType.value === 'other';
+      const recipient = isOtherRecipient ? recipientName.value.trim() : orderer;
+      const recipientPhoneVal = isOtherRecipient ? recipientPhone.value.trim() : '';
       const address = document.getElementById('ckAddress').value.trim();
       const wa = document.getElementById('ckWa').value.trim();
       const date = dateInput.value;
@@ -1334,8 +1446,26 @@
       const notes = document.getElementById('ckNotes').value.trim();
       const source = sourceSelect.value === 'Others' ? (sourceOther.value.trim() || 'Others') : sourceSelect.value;
 
-      if (!orderer || !address || !wa || !date || !time) {
-        alert('Please fill in your name, address, WhatsApp number, preferred date, and preferred time.');
+      clearFieldErrors();
+      let firstErrorField = null;
+      const checks = [
+        [document.getElementById('ckOrderer'), orderer, 'Please enter your name (Nama pemesan belum diisi).'],
+        [document.getElementById('ckAddress'), address, 'Please enter the recipient address (Alamat belum diisi).'],
+        [document.getElementById('ckWa'), wa, 'Please enter your WhatsApp number (No. WhatsApp belum diisi).'],
+        [dateInput, date, 'Please select a preferred date (Tanggal belum dipilih).'],
+        [document.getElementById('ckTime'), time, 'Please select a preferred time (Jam belum dipilih).']
+      ];
+      if (isOtherRecipient) checks.push([recipientName, recipient, 'Please enter the recipient name (Nama penerima belum diisi).']);
+
+      checks.forEach(([el, val, message]) => {
+        if (!val) {
+          const field = markFieldError(el, message);
+          if (field && !firstErrorField) firstErrorField = field;
+        }
+      });
+
+      if (firstErrorField) {
+        firstErrorField.scrollIntoView({ behavior:'smooth', block:'center' });
         return;
       }
 
@@ -1350,11 +1480,12 @@
       const dateFormatted = new Date(date + 'T00:00:00').toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'});
       lines.push(`*Nama Pemesan:* ${orderer}`);
       lines.push(`*Nama Penerima:* ${recipient}`);
+      if (isOtherRecipient && recipientPhoneVal) lines.push(`*No. WhatsApp Penerima:* ${recipientPhoneVal}`);
       lines.push(`*Alamat:* ${address}`);
       lines.push(`*No. WhatsApp:* ${wa}`);
       lines.push(`*Preferred Date:* ${dateFormatted}`);
       lines.push(`*Preferred Time:* ${time}`);
-      lines.push(`*Found us via:* ${source}`);
+      if (source) lines.push(`*Found us via:* ${source}`);
       if (notes) lines.push(`*Notes:* ${notes}`);
       lines.push("");
       lines.push("Looking forward to hearing from you!");
@@ -1467,21 +1598,25 @@
   renderFaqList();
 
   /* ══════════════ TESTIMONIALS ══════════════ */
+  // width/height are each image's real pixel size (not a display size) — paired with the
+  // existing width:100%;height:auto CSS, this just lets the browser reserve the correct
+  // card height before the image finishes loading, so the carousel doesn't jump around as
+  // lazy images pop in. Visual size/shape is unchanged.
   const TESTI_DATA = [
-    'assets/testimonials/testimonial-1.jpg',
-    'assets/testimonials/testimonial-2.jpg',
-    'assets/testimonials/testimonial-3.jpg',
-    'assets/testimonials/testimonial-4.jpg',
-    'assets/testimonials/testimonial-6.jpg',
-    'assets/testimonials/testimonial-7.jpg',
-    'assets/testimonials/testimonial-5.jpg',
-    'assets/testimonials/testimonial-8.jpg',
-    'assets/testimonials/testimonial-10.jpg',
-    'assets/testimonials/testimonial-9.jpg'
+    { src:'assets/testimonials/testimonial-1.jpg', w:590, h:224 },
+    { src:'assets/testimonials/testimonial-2.jpg', w:566, h:128 },
+    { src:'assets/testimonials/testimonial-3.jpg', w:555, h:906 },
+    { src:'assets/testimonials/testimonial-4.jpg', w:580, h:468 },
+    { src:'assets/testimonials/testimonial-6.jpg', w:545, h:772 },
+    { src:'assets/testimonials/testimonial-7.jpg', w:742, h:330 },
+    { src:'assets/testimonials/testimonial-5.jpg', w:590, h:294 },
+    { src:'assets/testimonials/testimonial-8.jpg', w:724, h:962 },
+    { src:'assets/testimonials/testimonial-10.jpg', w:568, h:246 },
+    { src:'assets/testimonials/testimonial-9.jpg', w:852, h:548 }
   ];
 
   const testiTrack = document.getElementById('testiTrack');
-  const testiCardsHTML = TESTI_DATA.map(src => `<div class="testi-card"><img src="${src}" alt="Customer testimonial screenshot" loading="lazy" /></div>`).join('');
+  const testiCardsHTML = TESTI_DATA.map(t => `<div class="testi-card"><img src="${t.src}" width="${t.w}" height="${t.h}" alt="Customer testimonial screenshot" loading="lazy" /></div>`).join('');
   // rendered 3x back-to-back so wrapping between copies is visually identical (seamless loop)
   testiTrack.innerHTML = testiCardsHTML + testiCardsHTML + testiCardsHTML;
   wireLazyFade(testiTrack);
@@ -1546,8 +1681,15 @@
   window.addEventListener("scroll", () => { header.classList.toggle("scrolled", window.scrollY > 10); });
   const hamburgerBtn = document.getElementById("hamburgerBtn");
   const navLinks = document.getElementById("navLinks");
-  hamburgerBtn.addEventListener("click", () => navLinks.classList.toggle("open"));
-  navLinks.querySelectorAll("a").forEach(a => a.addEventListener("click", () => navLinks.classList.remove("open")));
+  hamburgerBtn.setAttribute("aria-expanded", "false");
+  hamburgerBtn.addEventListener("click", () => {
+    const isOpen = navLinks.classList.toggle("open");
+    hamburgerBtn.setAttribute("aria-expanded", String(isOpen));
+  });
+  navLinks.querySelectorAll("a").forEach(a => a.addEventListener("click", () => {
+    navLinks.classList.remove("open");
+    hamburgerBtn.setAttribute("aria-expanded", "false");
+  }));
 
   /* ══════════════ SCROLL REVEAL ══════════════ */
   function initScrollReveal(){
