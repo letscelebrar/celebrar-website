@@ -402,6 +402,9 @@
     </ul>
     <button class="hamburger" id="hamburgerBtn" aria-label="Menu"><span></span><span></span><span></span></button>
   </nav>
+  <div id="backToStoryBar" style="display:none;background:var(--butter-soft);text-align:center;padding:10px 16px;font-size:13.5px;font-weight:700;color:var(--toasted-dark);">
+    <a href="teddy-stack-story.html" style="text-decoration:underline;">&larr; Back to the Teddy Stack story</a>
+  </div>
 </header>
 
 <!-- ═══════════════ HERO ═══════════════ -->
@@ -603,6 +606,7 @@
       <h3>${c.name}</h3>
       <div class="price">from IDR ${c.from}</div>
       <button class="btn btn-outline" onclick="openModal('${key}')">Customize &amp; Order</button>
+      ${key === 'stack' ? `<a href="teddy-stack-story.html" style="text-align:center;font-size:12.5px;font-weight:700;color:var(--toasted);text-decoration:underline;">See the Teddy Stack story &rarr;</a>` : ''}
     `;
     menuGrid.appendChild(card);
   });
@@ -1705,6 +1709,21 @@
     items.forEach(el => io.observe(el));
   }
   initScrollReveal();
+
+  /* ══════════════ deep link from teddy-stack-story.html ══════════════
+     ?open=<key> auto-opens that product's modal (any valid CARD_META key: stack, treats,
+     sharing, bouquet) and shows a small bar linking back to the story page. Purely additive:
+     does nothing unless the query param is present, so normal visits are unaffected. */
+  (function applyStoryPageDeepLink(){
+    const params = new URLSearchParams(window.location.search);
+    const key = params.get('open');
+    if (!key || !CARD_META[key]) return;
+
+    openModal(key);
+
+    const bar = document.getElementById('backToStoryBar');
+    if (bar) bar.style.display = 'block';
+  })();
 </script>
 
 </body>
