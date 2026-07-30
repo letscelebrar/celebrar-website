@@ -123,7 +123,11 @@
      of its own goes invisible the moment it lands over a light background. The
      pill guarantees contrast in every case instead of trying to track and match
      whatever's behind it. */
-  .scroll-cue{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:2px;z-index:260;color:var(--butter-soft);background:rgba(62,42,30,0.85);padding:9px 18px 11px;border-radius:100px;box-shadow:0 4px 14px rgba(0,0,0,0.2);opacity:1;transition:opacity .4s ease;pointer-events:none;}
+  /* pill uses the site's toasted-orange accent (same as primary buttons) rather
+     than a dark brown — a dark pill blended into the hero's own dark-brown
+     background (same color family, low contrast, "kurang mencolok"). The accent
+     color pops against both the dark hero AND the lighter sections after it. */
+  .scroll-cue{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:2px;z-index:260;color:#fff;background:var(--toasted);padding:9px 18px 11px;border-radius:100px;box-shadow:0 4px 14px rgba(0,0,0,0.25);opacity:1;transition:opacity .4s ease;pointer-events:none;}
   .scroll-cue span{font-family:'Quicksand',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;}
   .scroll-cue svg{width:16px;height:16px;animation:scrollBounce 1.8s ease-in-out infinite;}
   .scroll-cue.hidden{opacity:0;}
@@ -209,8 +213,12 @@
   /* masonry via CSS columns: tiles real testimonial screenshots (mixed aspect ratios)
      cleanly instead of forcing them into equal-height grid rows. */
   .testi-grid{columns:3 220px;column-gap:16px;margin-top:36px;}
-  .testi-card{break-inside:avoid;margin-bottom:16px;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);border:1.5px solid var(--wood-line);}
-  .testi-card img{width:100%;display:block;}
+  .testi-card{break-inside:avoid;margin-bottom:16px;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);border:1.5px solid var(--wood-line);background:var(--white);}
+  /* min-height fallback: if an image ever fails to load, a bare <img> with only
+     width:100% collapses to almost nothing, reading as a stray thin line rather
+     than an obviously-broken card. This keeps a visible, sane-looking box even
+     in that failure case, instead of hiding the problem in a sliver of pixels. */
+  .testi-card img{width:100%;min-height:80px;display:block;}
   @media (max-width:760px){ .testi-grid{columns:2 160px;} }
   @media (max-width:480px){ .testi-grid{columns:1;max-width:340px;margin-left:auto;margin-right:auto;} }
   .quote-elegant{max-width:460px;margin:36px auto 0;text-align:center;}
@@ -654,10 +662,14 @@
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduceMotion) return; // keep the first photo static, no cycling
     let idx = 0;
-    setInterval(() => {
+    function next(){
       idx = (idx + 1) % slides.length;
       slides.forEach((s, n) => s.classList.toggle('active', n === idx));
-    }, 3600);
+    }
+    // first swap happens quickly (1.6s) so visitors actually notice the photo is
+    // live before they scroll past it; subsequent swaps settle into a slower,
+    // more relaxed pace.
+    setTimeout(() => { next(); setInterval(next, 3600); }, 1600);
   })();
 
   // lightbox: shared modal used by every feature card's zoom button / photo click
