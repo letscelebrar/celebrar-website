@@ -600,7 +600,7 @@
                gallery:["assets/products/teddy-bouquet-1.jpg","assets/products/teddy-bouquet-2.jpg","assets/products/teddy-bouquet-3.jpg","assets/products/teddy-bouquet-4.jpg","assets/products/teddy-bouquet-5.jpg"] },
     singlestick: { name:"Single Teddy Stick (min. 12 pcs)", tags:["Grab & Go Treat","Perfect Party Favor","Little Bite of Joy"], from:"204K",
                gallery:["assets/products/teddy-single-stick-1.jpg","assets/products/teddy-single-stick-2.jpg","assets/products/teddy-single-stick-3.jpg","assets/products/teddy-sharing-4.jpg","assets/products/teddy-bouquet-4.jpg","assets/products/teddy-stack-6.jpg"] },
-    doublestick: { name:"Double Teddy Stick (min. 6 pcs)", tags:["Double the Delight","Perfect Party Favor","Share the Sweetness"], from:"204K",
+    doublestick: { name:"Double Teddy Stick (min. 6 pcs)", tags:["Double the Delight","Perfect Party Favor","Share the Sweetness"], from:"192K",
                gallery:["assets/products/teddy-double-stick-1.jpg","assets/products/teddy-double-stick-2.jpg","assets/products/teddy-double-stick-3.jpg","assets/products/teddy-sharing-4.jpg","assets/products/teddy-bouquet-4.jpg","assets/products/teddy-stack-6.jpg"] }
   };
 
@@ -1493,7 +1493,7 @@
   }
 
   /* ══════════════ 6. DOUBLE TEDDY STICK ══════════════ */
-  const DOUBLE_STICK_PRICE = { brownbutter:34, doublechoco:36.5, mix:34 };
+  const DOUBLE_STICK_PRICE = { brownbutter:32, doublechoco:34.5, mix:32 };
   const DOUBLE_STICK_MIN = 6;
 
   function renderDoubleStickModal(editItem){
@@ -1540,9 +1540,9 @@
     }
 
     wirePillGroup('dsFlavor', [
-      {id:'brownbutter',label:'All Brown Butter',hint:'IDR 34K/pc'},
-      {id:'doublechoco',label:'All Double Choco',hint:'IDR 36.5K/pc'},
-      {id:'mix',label:'Mix',hint:'IDR 34K/pc'}
+      {id:'brownbutter',label:'All Brown Butter',hint:'IDR 32K/pc'},
+      {id:'doublechoco',label:'All Double Choco',hint:'IDR 34.5K/pc'},
+      {id:'mix',label:'Mix',hint:'IDR 32K/pc'}
     ], ()=>state.flavor, (v)=>{ state.flavor=v; updateTotal(); });
 
     const dsHatNotes = { party:'Free custom design at 12+ pcs' };
