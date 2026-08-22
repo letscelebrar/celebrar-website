@@ -1671,7 +1671,7 @@
           <div class="field-note">This is the orderer's WhatsApp number, used to confirm your order (nomor WhatsApp pemesan, dipakai untuk konfirmasi pesanan).</div>
         </div>
         <div class="config-field"><label>Preferred Date (Tanggal Pickup)</label><input type="date" id="ckDate" />
-          <div class="field-note">Minimum order is 2 days ahead, so today and tomorrow can't be selected (minimal pesan 2 hari sebelumnya). Need it sooner? Contact our admin directly.</div>
+          <div class="field-note" id="ckDateNote"></div>
         </div>
         <div class="config-field"><label>Preferred Time (Jam Pickup)</label>
           <select id="ckTime" style="width:100%;padding:11px 14px;border:1.5px solid var(--wood-line);border-radius:var(--radius-sm);font-family:'Quicksand',sans-serif;font-size:14.5px;background:var(--cream);color:var(--text);">
@@ -1721,9 +1721,24 @@
       recipientPhoneNote.style.display = isOther ? 'block' : 'none';
     });
     const dateInput = document.getElementById('ckDate');
+    const dateNote = document.getElementById('ckDateNote');
+    const SAME_DAY_CUTOFF_HOUR = 14; // orders placed at/after 14:00 push the earliest pickup to tomorrow
+    function cartHasCustomBannerDesign(){
+      return cart.some(it => it.key === 'stack' && it.state && it.state.tag === 'banner' && it.state.bannerType === 'custom');
+    }
     const minDate = new Date();
-    minDate.setDate(minDate.getDate() + 2);
+    let minDateNoteHtml = '';
+    if (cartHasCustomBannerDesign()) {
+      minDate.setDate(minDate.getDate() + 1);
+      minDateNoteHtml = 'Custom Banner Design needs at least 1 day for our admin to design. (Custom Banner Design butuh minimal 1 hari untuk admin mendesain.)';
+    } else if (minDate.getHours() >= SAME_DAY_CUTOFF_HOUR) {
+      minDate.setDate(minDate.getDate() + 1);
+      minDateNoteHtml = "Same-day cutoff is 14:00 — you're past it, so the earliest pickup is tomorrow. (Cutoff sameday jam 14:00 — sudah lewat, jadi pickup tercepat besok.)";
+    } else {
+      minDateNoteHtml = 'Order before 14:00 for possible same-day pickup — still subject to availability, confirmed by our admin via WhatsApp. (Order sebelum jam 14:00 untuk kemungkinan pickup hari ini — tetap tergantung ketersediaan, dikonfirmasi admin lewat WhatsApp.)';
+    }
     dateInput.min = minDate.toISOString().slice(0,10);
+    if (dateNote) dateNote.innerHTML = minDateNoteHtml;
     const sourceSelect = document.getElementById('ckSource');
     const sourceOther = document.getElementById('ckSourceOther');
     sourceSelect.addEventListener('change', ()=>{
@@ -1782,6 +1797,11 @@
         }
       });
 
+      if (!firstErrorField && date && date < dateInput.min) {
+        const field = markFieldError(dateInput, 'That date is no longer available — please pick a later date (Tanggal ini sudah tidak tersedia, silakan pilih tanggal lain).');
+        if (field) firstErrorField = field;
+      }
+
       if (firstErrorField) {
         firstErrorField.scrollIntoView({ behavior:'smooth', block:'center' });
         return;
@@ -1803,6 +1823,8 @@
       lines.push(`*No. WhatsApp:* ${wa}`);
       lines.push(`*Preferred Date:* ${dateFormatted}`);
       lines.push(`*Preferred Time:* ${time}`);
+      const todayStr = new Date().toISOString().slice(0,10);
+      if (date === todayStr) lines.push(`*Note:* This is a SAME-DAY order request — please confirm pickup slot availability with the customer ASAP (Ini permintaan pickup HARI INI, mohon segera konfirmasi ketersediaan slot ke customer).`);
       if (source) lines.push(`*Found us via:* ${source}`);
       if (notes) lines.push(`*Notes:* ${notes}`);
       lines.push("");
@@ -1830,8 +1852,8 @@
          id:`Cukup isi <a href="#menu" style="color:var(--link-blue);font-weight:700;">formulir pemesanan</a> di website, lalu kamu akan diarahkan ke WhatsApp untuk konfirmasi pesanan. Atau kamu juga bisa memesan langsung lewat <a href="https://wa.me/${WHATSAPP_NUMBER}" target="_blank" style="color:var(--link-blue);font-weight:700;">WhatsApp</a>.`} },
     { catKey:"ordering",
       q:{en:"How far in advance should I order?", id:"Berapa lama sebelumnya saya harus memesan?"},
-      a:{en:`We recommend placing your order at least <u>2 days</u> in advance. For bulk or corporate orders, <u>7 days</u> in advance is preferred.\n\nOur slots may fill up before then, so <strong><em>booking early</em></strong> is always the best idea.\n\nNeed something sooner? Send us a <a href="https://wa.me/${WHATSAPP_NUMBER}" target="_blank" style="color:var(--link-blue);font-weight:700;">message</a>. We'll do our best to help, subject to availability.`,
-         id:`Kami sarankan memesan minimal <u>2 hari</u> sebelumnya. Untuk pesanan dalam jumlah besar atau korporat, sebaiknya <u>7 hari</u> sebelumnya.\n\nSlot kami bisa penuh lebih cepat dari itu, jadi <strong><em>memesan lebih awal</em></strong> selalu jadi pilihan terbaik.\n\nButuh urgent? <a href="https://wa.me/${WHATSAPP_NUMBER}" target="_blank" style="color:var(--link-blue);font-weight:700;">Chat admin kami</a> dan kami akan bantu semaksimal mungkin tergantung kesediaan.`} },
+      a:{en:`We recommend placing your order at least <u>2 days</u> in advance for the best chance at your preferred slot. For bulk or corporate orders, <u>7 days</u> in advance is preferred.\n\nNeed it sooner? <strong>Same-day pickup may be possible</strong> if you order before <u>14:00</u> — just select today's date on the order form and our admin will confirm slot availability with you on WhatsApp.\n\nOur slots may fill up fast, so <strong><em>booking early</em></strong> is always the safer choice.`,
+         id:`Kami sarankan memesan minimal <u>2 hari</u> sebelumnya untuk peluang mendapatkan slot terbaik. Untuk pesanan dalam jumlah besar atau korporat, sebaiknya <u>7 hari</u> sebelumnya.\n\nButuh lebih cepat? <strong>Pickup hari ini mungkin bisa</strong> kalau kamu order sebelum jam <u>14:00</u> — tinggal pilih tanggal hari ini di form pemesanan, lalu admin kami akan konfirmasi ketersediaan slot lewat WhatsApp.\n\nSlot kami bisa cepat penuh, jadi <strong><em>memesan lebih awal</em></strong> selalu jadi pilihan yang lebih aman.`} },
     { catKey:"freshness",
       q:{en:"How long do the desserts stay fresh?", id:"Berapa lama madeleine bisa bertahan?"},
       a:{en:"Our madeleines stay fresh for 3 to 4 days at room temperature when stored in a cool, dry place.",
