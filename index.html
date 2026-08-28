@@ -1135,10 +1135,24 @@
     {id:'bridal',label:'Bridal Veil + Groom Hat + Candle',hint:'+IDR 15K'}
   ];
   const MINI_HAT_OPTIONS = [{id:'party',label:'Party Hat'},{id:'grad',label:'Graduation Hat'},{id:'ribbon',label:'Ribbon'}];
+  function newBox(){ return { miniSet:'none', hat1:'party', hat2:'grad', msgChoice:'blank', msgText:'' }; }
+  function normalizeBoxes(s){
+    if (Array.isArray(s.boxes) && s.boxes.length) return s.boxes.map(b=>Object.assign(newBox(),b));
+    const qty = s.boxQty || 1;
+    if (Array.isArray(s.boxMiniSets) && s.boxMiniSets.length) {
+      // backward-compat: per-box mini sets existed but message was still a single global field
+      return s.boxMiniSets.map(b => Object.assign(newBox(), b, { msgChoice: s.msgChoice || 'blank', msgText: s.msgText || '' }));
+    }
+    // oldest shape: everything was a single flat choice applied to the whole order
+    const single = { miniSet: s.miniSet || 'none', hat1: s.miniHat1 || 'party', hat2: s.miniHat2 || 'grad', msgChoice: s.msgChoice || 'blank', msgText: s.msgText || '' };
+    return Array.from({length: qty}, () => Object.assign({}, single));
+  }
 
   function renderTreatsModal(editItem){
-    const defaults = { flavor:'brownbutter', boxQty:1, msgChoice:'blank', msgText:'', miniSet:'none', miniHat1:'party', miniHat2:'grad', drizzle:false, drizzleChoc:0, drizzleCream:0 };
-    const state = editItem ? Object.assign({}, defaults, editItem.state) : defaults;
+    const defaults = { flavor:'brownbutter', boxQty:1, boxes:[newBox()], drizzle:false, drizzleChoc:0, drizzleCream:0 };
+    const state = editItem
+      ? Object.assign({}, defaults, editItem.state, { boxes: normalizeBoxes(editItem.state) })
+      : defaults;
 
     modalContent.innerHTML = `
       <button class="modal-close" onclick="closeModal()">✕</button>
@@ -1151,12 +1165,10 @@
       <div class="config-field"><label>How many boxes?</label>${stepperHTML('ttBoxMinus','ttBoxPlus','ttBoxVal')}
         <div class="field-note" id="ttBoxNote"></div>
       </div>
-      ${messageFieldHTML('tt','Custom Message','Write your message')}
-      <div class="config-field"><label>Mini Celebration Set</label><div class="pill-group" id="ttMiniSet"></div>
-        <div id="ttMiniHatsWrap" style="display:none;margin-top:14px;">
-          <div class="config-field"><label>Hat 1</label><div class="pill-group" id="ttMiniHat1"></div></div>
-          <div class="config-field"><label>Hat 2</label><div class="pill-group" id="ttMiniHat2"></div></div>
-        </div>
+      <div class="config-field">
+        <label>Per-box details</label>
+        <div class="field-note" style="margin-bottom:10px;">Each box can have its own message and mini set — handy if boxes are going to different people.</div>
+        <div id="ttBoxesWrap"></div>
       </div>
       ${drizzleFieldHTML('tt', 'Add Extra Drizzle')}
 
@@ -1169,41 +1181,72 @@
     wireProductGallery('treats');
 
     if (editItem) {
-      document.getElementById('ttMessageText').value = state.msgText || '';
-      document.getElementById('ttMsgTextWrap').style.display = state.msgChoice === 'write' ? 'block' : 'none';
-      document.getElementById('ttMiniHatsWrap').style.display = state.miniSet === 'hats' ? 'block' : 'none';
       document.getElementById('ttDrizzleWrap').style.display = state.drizzle ? 'block' : 'none';
       document.getElementById('ttAddBtn').textContent = 'Save Changes';
     }
 
     function boxMin(){ return state.flavor === 'mix' ? 2 : 1; }
     function clampBox(){ if (state.boxQty < boxMin()) state.boxQty = boxMin(); }
+    function resizeBoxes(){
+      const v = state.boxQty;
+      if (v > state.boxes.length) {
+        while (state.boxes.length < v) state.boxes.push(newBox());
+      } else if (v < state.boxes.length) {
+        state.boxes.length = v;
+      }
+    }
+    function miniSetsTotal(){
+      return state.boxes.reduce((sum,b)=> sum + (b.miniSet==='hats'?10:b.miniSet==='bridal'?15:0), 0);
+    }
+    function drawBoxes(){
+      const wrap = document.getElementById('ttBoxesWrap');
+      wrap.innerHTML = state.boxes.map((b,i) => `
+        <div style="border:1.5px solid var(--wood-line);border-radius:var(--radius-sm);padding:14px;margin-bottom:10px;">
+          <div style="font-weight:700;font-size:14.5px;margin-bottom:10px;">Box ${i+1}</div>
+          ${messageFieldHTML('ttBox'+i, 'Message', 'e.g. Happy Birthday!')}
+          <div class="config-field" style="margin-top:12px;"><label>Mini Celebration Set</label><div class="pill-group" id="ttMiniSet_${i}"></div></div>
+          <div id="ttMiniHatsWrap_${i}" style="display:${b.miniSet==='hats'?'block':'none'};margin-top:10px;">
+            <div class="config-field"><label>Hat 1</label><div class="pill-group" id="ttMiniHat1_${i}"></div></div>
+            <div class="config-field"><label>Hat 2</label><div class="pill-group" id="ttMiniHat2_${i}"></div></div>
+          </div>
+        </div>
+      `).join('');
+      state.boxes.forEach((b,i) => {
+        wireMessageField('ttBox'+i, b);
+        document.getElementById('ttBox'+i+'MessageText').value = b.msgText || '';
+        document.getElementById('ttBox'+i+'MsgTextWrap').style.display = b.msgChoice === 'write' ? 'block' : 'none';
+
+        wirePillGroup(`ttMiniSet_${i}`, MINI_SET, ()=>state.boxes[i].miniSet, (v)=>{
+          state.boxes[i].miniSet = v;
+          document.getElementById(`ttMiniHatsWrap_${i}`).style.display = v === 'hats' ? 'block' : 'none';
+          updateTotal();
+        });
+        wirePillGroup(`ttMiniHat1_${i}`, MINI_HAT_OPTIONS, ()=>state.boxes[i].hat1, (v)=>{ state.boxes[i].hat1 = v; });
+        wirePillGroup(`ttMiniHat2_${i}`, MINI_HAT_OPTIONS, ()=>state.boxes[i].hat2, (v)=>{ state.boxes[i].hat2 = v; });
+      });
+    }
     function updateTotal(){
       const base = BOX_PRICE[state.flavor] * state.boxQty;
-      const miniAdd = state.miniSet === 'hats' ? 10 : state.miniSet === 'bridal' ? 15 : 0;
-      const total = base + miniAdd + drizzleAddPrice(state);
+      const total = base + miniSetsTotal() + drizzleAddPrice(state);
       document.getElementById('ttTotal').textContent = priceStr(total);
       document.getElementById('ttBoxNote').textContent = state.flavor === 'mix' ? 'Mix flavor needs at least 2 boxes.' : '';
       return total;
     }
 
-    const ttBoxDraw = wireStepper('ttBoxMinus','ttBoxPlus','ttBoxVal', boxMin, 10, ()=>state.boxQty, (v)=>{ state.boxQty=v; updateTotal(); }, (v)=>v+' box');
+    const ttBoxDraw = wireStepper('ttBoxMinus','ttBoxPlus','ttBoxVal', boxMin, 10, ()=>state.boxQty, (v)=>{
+      state.boxQty=v;
+      resizeBoxes();
+      drawBoxes();
+      updateTotal();
+    }, (v)=>v+' box');
 
     wirePillGroup('ttFlavor', [
       {id:'brownbutter',label:'Brown Butter',hint:'IDR 65K/box'},
       {id:'doublechoco',label:'Double Choco',hint:'IDR 70K/box'},
       {id:'mix',label:'Mix',hint:'IDR 65K/box, min 2'}
-    ], ()=>state.flavor, (v)=>{ state.flavor=v; clampBox(); ttBoxDraw(); updateTotal(); });
+    ], ()=>state.flavor, (v)=>{ state.flavor=v; clampBox(); ttBoxDraw(); resizeBoxes(); drawBoxes(); updateTotal(); });
 
-    wireMessageField('tt', state);
-
-    wirePillGroup('ttMiniSet', MINI_SET, ()=>state.miniSet, (v)=>{
-      state.miniSet=v;
-      document.getElementById('ttMiniHatsWrap').style.display = v === 'hats' ? 'block' : 'none';
-      updateTotal();
-    });
-    wirePillGroup('ttMiniHat1', MINI_HAT_OPTIONS, ()=>state.miniHat1, (v)=>{ state.miniHat1=v; });
-    wirePillGroup('ttMiniHat2', MINI_HAT_OPTIONS, ()=>state.miniHat2, (v)=>{ state.miniHat2=v; });
+    drawBoxes();
 
     wireDrizzleField('tt', state, updateTotal);
 
@@ -1212,20 +1255,24 @@
     document.getElementById('ttAddBtn').addEventListener('click', ()=>{
       const total = updateTotal();
       const flavorLabel = state.flavor==='brownbutter'?'Brown Butter':state.flavor==='doublechoco'?'Double Choco':'Mix';
-      const miniLabel = MINI_SET.find(m=>m.id===state.miniSet).label;
+
+      state.boxes.forEach((b,i) => { b.msgText = document.getElementById('ttBox'+i+'MessageText').value.trim(); });
+
+      const boxLines = state.boxes.map((b,i) => {
+        const miniLabel = MINI_SET.find(m=>m.id===b.miniSet).label;
+        const miniPart = b.miniSet === 'hats'
+          ? `${miniLabel} (${MINI_HAT_OPTIONS.find(h=>h.id===b.hat1).label} & ${MINI_HAT_OPTIONS.find(h=>h.id===b.hat2).label})`
+          : miniLabel;
+        return `Box ${i+1} — ${messageSummaryLine('ttBox'+i, b)}; Mini set: ${miniPart}`;
+      });
       const lines = [
         `${flavorLabel} - ${state.boxQty} box(es)`,
-        messageSummaryLine('tt', state),
-        state.miniSet === 'hats'
-          ? `Mini set: ${miniLabel} (${MINI_HAT_OPTIONS.find(h=>h.id===state.miniHat1).label} & ${MINI_HAT_OPTIONS.find(h=>h.id===state.miniHat2).label})`
-          : `Mini set: ${miniLabel}`
+        ...boxLines
       ];
       const drizzleLine = drizzleSummaryLine(state);
       if (drizzleLine) lines.push(`Extra ${drizzleLine.charAt(0).toLowerCase()}${drizzleLine.slice(1)}`);
 
-      state.msgText = document.getElementById('ttMessageText').value.trim();
-
-      const cartItem = { key:'treats', productName:'Teddy Little Treats with Drizzle', price: total, summaryLines: lines, state: Object.assign({}, state) };
+      const cartItem = { key:'treats', productName:'Teddy Little Treats with Drizzle', price: total, summaryLines: lines, state: Object.assign({}, state, { boxes: state.boxes.map(b=>Object.assign({},b)) }) };
       if (editItem) updateCartItem(editItem.id, cartItem);
       else addToCart(cartItem);
       showAddedConfirmation('treats', 'Teddy Little Treats with Drizzle', !!editItem);
