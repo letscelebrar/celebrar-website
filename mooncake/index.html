@@ -133,13 +133,10 @@
   .photo-slot .cam{font-size:22px;opacity:.55;}
   .price-card .photo-slot{aspect-ratio:16/9;border-radius:var(--radius-sm);margin-bottom:16px;}
   .flavor-photo{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;}
-  .price-photo-carousel{position:relative;width:100%;aspect-ratio:4/3;overflow:hidden;border-radius:var(--radius-sm);margin-bottom:10px;background:var(--mc-tint);touch-action:pan-y;cursor:grab;}
-  .price-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s ease;display:block;}
-  .price-photo.active{opacity:1;}
-  .price-photo-dots{display:flex;gap:6px;justify-content:center;margin:0 0 16px;}
-  .price-photo-dots span{width:6px;height:6px;border-radius:50%;background:var(--wood-line);cursor:pointer;transition:background .3s ease,transform .3s ease;}
-  .price-photo-dots span.active{background:var(--toasted);transform:scale(1.25);}
-  @media (prefers-reduced-motion: reduce){ .price-photo{transition:none;} }
+  .photo-slot-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+  .photo-slot-row .photo-slot{aspect-ratio:1/1;margin-bottom:0;}
+  .price-photo{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:var(--radius-sm);margin-bottom:16px;display:block;}
+  .price-photo-sm{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:var(--radius-sm);display:block;}
   .included-list{list-style:none;padding:0;margin:8px 0 4px;font-size:13px;color:var(--text);}
   .included-list li{padding:4px 0 4px 22px;position:relative;line-height:1.5;}
   .included-list li::before{content:"✓";position:absolute;left:0;color:var(--toasted);font-weight:700;}
@@ -203,8 +200,18 @@
   .box-set-header .bs-count.valid{color:#3E8E52;}
   .box-set-header .bs-chevron{font-size:10px;color:var(--text-soft);transition:transform .2s ease;}
   .box-set-summary{font-size:12.5px;color:var(--text-soft);line-height:1.5;padding:6px 0 2px;}
+  .box-set-rows{display:grid;grid-template-columns:1fr;}
   .box-set .flavor-stepper-row{padding:8px 0;}
   .box-set .fsr-name{font-size:13px;}
+  /* Border goes on top of each row instead of the bottom, so the last row in a
+     column never shows a stray line underneath — needed since the 2-column
+     layout below means "last item" and "last visual row" aren't the same thing. */
+  .box-set-rows .flavor-stepper-row{border-bottom:none;border-top:1px solid var(--wood-line);}
+  .box-set-rows .flavor-stepper-row:first-child{border-top:none;}
+  @media (min-width:640px){
+    .box-set-rows{grid-template-columns:1fr 1fr;column-gap:20px;}
+    .box-set-rows .flavor-stepper-row:nth-child(-n+2){border-top:none;}
+  }
   .check-grid{display:flex;flex-wrap:wrap;gap:8px;}
   .check-pill{padding:9px 15px;border-radius:100px;border:1.5px solid var(--wood-line);background:var(--cream);font-weight:700;font-size:13px;font-family:'Quicksand',sans-serif;cursor:pointer;color:var(--text);transition:.15s;}
   .check-pill:hover{border-color:var(--toasted);}
@@ -380,12 +387,11 @@
     <div class="price-grid">
       <!-- BOX OF 4 -->
       <div class="price-card reveal">
-        <div class="price-photo-carousel" id="boxPhotoCarousel">
-          <img class="price-photo active" src="../assets/mooncake/photos/box-flatlay.jpg" alt="Celebrar Mid-Autumn Mooncake Box of 4, open and closed" />
-          <img class="price-photo" src="../assets/mooncake/photos/box-bag.jpg" alt="Box of 4 packaging with bamboo translucent PVC bag" />
-          <img class="price-photo" src="../assets/mooncake/photos/box-lifestyle.jpg" alt="Box of 4 mooncakes flat-lay" />
+        <img class="price-photo" src="../assets/mooncake/photos/box-flatlay.jpg" alt="Celebrar Mid-Autumn Mooncake Box of 4, open and closed" />
+        <div class="photo-slot-row">
+          <img class="price-photo-sm" src="../assets/mooncake/photos/box-bag.jpg" alt="Box of 4 packaging with bamboo translucent PVC bag" />
+          <img class="price-photo-sm" src="../assets/mooncake/photos/box-lifestyle.jpg" alt="Box of 4 mooncakes flat-lay" />
         </div>
-        <div class="price-photo-dots" id="boxPhotoDots"><span class="active"></span><span></span><span></span></div>
         <h3>Box of 4</h3>
         <div class="sub">Free to choose your favorite flavors.</div>
         <div class="price-hero-row"><span class="now" id="boxPriceNow">Rp179.000</span><span class="was" id="boxPriceWas">Rp186.000</span></div>
@@ -423,12 +429,11 @@
 
       <!-- SINGLE PACK -->
       <div class="price-card reveal">
-        <div class="price-photo-carousel" id="singlePhotoCarousel">
-          <img class="price-photo active" src="../assets/mooncake/photos/single-closeup.jpg" alt="Celebrar Mid-Autumn Mooncake Single Pack" />
-          <img class="price-photo" src="../assets/mooncake/photos/single-closeup-2.jpg" alt="Single Pack mooncake, box open" />
-          <img class="price-photo" src="../assets/mooncake/photos/single-closeup-3.jpg" alt="Mooncake cross-section" />
+        <img class="price-photo" src="../assets/mooncake/photos/single-closeup.jpg" alt="Celebrar Mid-Autumn Mooncake Single Pack" />
+        <div class="photo-slot-row">
+          <img class="price-photo-sm" src="../assets/mooncake/photos/single-closeup-2.jpg" alt="Single Pack mooncake, box open" />
+          <img class="price-photo-sm" src="../assets/mooncake/photos/single-closeup-3.jpg" alt="Mooncake cross-section" />
         </div>
-        <div class="price-photo-dots" id="singlePhotoDots"><span class="active"></span><span></span><span></span></div>
         <h3>Single Pack</h3>
         <div class="sub">Small or individual gifts.</div>
         <div class="price-hero-row"><span class="now">Rp32&ndash;36K</span><span class="was" style="text-decoration:none;">/pc, by flavor</span></div>
@@ -469,7 +474,7 @@
 <section class="section" id="flavors">
   <div class="container">
     <span class="section-label">6 Flavors</span>
-    <h2 class="section-title reveal">Every Flavor Tells A Small Story</h2>
+    <h2 class="section-title reveal">Choose Your Flavor</h2>
     <p class="section-sub reveal">50g each, baked traditional style.</p>
     <div class="flavor-grid">
       <div class="flavor-card reveal"><img class="flavor-photo" src="../assets/mooncake/photos/flavor-lotus.jpg" alt="Lotus mooncake" /><h4>Lotus</h4><p>Smooth, fragrant lotus seed paste.</p></div>
@@ -1127,13 +1132,14 @@
           '</div>' +
         '</div>';
       }).join('');
+      const rowsWrapped = '<div class="box-set-rows">' + rows + '</div>';
       return '<div class="box-set' + (isExpanded ? ' expanded' : '') + '">' +
         '<div class="box-set-header" data-action="toggle-box" data-box-index="' + idx + '">' +
           '<span class="bs-title">' + title + '</span>' +
           '<span class="bs-right"><span class="bs-count' + (valid ? ' valid' : '') + '">' + total + '/4 selected</span>' +
           (setsToShow.length > 1 ? '<span class="bs-chevron">' + (isExpanded ? '&#9650;' : '&#9660;') + '</span>' : '') + '</span>' +
         '</div>' +
-        (isExpanded ? rows : '<div class="box-set-summary">' + boxSetSummary(set) + '</div>') +
+        (isExpanded ? rowsWrapped : '<div class="box-set-summary">' + boxSetSummary(set) + '</div>') +
         '</div>';
     }).join('');
   }
@@ -1469,8 +1475,6 @@
     startAuto();
   }
   initCarousel('heroCarousel', 'heroCarouselDots', 3500);
-  initCarousel('boxPhotoCarousel', 'boxPhotoDots', 4200);
-  initCarousel('singlePhotoCarousel', 'singlePhotoDots', 4200);
 
   // ── Photo lightbox (click any product photo to zoom) ──
   (function initLightbox(){
@@ -1478,7 +1482,7 @@
     const imgEl = document.getElementById('lightboxImg');
     const closeBtn = document.getElementById('lightboxClose');
     if (!overlay || !imgEl) return;
-    document.querySelectorAll('.flavor-photo, .price-photo, #heroCarousel img').forEach(img => {
+    document.querySelectorAll('.flavor-photo, .price-photo, .price-photo-sm, #heroCarousel img').forEach(img => {
       img.classList.add('zoomable');
       img.addEventListener('click', (e) => {
         e.stopPropagation();
