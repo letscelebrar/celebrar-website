@@ -115,10 +115,16 @@
   .hero-countdown-cell--accent .hero-countdown-num{color:var(--gold);}
   .hero-countdown-num{font-family:'Dongle',sans-serif;font-weight:700;font-size:30px;color:#fff;line-height:1;}
   .hero-countdown-label{font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--butter-soft);opacity:.7;margin-top:6px;}
-  .scroll-cue{width:16px;height:16px;margin:22px auto 0;position:relative;opacity:.55;animation:scrollCueBounce 1.6s ease-in-out infinite;}
-  .scroll-cue::before{content:'';position:absolute;inset:0;border-right:2.5px solid var(--toasted);border-bottom:2.5px solid var(--toasted);transform:rotate(45deg);}
-  @keyframes scrollCueBounce{0%,100%{transform:translateY(0);opacity:.4;}50%{transform:translateY(7px);opacity:.75;}}
-  @media (prefers-reduced-motion: reduce){ .scroll-cue{animation:none;} }
+  /* Floating "scroll" cue — fixed to the viewport (not the hero), so it stays visible
+     the moment the page opens and only fades away once the visitor actually scrolls. */
+  .scroll-cue-float{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:150;display:flex;flex-direction:column;align-items:center;gap:5px;pointer-events:none;opacity:1;transition:opacity .35s ease;}
+  .scroll-cue-float.is-hidden{opacity:0;}
+  .scroll-cue-label{font-family:'Quicksand',sans-serif;font-size:10.5px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--toasted);opacity:.8;text-shadow:0 1px 6px rgba(255,255,255,0.9);}
+  .scroll-cue-icon{width:16px;height:16px;position:relative;animation:scrollCueBounce 1.6s ease-in-out infinite;}
+  .scroll-cue-icon::before{content:'';position:absolute;inset:0;border-right:2.5px solid var(--toasted);border-bottom:2.5px solid var(--toasted);transform:rotate(45deg);filter:drop-shadow(0 1px 4px rgba(255,255,255,0.9));}
+  @keyframes scrollCueBounce{0%,100%{transform:translateY(0);opacity:.55;}50%{transform:translateY(7px);opacity:1;}}
+  @media (max-width:640px){ .scroll-cue-float{bottom:92px;} }
+  @media (prefers-reduced-motion: reduce){ .scroll-cue-icon{animation:none;} }
 
   /* ── FLAVORS ── */
   .flavor-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px;}
@@ -374,10 +380,16 @@
     </div>
     <div class="hero-micro" id="heroMicro" style="margin-top:22px;">Limited quantity. Orders open through Sept 30 for late delivery &mdash; please PO in advance.</div>
     <p class="hero-disclaimer">*No gluten ingredients used, but made in a shared kitchen. Tools and surfaces are sanitized before each production. Not recommended for severe gluten allergies or celiac disease.</p>
-    <div class="scroll-cue" aria-hidden="true"></div>
   </div>
   </div>
 </section>
+
+<!-- Floating scroll cue: fixed to the screen so it's visible the instant the page opens
+     on mobile, and fades out once the visitor scrolls. -->
+<div class="scroll-cue-float" id="scrollCueFloat" aria-hidden="true">
+  <span class="scroll-cue-icon"></span>
+  <span class="scroll-cue-label">Scroll</span>
+</div>
 
 <!-- ═══════════════ PRICING ═══════════════ -->
 <section class="section" id="pricing" style="background:var(--mc-tint);">
@@ -894,6 +906,21 @@
     if (!document.getElementById('heroCountdown')) return;
     tickHeroCountdown();
     setInterval(tickHeroCountdown, 1000);
+  })();
+
+  // ── Floating scroll cue: visible as soon as the page opens, fades out once
+  //    the visitor actually scrolls (so it never sits on top of content). ──
+  (function initScrollCue(){
+    const cue = document.getElementById('scrollCueFloat');
+    if (!cue) return;
+    let hidden = false;
+    window.addEventListener('scroll', () => {
+      if (hidden) return;
+      if (window.scrollY > 60) {
+        cue.classList.add('is-hidden');
+        hidden = true;
+      }
+    }, { passive: true });
   })();
 
   (function initSeasonStrip(){
