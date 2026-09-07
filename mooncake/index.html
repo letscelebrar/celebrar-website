@@ -87,7 +87,7 @@
 
   /* ── HERO (no product photography — a warm illustrated moon panel instead) ── */
   .hero{position:relative;background:var(--white);padding:0;text-align:center;}
-  .hero-photo{position:relative;width:100%;aspect-ratio:4/5;max-height:520px;overflow:hidden;background:var(--mc-tint);}
+  .hero-photo{position:relative;width:100%;aspect-ratio:4/5;max-height:520px;overflow:hidden;background:var(--mc-tint);touch-action:pan-y;cursor:grab;}
   .hero-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.1s ease;}
   .hero-photo img.active{opacity:1;}
   .hero-dots{display:flex;gap:6px;justify-content:center;margin:14px 0 2px;}
@@ -115,6 +115,10 @@
   .hero-countdown-cell--accent .hero-countdown-num{color:var(--gold);}
   .hero-countdown-num{font-family:'Dongle',sans-serif;font-weight:700;font-size:30px;color:#fff;line-height:1;}
   .hero-countdown-label{font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--butter-soft);opacity:.7;margin-top:6px;}
+  .scroll-cue{width:16px;height:16px;margin:22px auto 0;position:relative;opacity:.55;animation:scrollCueBounce 1.6s ease-in-out infinite;}
+  .scroll-cue::before{content:'';position:absolute;inset:0;border-right:2.5px solid var(--toasted);border-bottom:2.5px solid var(--toasted);transform:rotate(45deg);}
+  @keyframes scrollCueBounce{0%,100%{transform:translateY(0);opacity:.4;}50%{transform:translateY(7px);opacity:.75;}}
+  @media (prefers-reduced-motion: reduce){ .scroll-cue{animation:none;} }
 
   /* ── FLAVORS ── */
   .flavor-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px;}
@@ -128,11 +132,14 @@
   .photo-slot{aspect-ratio:1/1;border:1.5px dashed var(--wood-line);background:var(--mc-tint);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--text-soft);font-size:11.5px;font-weight:600;text-align:center;}
   .photo-slot .cam{font-size:22px;opacity:.55;}
   .price-card .photo-slot{aspect-ratio:16/9;border-radius:var(--radius-sm);margin-bottom:16px;}
-  .photo-slot-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
-  .photo-slot-row .photo-slot{aspect-ratio:1/1;margin-bottom:0;}
   .flavor-photo{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;}
-  .price-photo{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:var(--radius-sm);margin-bottom:16px;display:block;}
-  .price-photo-sm{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:var(--radius-sm);display:block;}
+  .price-photo-carousel{position:relative;width:100%;aspect-ratio:4/3;overflow:hidden;border-radius:var(--radius-sm);margin-bottom:10px;background:var(--mc-tint);touch-action:pan-y;cursor:grab;}
+  .price-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s ease;display:block;}
+  .price-photo.active{opacity:1;}
+  .price-photo-dots{display:flex;gap:6px;justify-content:center;margin:0 0 16px;}
+  .price-photo-dots span{width:6px;height:6px;border-radius:50%;background:var(--wood-line);cursor:pointer;transition:background .3s ease,transform .3s ease;}
+  .price-photo-dots span.active{background:var(--toasted);transform:scale(1.25);}
+  @media (prefers-reduced-motion: reduce){ .price-photo{transition:none;} }
   .included-list{list-style:none;padding:0;margin:8px 0 4px;font-size:13px;color:var(--text);}
   .included-list li{padding:4px 0 4px 22px;position:relative;line-height:1.5;}
   .included-list li::before{content:"✓";position:absolute;left:0;color:var(--toasted);font-weight:700;}
@@ -187,11 +194,15 @@
   .fsr-info{display:flex;flex-direction:column;gap:2px;}
   .fsr-name{font-weight:700;font-size:14px;color:var(--text);}
   .fsr-price{font-size:12px;color:var(--text-soft);}
-  .box-set{border:1.5px solid var(--wood-line);border-radius:var(--radius-sm);padding:14px 16px 4px;margin-bottom:12px;background:var(--cream);}
-  .box-set-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2px;}
+  .box-set{border:1.5px solid var(--wood-line);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:12px;background:var(--cream);}
+  .box-set.expanded{padding-bottom:4px;}
+  .box-set-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2px;cursor:pointer;gap:10px;}
   .box-set-header .bs-title{font-weight:700;font-size:14.5px;color:var(--text);}
-  .box-set-header .bs-count{font-size:12.5px;font-weight:700;color:var(--toasted);}
+  .box-set-header .bs-right{display:flex;align-items:center;gap:8px;flex:none;}
+  .box-set-header .bs-count{font-size:12.5px;font-weight:700;color:var(--toasted);white-space:nowrap;}
   .box-set-header .bs-count.valid{color:#3E8E52;}
+  .box-set-header .bs-chevron{font-size:10px;color:var(--text-soft);transition:transform .2s ease;}
+  .box-set-summary{font-size:12.5px;color:var(--text-soft);line-height:1.5;padding:6px 0 2px;}
   .box-set .flavor-stepper-row{padding:8px 0;}
   .box-set .fsr-name{font-size:13px;}
   .check-grid{display:flex;flex-wrap:wrap;gap:8px;}
@@ -356,6 +367,7 @@
     </div>
     <div class="hero-micro" id="heroMicro" style="margin-top:22px;">Limited quantity. Orders open through Sept 30 for late delivery &mdash; please PO in advance.</div>
     <p class="hero-disclaimer">*No gluten ingredients used, but made in a shared kitchen. Tools and surfaces are sanitized before each production. Not recommended for severe gluten allergies or celiac disease.</p>
+    <div class="scroll-cue" aria-hidden="true"></div>
   </div>
   </div>
 </section>
@@ -368,11 +380,12 @@
     <div class="price-grid">
       <!-- BOX OF 4 -->
       <div class="price-card reveal">
-        <img class="price-photo" src="../assets/mooncake/photos/box-flatlay.jpg" alt="Celebrar Mid-Autumn Mooncake Box of 4, open and closed" />
-        <div class="photo-slot-row">
-          <img class="price-photo-sm" src="../assets/mooncake/photos/box-bag.jpg" alt="Box of 4 packaging with bamboo translucent PVC bag" />
-          <img class="price-photo-sm" src="../assets/mooncake/photos/box-lifestyle.jpg" alt="Box of 4 mooncakes flat-lay" />
+        <div class="price-photo-carousel" id="boxPhotoCarousel">
+          <img class="price-photo active" src="../assets/mooncake/photos/box-flatlay.jpg" alt="Celebrar Mid-Autumn Mooncake Box of 4, open and closed" />
+          <img class="price-photo" src="../assets/mooncake/photos/box-bag.jpg" alt="Box of 4 packaging with bamboo translucent PVC bag" />
+          <img class="price-photo" src="../assets/mooncake/photos/box-lifestyle.jpg" alt="Box of 4 mooncakes flat-lay" />
         </div>
+        <div class="price-photo-dots" id="boxPhotoDots"><span class="active"></span><span></span><span></span></div>
         <h3>Box of 4</h3>
         <div class="sub">Free to choose your favorite flavors.</div>
         <div class="price-hero-row"><span class="now" id="boxPriceNow">Rp179.000</span><span class="was" id="boxPriceWas">Rp186.000</span></div>
@@ -410,14 +423,15 @@
 
       <!-- SINGLE PACK -->
       <div class="price-card reveal">
-        <img class="price-photo" src="../assets/mooncake/photos/single-closeup.jpg" alt="Celebrar Mid-Autumn Mooncake Single Pack" />
-        <div class="photo-slot-row">
-          <img class="price-photo-sm" src="../assets/mooncake/photos/single-closeup-2.jpg" alt="Single Pack mooncake, box open" />
-          <img class="price-photo-sm" src="../assets/mooncake/photos/single-closeup-3.jpg" alt="Mooncake cross-section" />
+        <div class="price-photo-carousel" id="singlePhotoCarousel">
+          <img class="price-photo active" src="../assets/mooncake/photos/single-closeup.jpg" alt="Celebrar Mid-Autumn Mooncake Single Pack" />
+          <img class="price-photo" src="../assets/mooncake/photos/single-closeup-2.jpg" alt="Single Pack mooncake, box open" />
+          <img class="price-photo" src="../assets/mooncake/photos/single-closeup-3.jpg" alt="Mooncake cross-section" />
         </div>
+        <div class="price-photo-dots" id="singlePhotoDots"><span class="active"></span><span></span><span></span></div>
         <h3>Single Pack</h3>
-        <div class="sub">Trying, small or individual gifts.</div>
-        <div class="price-hero-row"><span class="now">Rp29&ndash;36K</span><span class="was" style="text-decoration:none;">/pc, by flavor</span></div>
+        <div class="sub">Small or individual gifts.</div>
+        <div class="price-hero-row"><span class="now">Rp32&ndash;36K</span><span class="was" style="text-decoration:none;">/pc, by flavor</span></div>
 
         <div class="price-block-title">What's Included</div>
         <ul class="included-list">
@@ -541,7 +555,7 @@
       </div>
 
       <div class="of-field">
-        <div class="logo-note" style="margin-bottom:0;">Ordering for several different addresses at once? <a href="https://wa.me/6285121951412" id="multiAddressLink" target="_blank" rel="noopener" style="font-weight:700;color:var(--toasted-dark);text-decoration:underline;">Chat us directly</a> &mdash; we'll bring your current selection along, just add a note that you'd like it split across separate addresses.</div>
+        <div class="logo-note" style="margin-bottom:0;">Ordering for several different addresses at once? <a href="https://wa.me/6285121951412" id="multiAddressLink" target="_blank" rel="noopener" style="font-weight:700;color:var(--toasted-dark);text-decoration:underline;">Chat us directly</a>.</div>
       </div>
 
       <div class="of-field">
@@ -554,7 +568,7 @@
       </div>
 
       <div class="of-field" id="localModeField">
-        <label>Pickup Yourself, or Help Delivering It?</label>
+        <label>Pickup Yourself, or Need Help to Deliver?</label>
         <div class="radio-row" id="localModeRow">
           <button type="button" class="radio-pill selected" data-val="pickup">I'll Pick It Up</button>
           <button type="button" class="radio-pill" data-val="delivery">Help Me Deliver It (Lalamove)</button>
@@ -568,12 +582,13 @@
           <button type="button" class="radio-pill" data-val="batuceper">Batuceper, Tangerang</button>
         </div>
         <p class="field-note"><a id="pickupMapLink" href="https://maps.app.goo.gl/3ns7BLpdJK2iW6AMA" target="_blank" rel="noopener" style="font-weight:700;color:var(--toasted-dark);text-decoration:underline;">Open in Google Maps &rarr;</a></p>
+        <p class="field-note" id="pickupLocationHours" style="display:none;"></p>
       </div>
 
       <div class="of-field" id="timeSlotField">
         <label>Preferred Time Window</label>
         <div class="radio-row" id="timeSlotRow">
-          <button type="button" class="radio-pill selected" data-val="pagi">Pagi (08:00&ndash;10:00)</button>
+          <button type="button" class="radio-pill selected" data-val="pagi">Pagi (09:00&ndash;11:00)</button>
           <button type="button" class="radio-pill" data-val="siang">Siang (11:00&ndash;14:00)</button>
           <button type="button" class="radio-pill" data-val="sore">Sore (15:00&ndash;17:00)</button>
         </div>
@@ -930,7 +945,12 @@
     { key: 'ube',           flavor: 'Ube Cheese',                  egg: false },
     { key: 'ube_egg',       flavor: 'Ube Cheese',                  egg: true  },
   ];
-  function variantLabel(v){ return v.flavor + (v.egg ? ' + Salted Egg Yolk' : ''); }
+  function variantLabel(v){
+    // Ube Cheese's "cheese" is a custard center — when salted egg yolk is added,
+    // the yolk replaces that custard, so the piece no longer has cheese in it.
+    if (v.flavor === 'Ube Cheese' && v.egg) return 'Ube + Salted Egg Yolk';
+    return v.flavor + (v.egg ? ' + Salted Egg Yolk' : '');
+  }
 
   // Single Pack price per flavor, by total-pieces tier: [1–9, 10–24, 25+].
   // Tiers are set directly per flavor (not a uniform formula) since the discount
@@ -978,8 +998,7 @@
     VARIANTS.forEach(v => s[v.key] = 0);
     return s;
   }
-  const defaultBoxSet = makeEmptyBoxSet();
-  defaultBoxSet.mungbean = 4; // sensible default so the first box starts valid (4/4)
+  const defaultBoxSet = makeEmptyBoxSet(); // starts empty — customer picks their own flavors
 
   const state = {
     pack: 'box',
@@ -987,12 +1006,13 @@
     sameFlavorsForAllBoxes: true,
     boxSets: [defaultBoxSet],
     boxLogo: false,
-    singleQty: { mungbean: 4 }, // keyed by variant key, mirrors boxSets
+    singleQty: {}, // keyed by variant key, mirrors boxSets — starts empty
     singleLogo: false,
     fulfill: 'local',
     localMode: 'pickup',
     pickupLocation: 'kalideres',
     timeSlot: 'pagi',
+    expandedBoxIndex: 0,
   };
   function singleTotalQty(){
     return VARIANTS.reduce((sum, v) => sum + (state.singleQty[v.key] || 0), 0);
@@ -1075,15 +1095,24 @@
     while (state.boxSets.length > qty) state.boxSets.pop();
     document.getElementById('sameFlavorsField').style.display = qty > 1 ? '' : 'none';
   }
+  // Summary line shown when a box's flavor list is collapsed, e.g. "2× Lotus, 2× Chocolate".
+  function boxSetSummary(set){
+    const parts = VARIANTS.filter(v => (set[v.key] || 0) > 0).map(v => (set[v.key] + '× ' + variantLabel(v)));
+    return parts.length ? parts.join(', ') : 'No flavors selected yet — tap to choose.';
+  }
   function renderBoxSets(){
     const container = document.getElementById('boxSetsContainer');
     const setsToShow = state.sameFlavorsForAllBoxes ? [state.boxSets[0]] : state.boxSets;
+    // Only one box open at a time when there's more than one — keeps the list short
+    // when ordering several boxes with different flavors each.
+    const expandedIdx = Math.min(state.expandedBoxIndex, setsToShow.length - 1);
     container.innerHTML = setsToShow.map((set, idx) => {
       const total = boxSetTotal(set);
       const valid = total === 4;
       const title = state.sameFlavorsForAllBoxes
         ? 'All ' + state.boxQty + ' box' + (state.boxQty > 1 ? 'es' : '')
         : 'Box #' + (idx + 1);
+      const isExpanded = setsToShow.length <= 1 || expandedIdx === idx;
       const rows = VARIANTS.map(v => {
         const qty = set[v.key] || 0;
         const priceNote = v.flavor === 'Lotus'
@@ -1098,13 +1127,24 @@
           '</div>' +
         '</div>';
       }).join('');
-      return '<div class="box-set">' +
-        '<div class="box-set-header"><span class="bs-title">' + title + '</span><span class="bs-count' + (valid ? ' valid' : '') + '">' + total + '/4 selected</span></div>' +
-        rows +
+      return '<div class="box-set' + (isExpanded ? ' expanded' : '') + '">' +
+        '<div class="box-set-header" data-action="toggle-box" data-box-index="' + idx + '">' +
+          '<span class="bs-title">' + title + '</span>' +
+          '<span class="bs-right"><span class="bs-count' + (valid ? ' valid' : '') + '">' + total + '/4 selected</span>' +
+          (setsToShow.length > 1 ? '<span class="bs-chevron">' + (isExpanded ? '&#9650;' : '&#9660;') + '</span>' : '') + '</span>' +
+        '</div>' +
+        (isExpanded ? rows : '<div class="box-set-summary">' + boxSetSummary(set) + '</div>') +
         '</div>';
     }).join('');
   }
   document.getElementById('boxSetsContainer').addEventListener('click', (e) => {
+    const toggle = e.target.closest('[data-action="toggle-box"]');
+    if (toggle) {
+      const idx = parseInt(toggle.dataset.boxIndex, 10);
+      state.expandedBoxIndex = (state.expandedBoxIndex === idx) ? -1 : idx;
+      renderBoxSets();
+      return;
+    }
     const btn = e.target.closest('button[data-action]');
     if (!btn) return;
     const boxIndex = parseInt(btn.dataset.boxIndex, 10);
@@ -1139,9 +1179,20 @@
   });
 
   const PICKUP_LOCATIONS = {
-    kalideres: { label: 'Kalideres, West Jakarta', mapUrl: 'https://maps.app.goo.gl/3ns7BLpdJK2iW6AMA' },
-    batuceper: { label: 'Batuceper, Tangerang', mapUrl: 'https://maps.app.goo.gl/ZYt4uhK2ngBSVeLR8' },
+    kalideres: { label: 'Kalideres, West Jakarta', mapUrl: 'https://maps.app.goo.gl/3ns7BLpdJK2iW6AMA', hours: null },
+    batuceper: { label: 'Batuceper, Tangerang', mapUrl: 'https://maps.app.goo.gl/ZYt4uhK2ngBSVeLR8', hours: 'Available weekdays only, 9am–5pm.' },
   };
+  function updatePickupLocationHours(){
+    const hoursEl = document.getElementById('pickupLocationHours');
+    if (!hoursEl) return;
+    const loc = PICKUP_LOCATIONS[state.pickupLocation];
+    if (loc && loc.hours) {
+      hoursEl.textContent = loc.hours;
+      hoursEl.style.display = '';
+    } else {
+      hoursEl.style.display = 'none';
+    }
+  }
 
   function updateFulfillNote(){
     const note = document.getElementById('fulfillNote');
@@ -1191,6 +1242,7 @@
       state.pickupLocation = btn.dataset.val;
       const loc = PICKUP_LOCATIONS[state.pickupLocation];
       document.getElementById('pickupMapLink').href = loc.mapUrl;
+      updatePickupLocationHours();
     });
   });
   document.querySelectorAll('#timeSlotRow .radio-pill').forEach(btn => {
@@ -1202,6 +1254,7 @@
   });
   updateLocalFieldsVisibility();
   updateFulfillNote();
+  updatePickupLocationHours();
 
   function recalc(){
     refreshSteppers(); // clamp + redraw every stepper against current mins/maxes first
@@ -1259,19 +1312,27 @@
     lines.push('');
     if (state.pack === 'box') {
       lines.push('*Pack:* Box of 4 × ' + state.boxQty);
+      lines.push('');
       const setsToList = state.sameFlavorsForAllBoxes ? [state.boxSets[0]] : state.boxSets;
       setsToList.forEach((set, idx) => {
-        const label = state.sameFlavorsForAllBoxes ? 'All boxes' : 'Box #' + (idx + 1);
-        const items = VARIANTS.filter(v => (set[v.key] || 0) > 0)
-          .map(v => (set[v.key]) + '× ' + variantLabel(v)).join(', ');
-        lines.push('*' + label + ':* ' + (items || '(not selected yet)'));
+        const label = state.sameFlavorsForAllBoxes ? 'All ' + state.boxQty + ' boxes' : 'Box #' + (idx + 1);
+        lines.push('*' + label + ':*');
+        const items = VARIANTS.filter(v => (set[v.key] || 0) > 0);
+        if (items.length) {
+          items.forEach(v => lines.push('• ' + set[v.key] + '× ' + variantLabel(v)));
+        } else {
+          lines.push('• (not selected yet)');
+        }
+        lines.push('');
       });
     } else {
       lines.push('*Pack:* Single Pack');
+      lines.push('');
       VARIANTS.forEach(v => {
         const qty = state.singleQty[v.key] || 0;
-        if (qty > 0) lines.push('*' + variantLabel(v) + ':* ' + qty + ' pcs');
+        if (qty > 0) lines.push('• ' + variantLabel(v) + ': ' + qty + ' pcs');
       });
+      lines.push('');
     }
     lines.push('');
     lines.push("I'd like this split across a few separate delivery addresses — happy to share the details here.");
@@ -1298,7 +1359,7 @@
     const date = document.getElementById('ofDate').value || '(not specified)';
     const address = document.getElementById('ofAddress').value.trim();
     const notes = document.getElementById('ofNotes').value.trim();
-    const TIME_SLOT_LABELS = { pagi: 'Pagi (08:00–10:00)', siang: 'Siang (11:00–14:00)', sore: 'Sore (15:00–17:00)' };
+    const TIME_SLOT_LABELS = { pagi: 'Pagi (09:00–11:00)', siang: 'Siang (11:00–14:00)', sore: 'Sore (15:00–17:00)' };
     let fulfillLabel;
     if (state.fulfill === 'local') {
       fulfillLabel = state.localMode === 'pickup'
@@ -1315,20 +1376,29 @@
     if (state.pack === 'box') {
       lines.push('*Pack:* Box of 4 × ' + state.boxQty);
       lines.push('*Same flavors for all boxes:* ' + (state.sameFlavorsForAllBoxes ? 'Yes' : 'No'));
+      lines.push('');
       const setsToList = state.sameFlavorsForAllBoxes ? [state.boxSets[0]] : state.boxSets;
       setsToList.forEach((set, idx) => {
-        const label = state.sameFlavorsForAllBoxes ? 'All boxes' : 'Box #' + (idx + 1);
-        const items = VARIANTS.filter(v => (set[v.key] || 0) > 0)
-          .map(v => (set[v.key]) + '× ' + variantLabel(v)).join(', ');
-        lines.push('*' + label + ':* ' + (items || '(not selected)'));
+        const label = state.sameFlavorsForAllBoxes ? 'All ' + state.boxQty + ' boxes' : 'Box #' + (idx + 1);
+        lines.push('*' + label + ':*');
+        const items = VARIANTS.filter(v => (set[v.key] || 0) > 0);
+        if (items.length) {
+          items.forEach(v => lines.push('• ' + set[v.key] + '× ' + variantLabel(v)));
+        } else {
+          lines.push('• (not selected)');
+        }
+        lines.push('');
       });
       if (state.boxQty >= 10) lines.push('*Logo personalization:* ' + (state.boxLogo ? 'Yes' : 'No'));
     } else {
       lines.push('*Pack:* Single Pack');
+      lines.push('');
+      lines.push('*Flavors:*');
       VARIANTS.forEach(v => {
         const qty = state.singleQty[v.key] || 0;
-        if (qty > 0) lines.push('*' + variantLabel(v) + ':* ' + qty + ' pcs');
+        if (qty > 0) lines.push('• ' + variantLabel(v) + ': ' + qty + ' pcs');
       });
+      lines.push('');
       const totalQty = singleTotalQty();
       if (totalQty >= 15) lines.push('*Logo personalization:* ' + (state.singleLogo ? 'Yes' : 'No'));
     }
@@ -1347,20 +1417,60 @@
     window.open('https://wa.me/6285121951412?text=' + text, '_blank', 'noopener');
   });
 
-  // ── Hero image carousel (auto-rotate) ──
-  (function(){
-    const imgs = document.querySelectorAll('#heroCarousel img');
-    const dots = document.querySelectorAll('#heroCarouselDots span');
-    if (!imgs.length) return;
+  // ── Photo carousels: auto-rotate + swipe/drag + clickable dots. Used for the
+  //    hero banner and both price-card photo groups (Box of 4 / Single Pack). ──
+  function initCarousel(containerId, dotsId, autoRotateMs){
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    const imgs = container.querySelectorAll('img');
+    const dotsWrap = document.getElementById(dotsId);
+    const dots = dotsWrap ? dotsWrap.querySelectorAll('span') : [];
+    if (imgs.length < 2) return;
     let idx = 0;
-    setInterval(() => {
+    let timer = null;
+
+    function show(i){
       imgs[idx].classList.remove('active');
       if (dots[idx]) dots[idx].classList.remove('active');
-      idx = (idx + 1) % imgs.length;
+      idx = ((i % imgs.length) + imgs.length) % imgs.length;
       imgs[idx].classList.add('active');
       if (dots[idx]) dots[idx].classList.add('active');
-    }, 3500);
-  })();
+    }
+    function startAuto(){ if (autoRotateMs) timer = setInterval(() => show(idx + 1), autoRotateMs); }
+    function stopAuto(){ if (timer) { clearInterval(timer); timer = null; } }
+    function restartAuto(){ stopAuto(); startAuto(); }
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => { show(i); restartAuto(); });
+    });
+
+    // Swipe (touch) support.
+    let touchStartX = null;
+    container.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; stopAuto(); }, { passive: true });
+    container.addEventListener('touchend', (e) => {
+      if (touchStartX === null) return;
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 35) show(idx + (dx < 0 ? 1 : -1));
+      touchStartX = null;
+      startAuto();
+    });
+
+    // Drag (mouse) support, for desktop.
+    let dragStartX = null;
+    container.addEventListener('mousedown', (e) => { dragStartX = e.clientX; stopAuto(); e.preventDefault(); });
+    window.addEventListener('mouseup', (e) => {
+      if (dragStartX === null) return;
+      const dx = e.clientX - dragStartX;
+      if (Math.abs(dx) > 35) show(idx + (dx < 0 ? 1 : -1));
+      dragStartX = null;
+      startAuto();
+    });
+
+    startAuto();
+  }
+  initCarousel('heroCarousel', 'heroCarouselDots', 3500);
+  initCarousel('boxPhotoCarousel', 'boxPhotoDots', 4200);
+  initCarousel('singlePhotoCarousel', 'singlePhotoDots', 4200);
 
   // ── Photo lightbox (click any product photo to zoom) ──
   (function initLightbox(){
@@ -1368,7 +1478,7 @@
     const imgEl = document.getElementById('lightboxImg');
     const closeBtn = document.getElementById('lightboxClose');
     if (!overlay || !imgEl) return;
-    document.querySelectorAll('.flavor-photo, .price-photo, .price-photo-sm, #heroCarousel img').forEach(img => {
+    document.querySelectorAll('.flavor-photo, .price-photo, #heroCarousel img').forEach(img => {
       img.classList.add('zoomable');
       img.addEventListener('click', (e) => {
         e.stopPropagation();
