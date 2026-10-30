@@ -277,6 +277,8 @@
   .pill-group{display:flex;flex-wrap:wrap;gap:8px;}
   .pill{padding:9px 15px;border-radius:100px;border:1.5px solid var(--wood-line);background:var(--cream);font-weight:700;font-size:13px;font-family:'Quicksand',sans-serif;cursor:pointer;color:var(--text);transition:.15s;text-align:left;line-height:1.3;}
   .pill:hover{border-color:var(--toasted);}
+  .pill:disabled{opacity:.45;cursor:not-allowed;}
+  .pill:disabled:hover{border-color:var(--wood-line);}
   .pill.selected{background:var(--toasted);color:#fff;border-color:var(--toasted);}
   .pill .sub{display:block;font-size:10.5px;font-weight:500;opacity:.8;margin-top:1px;}
 
@@ -437,7 +439,7 @@
   </div>
   <a href="/mooncake/" id="mooncakeBanner" class="mooncake-banner">
     <span class="mb-emoji">🌕</span>
-    <span class="mb-text" id="mooncakeBannerText">Pre-Order opens Sept 6 &mdash; <s style="color:#D9534F;">Rp186K</s> <strong style="color:#D9534F;">Rp179K</strong> Early Bird!</span>
+    <span class="mb-text" id="mooncakeBannerText">Mid-Autumn Mooncake &mdash; limited quantity, order through Sept 30 for late delivery.</span>
     <span class="mb-arrow">Shop Now &rarr;</span>
   </a>
 </header>
@@ -452,7 +454,7 @@
       <span class="mc-highlight-eyebrow">Limited Mid-Autumn Edition</span>
       <h2 class="mc-highlight-title">Mid-Autumn Mooncake Is Here</h2>
       <p class="mc-highlight-desc">6 flavors, baked traditional style. Box of 4 to gift, or a Single Pack just for you.</p>
-      <div class="mc-highlight-price" id="mcHighlightPrice">Pre-Order opens Sept 6 &mdash; <s>Rp186.000</s> <strong>Rp179.000</strong> Early Bird!</div>
+      <div class="mc-highlight-price" id="mcHighlightPrice">From <strong>Rp186.000</strong> &mdash; limited quantity, order through Sept 30 for late delivery.</div>
       <a href="/mooncake/" class="btn btn-primary">Shop Mid-Autumn Mooncake &rarr;</a>
     </div>
   </div>
@@ -565,14 +567,14 @@
     <h2 class="section-title reveal">Pickup Locations</h2>
     <p class="section-sub reveal">Both locations are available for self pickup, or you can arrange your own courier for delivery. Tap a card to open it in Google Maps.</p>
     <div class="pickup-grid">
-      <a class="pickup-card reveal" href="https://maps.app.goo.gl/3ns7BLpdJK2iW6AMA" target="_blank" rel="noopener">
+      <a class="pickup-card reveal" href="https://maps.app.goo.gl/cfPhknqr1sLgnygp6" target="_blank" rel="noopener">
         <h4>Gilimanuk Studio</h4>
-        <p>Jln. Gilimanuk, Daan Mogot, West Jakarta<br>Main studio, Mon-Sun 9am-6pm</p>
+        <p>Jln. Gilimanuk, Daan Mogot, West Jkt<br>HQ, Mon-Sun, 11.00-18.00</p>
         <span class="map-link">Open in Google Maps →</span>
       </a>
-      <a class="pickup-card reveal" href="https://maps.app.goo.gl/ZYt4uhK2ngBSVeLR8" target="_blank" rel="noopener">
+      <a class="pickup-card reveal" href="https://maps.app.goo.gl/9TV8VtBpLoMc8p8e7" target="_blank" rel="noopener">
         <h4>Batuceper</h4>
-        <p>Sun Toli, Kawasan Industri TritonVille, Batuceper, Tangerang<br>Mon-Fri, 9am-5pm</p>
+        <p>TritonVille, Batuceper, Tangerang<br>Req D-1, Weekdays only, 09.30-16.30</p>
         <span class="map-link">Open in Google Maps →</span>
       </a>
     </div>
@@ -636,9 +638,9 @@
 
   /* ══════════════ card meta (for the menu grid) ══════════════ */
   const CARD_META = {
-    stack:   { name:"Teddy Stack (5-24 Teddies)", tags:["Surprise Someone","Celebrate Together","Humble Centerpiece"], from:"88K",
+    stack:   { name:"Teddy Stack", tags:["Surprise Someone","Celebrate Together","Humble Centerpiece"], from:"119K",
                gallery:["assets/products/teddy-stack-1.jpg","assets/products/teddy-stack-2.jpg","assets/products/teddy-stack-3.jpg","assets/products/teddy-stack-4.jpg","assets/products/teddy-stack-5.jpg","assets/products/teddy-stack-7.jpg","assets/products/teddy-stack-8.jpg","assets/products/teddy-stack-6.jpg"] },
-    treats:  { name:"Teddy Little Treats with Drizzle", tags:["Self-Reward","Everyday Treat","Simple Celebration"], from:"65K",
+    treats:  { name:"Teddy Drizzle", tags:["Self-Reward","Everyday Treat","Simple Celebration"], from:"70K",
                gallery:["assets/products/teddy-treats-1.jpg","assets/products/teddy-treats-2.jpg","assets/products/teddy-treats-3.jpg","assets/products/teddy-treats-4.jpg"] },
     sharing: { name:"Teddy Sharing Set (Min. 12 Pcs)", tags:["Effortless Gifting","Grateful Gesture","Simple Treat"], from:"198K",
                gallery:["assets/products/teddy-sharing-1.jpg","assets/products/teddy-sharing-2.jpg","assets/products/teddy-sharing-3.jpg","assets/products/teddy-sharing-4.jpg","assets/products/teddy-sharing-5.jpg","assets/products/teddy-sharing-6.jpg","assets/products/teddy-sharing-7.jpg"] },
@@ -692,7 +694,7 @@
   }
 
   function pillGroupHTML(options, selectedId){
-    return options.map(o => `<button type="button" class="pill${o.id===selectedId?' selected':''}" data-val="${o.id}"${o.style?` style="${o.style}"`:''}>${o.label}${o.hint?`<span class="sub">${o.hint}</span>`:''}</button>`).join('');
+    return options.map(o => `<button type="button" class="pill${o.id===selectedId?' selected':''}" data-val="${o.id}"${o.disabled?' disabled':''}${o.style?` style="${o.style}"`:''}>${o.label}${o.hint?`<span class="sub">${o.hint}</span>`:''}</button>`).join('');
   }
   // `options` may be a plain array OR a function returning an array (for lists that depend on
   // other state, e.g. hat hints that change with another field, or a color list filtered by a
@@ -757,13 +759,14 @@
   function toggleHTML(switchId, label){
     return `<div class="toggle-row"><span class="toggle-label">${label}</span><div class="toggle-switch" id="${switchId}"><div class="knob"></div></div></div>`;
   }
-  function drizzleFieldHTML(prefix, label){
+  function drizzleFieldHTML(prefix, label, unit){
     label = label || 'Add Drizzle';
+    unit = unit || 'pc';
     return `
       <div class="config-field">${toggleHTML(prefix+'DrizzleToggle',label)}
         <div id="${prefix}DrizzleWrap" style="display:none;margin-top:12px;">
-          <div class="config-field"><label>Rich Chocolate (IDR 5K/pc)</label>${stepperHTML(prefix+'DrizzleChocMinus',prefix+'DrizzleChocPlus',prefix+'DrizzleChocVal')}</div>
-          <div class="config-field"><label>Silky Cream Cheese (IDR 5K/pc)</label>${stepperHTML(prefix+'DrizzleCreamMinus',prefix+'DrizzleCreamPlus',prefix+'DrizzleCreamVal')}</div>
+          <div class="config-field"><label>Rich Chocolate (IDR 5K/${unit})</label>${stepperHTML(prefix+'DrizzleChocMinus',prefix+'DrizzleChocPlus',prefix+'DrizzleChocVal')}</div>
+          <div class="config-field"><label>Silky Cream Cheese (IDR 5K/${unit})</label>${stepperHTML(prefix+'DrizzleCreamMinus',prefix+'DrizzleCreamPlus',prefix+'DrizzleCreamVal')}</div>
           <div class="field-note">*4-5 gr each. Usually enough for 2-3 teddies.</div>
         </div>
       </div>`;
@@ -941,23 +944,34 @@
   }
 
   /* ══════════════ 1. TEDDY STACK ══════════════ */
-  const STACK_TABLE = {
-    brownbutter:{5:88,6:102,7:116,8:130,9:144,10:158,11:172,12:186,13:200,14:214,15:228,16:242,17:256,18:270,19:284,20:298,21:312,22:326,23:340,24:354},
-    doublechoco:{5:95,6:110,7:125,8:140,9:155,10:171,11:186,12:201,13:216,14:232,15:247,16:262,17:277,18:293,19:308,20:323,21:338,22:354,23:369,24:384},
-    mix:{8:130,9:144,10:158,11:172,12:186,13:200,14:214,15:228,16:242,17:256,18:270,19:284,20:298,21:312,22:326,23:340,24:354}
+  // Prices in IDR K, as [Brown Butter / Mix, Full Double Choco]. Brown Butter and Mix always share a price.
+  const STACK_STD = { 6:[119,129], 8:[139,149], 12:[185,200], 16:[239,259], 20:[289,314], 28:[379,414] };
+  // Custom sizes (7-27 pcs, anything not in STACK_STD). Priced automatically; never shown to the customer as a table.
+  const STACK_CUSTOM = {
+    7:[129,138], 9:[154,166], 10:[169,182], 11:[175,189], 13:[200,217], 14:[215,233], 15:[229,248],
+    17:[254,276], 18:[269,292], 19:[279,303], 21:[304,331], 22:[319,347], 23:[334,363], 24:[349,379],
+    25:[364,396], 26:[369,402], 27:[369,403]
   };
-  const STACK_MIN = { brownbutter:5, doublechoco:5, mix:8 };
+  const STACK_STD_SIZES = [6,8,12,16,20,28];
+  const STACK_CUSTOM_MIN = 7, STACK_CUSTOM_MAX = 27;
+  function stackBasePrice(flavor, qty){
+    const row = STACK_STD[qty] || STACK_CUSTOM[qty];
+    if (!row) return null;
+    return row[flavor === 'doublechoco' ? 1 : 0];
+  }
   const STACK_HATS = [
-    {id:'none',label:'No Accessory'},{id:'party',label:'Party Hat'},{id:'grad',label:'Grad Hat'},
-    {id:'ribbon',label:'Ribbon'},{id:'bridal',label:'Groom Hat & Bridal Veil',hint:'+IDR 7K'}
+    {id:'party',label:'Party Hat'},{id:'grad',label:'Grad Hat'},{id:'ribbon',label:'Ribbon'},
+    {id:'bridal',label:'Groom Hat & Bridal Veil',hint:'+IDR 7K'} // always one package
   ];
-  const STACK_TAGS = [{id:'heart',label:'Heart Tag',hint:'Free'},{id:'banner',label:'Banner',hint:'from +IDR 20K'}];
+  const STACK_TAGS = [{id:'heart',label:'Heart Tag',hint:'Free'},{id:'circle',label:'Circle Tag',hint:'Free'},{id:'banner',label:'Banner',hint:'+IDR 25K'}];
+  const STACK_BANNER_PRICE = 25;
+  const STACK_BRIDAL_PRICE = 7;
   const STACK_COLORS = [
     {id:'pink',label:'Pink'},{id:'blue',label:'Blue'},{id:'purple',label:'Purple'},{id:'yellow',label:'Yellow'},
     {id:'green',label:'Green'},{id:'red',label:'Maroon'},{id:'chocolate',label:'Chocolate'},{id:'custom',label:'Custom'}
   ];
   const STACK_BANNER_TYPES = [
-    {id:'signature',label:'Signature Design',hint:'+IDR 20K'},
+    {id:'signature',label:'Signature Design',hint:'+IDR 25K'},
     {id:'custom',label:'Custom Design',hint:'+IDR 25K'}
   ];
   const STACK_BANNER_OCC = [
@@ -979,20 +993,33 @@
   ];
 
   function renderStackModal(editItem){
-    const defaults = { flavor:'brownbutter', qty:6, hat:'none', tag:'heart', bannerType:'signature', bannerOcc:null, bannerColor:null, bannerFont:null, color:'pink', greeting:false, drizzle:false, drizzleChoc:0, drizzleCream:0, tagText:'', greetingText:'', colorCustomText:'' };
+    const defaults = { flavor:'brownbutter', qty:6, qtyCustom:false, hat:'party', tag:'heart', bannerType:'signature', bannerOcc:null, bannerColor:null, bannerFont:null, color:'pink', greeting:false, drizzle:false, drizzleChoc:0, drizzleCream:0, tagText:'', greetingText:'', colorCustomText:'' };
     const state = editItem ? Object.assign({}, defaults, editItem.state) : defaults;
+    // Backward-compat for cart items saved under the old rules (merged "Groom Hat & Bridal Veil" option, "none" hat, qty 5-24)
+    if (state.bridal || state.hat === 'groom') state.hat = 'bridal';
+    if (!STACK_HATS.some(h => h.id === state.hat)) state.hat = 'party';
+    delete state.bridal; delete state.hat2;
+    if (STACK_STD[state.qty]) state.qtyCustom = false;
+    else if (state.qty >= STACK_CUSTOM_MIN && state.qty <= STACK_CUSTOM_MAX) state.qtyCustom = true;
+    else { state.qty = 6; state.qtyCustom = false; }
+    if (state.flavor === 'doublechoco' || state.flavor === 'mix' || state.flavor === 'brownbutter') { /* ok */ } else state.flavor = 'brownbutter';
 
     modalContent.innerHTML = `
       <button class="modal-close" onclick="closeModal()">✕</button>
       ${productGalleryHTML()}
       <div class="tags">${CARD_META.stack.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
-      <h3>Teddy Stack (5-24 Teddies)</h3>
+      <h3>Teddy Stack</h3>
+      <p class="field-note" style="margin-bottom:16px;"><strong>Every order includes:</strong> 1-2 hat(s) accessory (party / grad / ribbon, or groom hat &amp; bridal veil as one package +IDR 7K), 1 candle, 1 custom heart tag, your choice of ribbon &amp; tag color, and 1 custom message card.</p>
 
       <div class="config-field"><label>Flavor</label><div class="pill-group" id="stFlavor"></div></div>
 
       <div class="config-field"><label>How many teddies per stack?</label>
-        ${stepperHTML('stQtyMinus','stQtyPlus','stQtyVal')}
-        <div class="field-note">5-24 pcs. Ordering more than 24? <a href="https://wa.me/${WHATSAPP_NUMBER}" target="_blank" style="color:var(--toasted);font-weight:700;">Message us</a> for a custom quote.</div>
+        <div class="pill-group" id="stQty"></div>
+        <div id="stQtyCustomWrap" style="display:none;margin-top:12px;">
+          <input type="number" id="stQtyCustomInput" min="${STACK_CUSTOM_MIN}" max="${STACK_CUSTOM_MAX}" step="1" inputmode="numeric" placeholder="Enter ${STACK_CUSTOM_MIN}-${STACK_CUSTOM_MAX} pcs" />
+          <div class="field-note" id="stQtyCustomNote">Any amount from ${STACK_CUSTOM_MIN} to ${STACK_CUSTOM_MAX} pcs.</div>
+        </div>
+        <div class="field-note">Ordering more than 28? <a href="https://wa.me/${WHATSAPP_NUMBER}" target="_blank" style="color:var(--toasted);font-weight:700;">Message us</a> for a custom quote.</div>
       </div>
 
       <div class="config-field"><label>Hat Accessory</label><div class="pill-group" id="stHat"></div></div>
@@ -1045,36 +1072,71 @@
       document.getElementById('stAddBtn').textContent = 'Save Changes';
     }
 
-    function clampQty(){
-      const min = STACK_MIN[state.flavor];
-      if (state.qty < min) state.qty = min;
-      if (state.qty > 24) state.qty = 24;
-    }
-
+    // qty is null while "Custom" is selected but the typed number isn't valid yet (blank / outside 7-27)
     function updateTotal(){
-      const base = STACK_TABLE[state.flavor][state.qty];
-      const hatAdd = state.hat === 'bridal' ? 7 : 0;
-      const tagAdd = state.tag === 'banner' ? (state.bannerType === 'custom' ? 25 : 20) : 0;
+      const addBtn = document.getElementById('stAddBtn');
+      const base = state.qty ? stackBasePrice(state.flavor, state.qty) : null;
+      if (base === null) {
+        document.getElementById('stTotal').textContent = 'IDR —';
+        addBtn.disabled = true;
+        return null;
+      }
+      addBtn.disabled = false;
+      const hatAdd = state.hat === 'bridal' ? STACK_BRIDAL_PRICE : 0;
+      const tagAdd = state.tag === 'banner' ? STACK_BANNER_PRICE : 0;
       const total = base + hatAdd + tagAdd + drizzleAddPrice(state);
       document.getElementById('stTotal').textContent = priceStr(total);
       return total;
     }
 
-    const stQtyDraw = wireStepper('stQtyMinus','stQtyPlus','stQtyVal', ()=>STACK_MIN[state.flavor], 24, ()=>state.qty, (v)=>{ state.qty=v; updateTotal(); }, (v)=>v+' pcs');
+    const stQtyInput = document.getElementById('stQtyCustomInput');
+    function syncQtyUI(){
+      document.getElementById('stQtyCustomWrap').style.display = state.qtyCustom ? 'block' : 'none';
+    }
+    const stQtyDraw = wirePillGroup('stQty',
+      STACK_STD_SIZES.map(n => ({id:String(n), label:n+' pcs'})).concat([{id:'custom', label:'Custom'}]),
+      ()=> state.qtyCustom ? 'custom' : String(state.qty),
+      (v)=>{
+        if (v === 'custom') {
+          state.qtyCustom = true;
+          const typed = parseInt(stQtyInput.value, 10);
+          state.qty = (typed >= STACK_CUSTOM_MIN && typed <= STACK_CUSTOM_MAX) ? typed : null;
+        } else {
+          state.qtyCustom = false;
+          state.qty = parseInt(v, 10);
+        }
+        syncQtyUI();
+        updateTotal();
+      });
+    stQtyInput.addEventListener('input', ()=>{
+      const typed = parseInt(stQtyInput.value, 10);
+      const note = document.getElementById('stQtyCustomNote');
+      if (typed >= STACK_CUSTOM_MIN && typed <= STACK_CUSTOM_MAX) {
+        state.qty = typed;
+        note.textContent = STACK_STD[typed] ? `${typed} pcs is also one of the standard sizes above.` : `Any amount from ${STACK_CUSTOM_MIN} to ${STACK_CUSTOM_MAX} pcs.`;
+      } else {
+        state.qty = null;
+        note.textContent = stQtyInput.value === '' ? `Any amount from ${STACK_CUSTOM_MIN} to ${STACK_CUSTOM_MAX} pcs.` : `Please enter a number between ${STACK_CUSTOM_MIN} and ${STACK_CUSTOM_MAX}.`;
+      }
+      updateTotal();
+    });
+    if (state.qtyCustom && state.qty) stQtyInput.value = state.qty;
+    syncQtyUI();
 
     wirePillGroup('stFlavor', [
-      {id:'brownbutter',label:'Brown Butter',hint:'min 5 pcs'},
-      {id:'doublechoco',label:'Double Choco',hint:'min 5 pcs'},
-      {id:'mix',label:'Mix',hint:'min 8 pcs'}
-    ], ()=>state.flavor, (v)=>{ state.flavor=v; clampQty(); stQtyDraw(); updateTotal(); });
+      {id:'brownbutter',label:'Brown Butter'},
+      {id:'mix',label:'Mix',hint:'Brown Butter + Double Choco'},
+      {id:'doublechoco',label:'Full Double Choco'}
+    ], ()=>state.flavor, (v)=>{ state.flavor=v; updateTotal(); });
 
     // Party Hat gets a "free custom design" bonus when the Custom Design banner is chosen,
     // so the hat can be themed to match — re-evaluated on every draw via this options function.
-    const stHatDraw = wirePillGroup('stHat', () => STACK_HATS.map(h =>
+    const withPartyBonus = (list) => list.map(h =>
       h.id === 'party' && state.tag === 'banner' && state.bannerType === 'custom'
         ? Object.assign({}, h, { hint: 'Free custom design' })
         : h
-    ), ()=>state.hat, (v)=>{ state.hat=v; updateTotal(); });
+    );
+    const stHatDraw = wirePillGroup('stHat', () => withPartyBonus(STACK_HATS), ()=>state.hat, (v)=>{ state.hat=v; updateTotal(); });
 
     const stBannerColorDraw = wireSwatchGroup('stBannerColor', () => state.bannerOcc ? STACK_BANNER_COLORS[state.bannerOcc] : [], ()=>state.bannerColor, (v)=>{ state.bannerColor=v; updateTotal(); });
 
@@ -1132,17 +1194,18 @@
 
     document.getElementById('stAddBtn').addEventListener('click', ()=>{
       const total = updateTotal();
+      if (total === null) return;
       const tagText = document.getElementById('stTagText').value.trim();
       const greetingText = state.greeting ? document.getElementById('stGreetingText').value.trim() : '';
-      const flavorLabel = state.flavor==='brownbutter'?'Brown Butter':state.flavor==='doublechoco'?'Double Choco':'Mix';
+      const flavorLabel = state.flavor==='brownbutter'?'Brown Butter':state.flavor==='doublechoco'?'Full Double Choco':'Mix (Brown Butter + Double Choco)';
       const hatLabel = STACK_HATS.find(h=>h.id===state.hat).label;
       const colorLabel = state.color === 'custom'
         ? `Custom (${document.getElementById('stColorCustomText').value.trim() || 'TBD'})`
         : STACK_COLORS.find(c=>c.id===state.color).label;
 
       let tagLine;
-      if (state.tag === 'heart') {
-        tagLine = `Tag: Heart Tag${tagText ? ' ("'+tagText+'")' : ''}`;
+      if (state.tag === 'heart' || state.tag === 'circle') {
+        tagLine = `Tag: ${state.tag === 'circle' ? 'Circle' : 'Heart'} Tag${tagText ? ' ("'+tagText+'")' : ''}`;
       } else if (state.bannerType === 'custom') {
         tagLine = `Tag: Banner - Custom Design${tagText ? ' ("'+tagText+'")' : ''}`;
       } else {
@@ -1166,32 +1229,37 @@
       state.greetingText = greetingText;
       state.colorCustomText = document.getElementById('stColorCustomText').value.trim();
 
-      const cartItem = { key:'stack', productName:'Teddy Stack (5-24 Teddies)', price: total, summaryLines: lines, state: Object.assign({}, state) };
+      const cartItem = { key:'stack', productName:'Teddy Stack', price: total, summaryLines: lines, state: Object.assign({}, state) };
       if (editItem) updateCartItem(editItem.id, cartItem);
       else addToCart(cartItem);
-      showAddedConfirmation('stack', 'Teddy Stack (5-24 Teddies)', !!editItem);
+      showAddedConfirmation('stack', 'Teddy Stack', !!editItem);
     });
   }
 
   /* ══════════════ 2. TEDDY LITTLE TREATS ══════════════ */
-  const BOX_PRICE = { brownbutter:65, doublechoco:70, mix:65 };
+  // Teddy Drizzle (internal key 'treats'): Mix = 2 Brown Butter + 2 Double Choco in one box, only available for 2+ boxes.
+  const BOX_PRICE = { brownbutter:70, doublechoco:75, mix:70 };
+  const MIX_MIN_BOXES = 2;
+  // The mini celebration set is now INCLUDED in the box price (no add-on cost); customers can still opt out per box.
   const MINI_SET = [
-    {id:'none',label:'No Mini Set'},
-    {id:'hats',label:'2 Hats + Candle',hint:'+IDR 10K'},
-    {id:'bridal',label:'Bridal Veil + Groom Hat + Candle',hint:'+IDR 15K'}
+    {id:'hats',label:'Hat + Candle',hint:'Included'},
+    {id:'none',label:'Without Mini Set'}
   ];
-  const MINI_HAT_OPTIONS = [{id:'party',label:'Party Hat'},{id:'grad',label:'Graduation Hat'},{id:'ribbon',label:'Ribbon'}];
-  function newBox(){ return { miniSet:'none', hat1:'party', hat2:'grad', msgChoice:'blank', msgText:'' }; }
+  const MINI_BRIDAL_PRICE = 7; // Bridal Veil costs +7K per box; the Groom Hat on its own is free
+  const MINI_HAT_OPTIONS = [{id:'party',label:'Party Hat'},{id:'grad',label:'Grad Hat'},{id:'ribbon',label:'Ribbon'},{id:'bridal',label:'Groom Hat & Bridal Veil',hint:'+IDR 7K'}];
+  function newBox(){ return { miniSet:'hats', hat1:'party', msgChoice:'blank', msgText:'' }; }
   function normalizeBoxes(s){
-    if (Array.isArray(s.boxes) && s.boxes.length) return s.boxes.map(b=>Object.assign(newBox(),b));
+    // old shapes: 'bridal' set / hat2 no longer exist -> one hat per box, bridal veil is a hat option
+    const fix = (b) => { if (b.miniSet === 'bridal') { b.miniSet = 'hats'; b.hat1 = 'bridal'; } if (b.hat1 === 'groom') b.hat1 = 'bridal'; delete b.hat2; return b; };
+    if (Array.isArray(s.boxes) && s.boxes.length) return s.boxes.map(b=>fix(Object.assign(newBox(),b)));
     const qty = s.boxQty || 1;
     if (Array.isArray(s.boxMiniSets) && s.boxMiniSets.length) {
       // backward-compat: per-box mini sets existed but message was still a single global field
-      return s.boxMiniSets.map(b => Object.assign(newBox(), b, { msgChoice: s.msgChoice || 'blank', msgText: s.msgText || '' }));
+      return s.boxMiniSets.map(b => fix(Object.assign(newBox(), b, { msgChoice: s.msgChoice || 'blank', msgText: s.msgText || '' })));
     }
     // oldest shape: everything was a single flat choice applied to the whole order
     const single = { miniSet: s.miniSet || 'none', hat1: s.miniHat1 || 'party', hat2: s.miniHat2 || 'grad', msgChoice: s.msgChoice || 'blank', msgText: s.msgText || '' };
-    return Array.from({length: qty}, () => Object.assign({}, single));
+    return Array.from({length: qty}, () => fix(Object.assign({}, single)));
   }
 
   function renderTreatsModal(editItem){
@@ -1204,10 +1272,13 @@
       <button class="modal-close" onclick="closeModal()">✕</button>
       ${productGalleryHTML()}
       <div class="tags">${CARD_META.treats.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
-      <h3>Teddy Little Treats with Drizzle</h3>
-      <p class="field-note" style="margin-bottom:16px;">Each box = 4 teddy pieces + 2 drizzles (1 rich chocolate, 1 silky cream cheese).</p>
+      <h3>Teddy Drizzle</h3>
+      <p class="field-note" style="margin-bottom:8px;">Each box = 4 teddy madeleine pieces + 2 drizzles (1 rich chocolate, 1 silky cream cheese), one flavor per box.</p>
+      <p class="field-note" style="margin-bottom:16px;"><strong>Every box includes:</strong> a mini celebration set (hat + candle). Prefer none? You can opt out per box below.</p>
 
-      <div class="config-field"><label>Flavor</label><div class="pill-group" id="ttFlavor"></div></div>
+      <div class="config-field"><label>Flavor</label><div class="pill-group" id="ttFlavor"></div>
+        <div class="field-note">Mix = 2 Brown Butter + 2 Double Choco in one box.</div>
+      </div>
       <div class="config-field"><label>How many boxes?</label>${stepperHTML('ttBoxMinus','ttBoxPlus','ttBoxVal')}
         <div class="field-note" id="ttBoxNote"></div>
       </div>
@@ -1231,8 +1302,9 @@
       document.getElementById('ttAddBtn').textContent = 'Save Changes';
     }
 
-    function boxMin(){ return state.flavor === 'mix' ? 2 : 1; }
-    function clampBox(){ if (state.boxQty < boxMin()) state.boxQty = boxMin(); }
+    function boxMin(){ return 1; }
+    // Mix needs 2+ boxes; if the customer reduces to 1 box while Mix is chosen, fall back to Brown Butter.
+    function enforceMixRule(){ if (state.flavor === 'mix' && state.boxQty < MIX_MIN_BOXES) state.flavor = 'brownbutter'; }
     function resizeBoxes(){
       const v = state.boxQty;
       if (v > state.boxes.length) {
@@ -1240,9 +1312,6 @@
       } else if (v < state.boxes.length) {
         state.boxes.length = v;
       }
-    }
-    function miniSetsTotal(){
-      return state.boxes.reduce((sum,b)=> sum + (b.miniSet==='hats'?10:b.miniSet==='bridal'?15:0), 0);
     }
     function drawBoxes(){
       const wrap = document.getElementById('ttBoxesWrap');
@@ -1252,8 +1321,7 @@
           ${messageFieldHTML('ttBox'+i, 'Message', 'e.g. Happy Birthday!')}
           <div class="config-field" style="margin-top:12px;"><label>Mini Celebration Set</label><div class="pill-group" id="ttMiniSet_${i}"></div></div>
           <div id="ttMiniHatsWrap_${i}" style="display:${b.miniSet==='hats'?'block':'none'};margin-top:10px;">
-            <div class="config-field"><label>Hat 1</label><div class="pill-group" id="ttMiniHat1_${i}"></div></div>
-            <div class="config-field"><label>Hat 2</label><div class="pill-group" id="ttMiniHat2_${i}"></div></div>
+            <div class="config-field"><label>Hat Accessory</label><div class="pill-group" id="ttMiniHat1_${i}"></div></div>
           </div>
         </div>
       `).join('');
@@ -1267,30 +1335,34 @@
           document.getElementById(`ttMiniHatsWrap_${i}`).style.display = v === 'hats' ? 'block' : 'none';
           updateTotal();
         });
-        wirePillGroup(`ttMiniHat1_${i}`, MINI_HAT_OPTIONS, ()=>state.boxes[i].hat1, (v)=>{ state.boxes[i].hat1 = v; });
-        wirePillGroup(`ttMiniHat2_${i}`, MINI_HAT_OPTIONS, ()=>state.boxes[i].hat2, (v)=>{ state.boxes[i].hat2 = v; });
+        wirePillGroup(`ttMiniHat1_${i}`, MINI_HAT_OPTIONS, ()=>state.boxes[i].hat1, (v)=>{ state.boxes[i].hat1 = v; updateTotal(); });
       });
     }
     function updateTotal(){
       const base = BOX_PRICE[state.flavor] * state.boxQty;
-      const total = base + miniSetsTotal() + drizzleAddPrice(state);
+      const bridalAdd = state.boxes.filter(b => b.miniSet === 'hats' && b.hat1 === 'bridal').length * MINI_BRIDAL_PRICE;
+      const total = base + bridalAdd + drizzleAddPrice(state);
       document.getElementById('ttTotal').textContent = priceStr(total);
-      document.getElementById('ttBoxNote').textContent = state.flavor === 'mix' ? 'Mix flavor needs at least 2 boxes.' : '';
+      document.getElementById('ttBoxNote').textContent = '';
       return total;
     }
 
+    enforceMixRule();
+    let ttFlavorDraw;
     const ttBoxDraw = wireStepper('ttBoxMinus','ttBoxPlus','ttBoxVal', boxMin, 10, ()=>state.boxQty, (v)=>{
       state.boxQty=v;
+      enforceMixRule();
       resizeBoxes();
       drawBoxes();
+      if (ttFlavorDraw) ttFlavorDraw();
       updateTotal();
     }, (v)=>v+' box');
 
-    wirePillGroup('ttFlavor', [
-      {id:'brownbutter',label:'Brown Butter',hint:'IDR 65K/box'},
-      {id:'doublechoco',label:'Double Choco',hint:'IDR 70K/box'},
-      {id:'mix',label:'Mix',hint:'IDR 65K/box, min 2'}
-    ], ()=>state.flavor, (v)=>{ state.flavor=v; clampBox(); ttBoxDraw(); resizeBoxes(); drawBoxes(); updateTotal(); });
+    ttFlavorDraw = wirePillGroup('ttFlavor', () => [
+      {id:'brownbutter',label:'Brown Butter',hint:'IDR 70K/box'},
+      {id:'doublechoco',label:'Double Choco',hint:'IDR 75K/box'},
+      {id:'mix',label:'Mix',hint:state.boxQty < MIX_MIN_BOXES ? 'Mix available for 2+ boxes' : 'IDR 70K/box', disabled: state.boxQty < MIX_MIN_BOXES}
+    ], ()=>state.flavor, (v)=>{ if (v === 'mix' && state.boxQty < MIX_MIN_BOXES) return; state.flavor=v; updateTotal(); });
 
     drawBoxes();
 
@@ -1300,14 +1372,14 @@
 
     document.getElementById('ttAddBtn').addEventListener('click', ()=>{
       const total = updateTotal();
-      const flavorLabel = state.flavor==='brownbutter'?'Brown Butter':state.flavor==='doublechoco'?'Double Choco':'Mix';
+      const flavorLabel = state.flavor==='brownbutter'?'Brown Butter':state.flavor==='doublechoco'?'Double Choco':'Mix (2 Brown Butter + 2 Double Choco per box)';
 
       state.boxes.forEach((b,i) => { b.msgText = document.getElementById('ttBox'+i+'MessageText').value.trim(); });
 
       const boxLines = state.boxes.map((b,i) => {
         const miniLabel = MINI_SET.find(m=>m.id===b.miniSet).label;
         const miniPart = b.miniSet === 'hats'
-          ? `${miniLabel} (${MINI_HAT_OPTIONS.find(h=>h.id===b.hat1).label} & ${MINI_HAT_OPTIONS.find(h=>h.id===b.hat2).label})`
+          ? `${miniLabel} (${MINI_HAT_OPTIONS.find(h=>h.id===b.hat1).label}${b.hat1 === 'bridal' ? ', +IDR '+MINI_BRIDAL_PRICE+'K' : ''})`
           : miniLabel;
         return `Box ${i+1} — ${messageSummaryLine('ttBox'+i, b)}; Mini set: ${miniPart}`;
       });
@@ -1318,10 +1390,10 @@
       const drizzleLine = drizzleSummaryLine(state);
       if (drizzleLine) lines.push(`Extra ${drizzleLine.charAt(0).toLowerCase()}${drizzleLine.slice(1)}`);
 
-      const cartItem = { key:'treats', productName:'Teddy Little Treats with Drizzle', price: total, summaryLines: lines, state: Object.assign({}, state, { boxes: state.boxes.map(b=>Object.assign({},b)) }) };
+      const cartItem = { key:'treats', productName:'Teddy Drizzle', price: total, summaryLines: lines, state: Object.assign({}, state, { boxes: state.boxes.map(b=>Object.assign({},b)) }) };
       if (editItem) updateCartItem(editItem.id, cartItem);
       else addToCart(cartItem);
-      showAddedConfirmation('treats', 'Teddy Little Treats with Drizzle', !!editItem);
+      showAddedConfirmation('treats', 'Teddy Drizzle', !!editItem);
     });
   }
 
@@ -2163,7 +2235,7 @@
       if (highlightPrice) highlightPrice.innerHTML = '<s>Rp186.000</s> <strong>Rp179.000</strong> Early Bird &mdash; 6&ndash;10 Sept only!';
     } else {
       el.innerHTML = 'Mid-Autumn Mooncake &mdash; limited quantity, order through Sept 30 for late delivery.';
-      if (highlightPrice) highlightPrice.innerHTML = 'From <strong>Rp179.000</strong> &mdash; limited quantity, order through Sept 30 for late delivery.';
+      if (highlightPrice) highlightPrice.innerHTML = 'From <strong>Rp186.000</strong> &mdash; limited quantity, order through Sept 30 for late delivery.';
     }
   })();
 </script>
