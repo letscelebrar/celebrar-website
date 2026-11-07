@@ -621,6 +621,73 @@
     html{scroll-behavior:auto;}
     #snowfall{display:none;}
   }
+
+  /* 7 Nov: hero fills ~3/4 of the first phone screen, blue menu peeks in the last 1/4 */
+  @media(max-width:899px){
+    .hero{min-height:calc(75vh - clamp(56px,15vw,150px) - 57px);min-height:calc(75svh - clamp(56px,15vw,150px) - 57px);display:flex;flex-direction:column;justify-content:center;}
+    .hero .in{grid-template-columns:48% 1fr;}
+    .hero h1{font-size:clamp(26px,7.4vw,36px);}
+    .hero .sub{font-size:15.5px;}
+  }
+
+  /* variant A: fill the 3/4 hero */
+  @media(max-width:899px){
+    .hero .in{grid-template-columns:47% minmax(0,1fr);column-gap:14px;}
+    .hero .window{aspect-ratio:3/4.75;margin:10px 0 22px;}
+    .hero h1{font-size:min(34px, calc((100vw - 44px) * .53 / 6.1));}
+    .hero .sub{font-size:16px;margin-top:10px;}
+    .chips{margin-top:16px;gap:8px;}
+    .chips span{font-size:13px;padding:6px 11px;}
+    .hero .facts{margin-top:12px;}
+    .scrollbtn{margin-top:18px;}
+    .sticker{width:90px;height:90px;}
+    .sticker .num{font-size:32px;}
+  }
+
+  @media(max-width:899px){
+    .menu{padding-top:22px;}
+    .menu .head{margin-bottom:6px;}
+    .menu .eyebrow{display:none;}
+    .ebbar{margin:0 auto 14px;font-size:12px;flex-wrap:nowrap;white-space:nowrap;}
+    .ebbar .t{padding:2px 9px;}
+    .ebbar .num{font-size:18px;}
+  }
+
+  /* 7 Nov fixes */
+  .sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+  .inside{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px 6px;margin-top:14px;align-items:start;justify-items:center;}
+  @media(min-width:700px){.inside{grid-template-columns:repeat(5,minmax(0,1fr));}}
+  .inside .it{position:relative;width:100%;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;font-size:11.5px;line-height:1.2;font-weight:600;color:var(--cocoa);}
+  .inside .it img{display:block;width:50px;height:50px;object-fit:contain;object-position:center bottom;animation:fadeup .4s var(--ease) both;}
+  .inside .it b{position:absolute;top:-6px;left:calc(50% + 14px);background:var(--berry);color:#fff;font-size:11px;font-weight:700;border-radius:999px;padding:1px 6px;line-height:1.4;}
+  .inside .tot{grid-column:1/-1;font-size:12.5px;color:var(--soft);margin:0;}
+  .calc .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;}
+  .calc .seg button{padding:9px 2px;font-size:13px;}
+  @media(max-width:380px){.calc .seg button{font-size:12px;}}
+  @media(min-width:700px){.calc .seg{grid-template-columns:repeat(6,auto);justify-content:center;}.calc .seg button{padding:9px 14px;}}
+  .two>*{min-width:0;}
+  .field input[type=date],.field input[type=time]{-webkit-appearance:none;appearance:none;display:block;width:100%;min-width:0;max-width:100%;min-height:46px;text-align:left;}
+  .field input::-webkit-date-and-time-value{text-align:left;margin:0;}
+
+  /* ---------- Testimonials: one auto-scrolling row ---------- */
+  .tm{position:relative;background:var(--snow);padding:30px 0 26px;}
+  .tm::before,.tm::after{content:'';position:absolute;left:0;right:0;height:7px;background:url('../assets/christmas/gingham-tile.png') 0 0/14px 14px repeat-x;}
+  .tm::before{top:0;display:none;} .tm::after{bottom:0;}
+  .tm-title{font-family:'Homemade Apple',cursive;font-weight:400;color:var(--toasted);font-size:20px;line-height:1.4;text-align:center;}
+  .tm-rail{overflow-x:auto;scrollbar-width:none;padding:12px 0 10px;-webkit-overflow-scrolling:touch;}
+  .tm-rail::-webkit-scrollbar{display:none;}
+  .tm-track{display:flex;gap:10px;width:max-content;padding:0 16px;}
+  .tm-card{flex:none;width:210px;text-align:left;background:#fff;border:1px solid #F1E6DA;border-radius:14px;padding:11px 13px 9px;box-shadow:0 8px 18px -14px rgba(60,80,100,.6);font:inherit;color:inherit;display:flex;flex-direction:column;justify-content:space-between;gap:6px;}
+  .tm-card:nth-child(3n+2){background:var(--butter);}
+  .tm-card .q{font-size:13px;font-weight:600;line-height:1.4;color:var(--cocoa);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+  .tm-card .q::before{content:'\201C';color:var(--berry);font-weight:700;margin-right:1px;}
+  .tm-card .q::after{content:'\201D';color:var(--berry);font-weight:700;margin-left:1px;}
+  .tm-card .by{display:flex;align-items:center;gap:4px;font-size:10.5px;font-weight:600;color:var(--soft);}
+  .tm-card .by svg{width:11px;height:11px;color:#25D366;}
+  .tm-foot{text-align:center;font-size:11.5px;color:var(--soft);padding:0 22px;}
+  @media(min-width:900px){.tm-title{font-size:24px;}.tm-card{width:240px;}}
+
+
 </style>
 </head>
 <body>
@@ -662,6 +729,7 @@
   <div class="navpanel" id="navPanel">
     <div class="wrap">
       <a href="#menu">The Christmas Menu<small>All 5 treats and prices</small></a>
+      <a href="#reviews">Reviews<small>Straight from the chat</small></a>
       <a href="#order">Your Order<small>Basket and WhatsApp</small></a>
       <a href="#how">How Ordering Works<small>Steps and important dates</small></a>
       <a href="#finder">Gift Guide<small>Who are you gifting?</small></a>
@@ -721,6 +789,13 @@
   <div class="drift bottom"></div>
 </section>
 
+<!-- TESTIMONIALS -->
+<section class="tm" id="reviews">
+  <div class="wrap"><h2 class="tm-title">Straight from the Chat</h2></div>
+  <div class="tm-rail" id="tmRail"><div class="tm-track"><button class="tm-card" data-chat="../assets/christmas/testi/chat-1.jpg" aria-label="See the original chat"><span class="q">kuenya udh aku terima.. aman dan rapihhhh huhuhu cantikk kakkk</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../assets/christmas/testi/chat-2.jpg" aria-label="See the original chat"><span class="q">gak seret dan butteryy. yang cokleat juga gak kering.</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../assets/christmas/testi/chat-7.jpg" aria-label="See the original chat"><span class="q">Sukaaa bangett kaaaa, u really made my day 🤍</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../assets/christmas/testi/chat-11.jpg" aria-label="See the original chat"><span class="q">katanya pada ngga tega makannya 🤣</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../assets/christmas/testi/chat-3.jpg" aria-label="See the original chat"><span class="q">kakk dah sampee iii lucuu bangeett</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../assets/christmas/testi/chat-4.jpg" aria-label="See the original chat"><span class="q">sizenya pas, teksturnya lembut, rasanya rich tapi ttp nggak terlalu manis</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../assets/christmas/testi/chat-9.jpg" aria-label="See the original chat"><span class="q">kakkk temen aku sukaa pake bangettttt</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../assets/christmas/testi/chat-10.jpg" aria-label="See the original chat"><span class="q">Next time aku pesen lg yaa untuk anakku karena kebetulan anakku ga makan gluten</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../assets/christmas/testi/chat-5.jpg" aria-label="See the original chat"><span class="q">Sudah aku terima ya kak, aman dan lucu bangeettt</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../assets/christmas/testi/chat-6.jpg" aria-label="See the original chat"><span class="q">Pckagingnya lucu dan rapi kakk, emang sayang sih kalo buat makan sendiri</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../assets/christmas/testi/chat-8.jpg" aria-label="See the original chat"><span class="q">rasanya enakkk, makasi banyakkkk</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../assets/christmas/testi/chat-10.jpg" aria-label="See the original chat"><span class="q">Lucu bgt plis 🥺🥺</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../assets/christmas/testi/chat-1.jpg" aria-hidden="true" tabindex="-1"><span class="q">kuenya udh aku terima.. aman dan rapihhhh huhuhu cantikk kakkk</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../assets/christmas/testi/chat-2.jpg" aria-hidden="true" tabindex="-1"><span class="q">gak seret dan butteryy. yang cokleat juga gak kering.</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../assets/christmas/testi/chat-7.jpg" aria-hidden="true" tabindex="-1"><span class="q">Sukaaa bangett kaaaa, u really made my day 🤍</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../assets/christmas/testi/chat-11.jpg" aria-hidden="true" tabindex="-1"><span class="q">katanya pada ngga tega makannya 🤣</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../assets/christmas/testi/chat-3.jpg" aria-hidden="true" tabindex="-1"><span class="q">kakk dah sampee iii lucuu bangeett</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../assets/christmas/testi/chat-4.jpg" aria-hidden="true" tabindex="-1"><span class="q">sizenya pas, teksturnya lembut, rasanya rich tapi ttp nggak terlalu manis</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../assets/christmas/testi/chat-9.jpg" aria-hidden="true" tabindex="-1"><span class="q">kakkk temen aku sukaa pake bangettttt</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../assets/christmas/testi/chat-10.jpg" aria-hidden="true" tabindex="-1"><span class="q">Next time aku pesen lg yaa untuk anakku karena kebetulan anakku ga makan gluten</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../assets/christmas/testi/chat-5.jpg" aria-hidden="true" tabindex="-1"><span class="q">Sudah aku terima ya kak, aman dan lucu bangeettt</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../assets/christmas/testi/chat-6.jpg" aria-hidden="true" tabindex="-1"><span class="q">Pckagingnya lucu dan rapi kakk, emang sayang sih kalo buat makan sendiri</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../assets/christmas/testi/chat-8.jpg" aria-hidden="true" tabindex="-1"><span class="q">rasanya enakkk, makasi banyakkkk</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../assets/christmas/testi/chat-10.jpg" aria-hidden="true" tabindex="-1"><span class="q">Lucu bgt plis 🥺🥺</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button></div></div>
+  <p class="tm-foot">Real messages, names hidden. Tap one to see the original chat.</p>
+</section>
+
 <!-- ORDER -->
 <section class="order" id="order">
   <div class="wrap">
@@ -749,7 +824,7 @@
             <div class="field"><label for="fDate">Receive date</label><input id="fDate" type="date"></div>
             <div class="field"><label for="fTime">Time</label><input id="fTime" type="time" min="09:00" max="18:00"></div>
           </div>
-          <p class="note" id="dateNote" style="margin-top:-4px"></p>
+          <p class="note" id="dateNote" hidden></p>
           <div class="field">
             <span>Pickup or delivery</span>
             <div class="method">
@@ -830,7 +905,6 @@
         <div class="save" style="text-align:right"><small>You save</small><span class="num" id="calcSave">-</span><p id="calcSaveNote"></p></div>
       </div>
       <button class="btn btn-berry btn-block" id="calcAdd">Add to my order</button>
-      <p class="more">Teddy Stack: order 9, get 1 more free.</p>
       <details class="full">
         <summary class="text-link">See all prices</summary>
         <table class="ptable">
@@ -914,15 +988,15 @@
     <div class="head"><span class="eyebrow">Care guide</span><h2 class="title">Keeping them Fresh</h2><p class="lede">Tap each photo to flip it for storage tips.</p></div>
     <div class="cards">
       <button class="flip" aria-pressed="false"><span class="in">
-        <span class="f"><i class="tapme"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Tap me</i><img src="../assets/christmas/p/stack-6.jpg" alt="" loading="lazy"><span>Madeleines<small>Best in 3–4 days</small></span></span>
+        <span class="f"><img src="../assets/christmas/p/stack-6.jpg" alt="" loading="lazy"><span>Madeleines<small>Best in 3–4 days</small></span></span>
         <span class="b"><b>Madeleines</b><ul><li><b>Airtight container</b> at cool room temp, away from sun.</li><li>In the <b>fridge</b> they keep <b>a week</b>, but turn a bit moist.</li><li>Warm <b>15 sec</b> in the microwave.</li></ul><i class="back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Flip back</i></span>
       </span></button>
       <button class="flip" aria-pressed="false"><span class="in">
-        <span class="f"><i class="tapme"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Tap me</i><img src="../assets/christmas/p/drizzle-4.jpg" alt="" loading="lazy"><span>Drizzle sauce<small>Best in 3 days</small></span></span>
+        <span class="f"><img src="../assets/christmas/p/drizzle-4.jpg" alt="" loading="lazy"><span>Drizzle sauce<small>Best in 3 days</small></span></span>
         <span class="b"><b>Drizzle sauce</b><ul><li>Keep in the <b>fridge</b>.</li><li>Rest about <b>7 min</b> at room temp before drizzling.</li></ul><i class="back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Flip back</i></span>
       </span></button>
       <button class="flip" aria-pressed="false"><span class="in">
-        <span class="f"><i class="tapme"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Tap me</i><img src="../assets/christmas/p/cookies-5.jpg" alt="" loading="lazy"><span>Cookies<small>Best in 1 month</small></span></span>
+        <span class="f"><img src="../assets/christmas/p/cookies-5.jpg" alt="" loading="lazy"><span>Cookies<small>Best in 1 month</small></span></span>
         <span class="b"><b>Cookies</b><ul><li>Keep in an <b>airtight jar</b>.</li><li><b>Close tightly</b> so they stay crisp.</li></ul><i class="back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Flip back</i></span>
       </span></button>
     </div>
@@ -1022,8 +1096,8 @@ const PRODUCTS = [
   { key:'stack', title:'Teddy Stack', icon:'i-bb', for:'A centerpiece for the table, the host, or someone special.',
     gallery:['p/stack-1|#Teddy Stack 16 pcs and 12 pcs','p/stack-2|#16 pcs','p/stack-3|#12 pcs','p/stack-4|#Up close','p/stack-5|#The whole packaging','p/stack-6|#Brown Butter and Double Choco','p/care-1|#Care card included','p/stack-7|#Greeting card for your message','p/card-custom|Custom card: “Have a Blessed Christmas!”'], vlabel:'Size',
     variants:[
-      {id:'stack16', label:'16 pcs', who:'For the whole crowd, 8–10 people', what:'8 Brown Butter Teddy Madeleines and 8 Double Choco Teddy Madeleines', inside:['i-bb','i-dc'], tot:'8 of each', photo:1},
-      {id:'stack12', label:'12 pcs', who:'For your close circle, 5–7 people', what:'6 Brown Butter Teddy Madeleines and 6 Double Choco Teddy Madeleines', inside:['i-bb','i-dc'], tot:'6 of each', photo:2}
+      {id:'stack16', label:'16 pcs', who:'For the whole crowd, 8–10 people', what:'8 Brown Butter Teddy Madeleines and 8 Double Choco Teddy Madeleines', inside:['i-bb*8','i-dc*8'], photo:1},
+      {id:'stack12', label:'12 pcs', who:'For your close circle, 5–7 people', what:'6 Brown Butter Teddy Madeleines and 6 Double Choco Teddy Madeleines', inside:['i-bb*6','i-dc*6'], photo:2}
     ],
     includes:['Christmas banner and mini party hat','Greeting card with your message','Care card with storage tips','Clear gift box with Christmas ornaments'],
     custom:'Write your own message on the greeting card. Want your logo or custom text on it? Free from 5 stacks.',
@@ -1059,7 +1133,7 @@ const PRODUCTS = [
   { key:'drizzle', title:'Teddy Drizzle', icon:'i-stick', for:'A little gift for someone dear. Drizzle, dip, and share.',
     gallery:['p/drizzle-1|#Teddy Drizzle','p/drizzle-2|#Inside the box','p/drizzle-3|#Drizzle, dip, enjoy','p/drizzle-4|#Heart and star sauce pipettes','p/drizzle-6|#The whole packaging','p/drizzle-7|#Greeting card for your message','p/card-custom|Custom card: “Have a Blessed Christmas!”'], vlabel:'',
     variants:[
-      {id:'drizzle', label:'Teddy Drizzle', who:'4 teddies and 2 sauces', what:'2 Brown Butter Teddy Madeleines and 2 Double Choco Teddy Madeleines, with Rich Choco and Silky Cream Cheese sauce', inside:['i-bb','i-bb','i-dc','i-dc'], tot:'and 2 sauces'}
+      {id:'drizzle', label:'Teddy Drizzle', who:'4 teddies and 2 sauces', what:'2 Brown Butter Teddy Madeleines and 2 Double Choco Teddy Madeleines, with Rich Choco and Silky Cream Cheese sauce', inside:['i-bb*2','i-dc*2'], tot:'+ Rich Choco and Silky Cream Cheese sauce'}
     ],
     addons:[{id:'add_choco', label:'Extra Rich Choco'},{id:'add_cream', label:'Extra Silky Cream Cheese'}],
     includes:['Sauce in heart and star pipettes','Greeting card with your message','Care card with storage tips','Wrapped in Christmas ornaments'],
@@ -1091,7 +1165,7 @@ const CHEV = '<svg aria-hidden="true"><use href="#i-chev"/></svg>';
   const c=$('snowfall'); if(!c || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const ctx=c.getContext('2d'); let W,H,flakes=[],dpr=Math.min(devicePixelRatio||1,2),run=true;
   function size(){ W=innerWidth; H=innerHeight; c.width=W*dpr; c.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
-    const n=Math.round(Math.min(46, W/14)); flakes=Array.from({length:n},()=>mk(true)); }
+    const n=Math.round(Math.min(16, W/36)); flakes=Array.from({length:n},()=>mk(true)); }
   function mk(any){ const z=Math.random(); return {x:Math.random()*W, y:any?Math.random()*H:-10, r:1+z*2.6, s:.25+z*.7, d:Math.random()*Math.PI*2, a:.45+z*.5}; }
   function draw(){
     if(!run) return;
@@ -1100,7 +1174,7 @@ const CHEV = '<svg aria-hidden="true"><use href="#i-chev"/></svg>';
       f.y+=f.s; f.d+=.01; f.x+=Math.sin(f.d)*.35;
       if(f.y>H+6){ Object.assign(f,mk(false)); }
       ctx.beginPath(); ctx.arc(f.x,f.y,f.r,0,Math.PI*2);
-      ctx.fillStyle=`rgba(255,255,255,${f.a})`; ctx.shadowColor='rgba(110,150,185,.55)'; ctx.shadowBlur=3; ctx.fill();
+      ctx.fillStyle=`rgba(255,255,255,${f.a*.8})`; ctx.shadowColor='rgba(110,150,185,.55)'; ctx.shadowBlur=3; ctx.fill();
     }
     requestAnimationFrame(draw);
   }
@@ -1151,6 +1225,7 @@ const pstate={}; PRODUCTS.forEach(p=>pstate[p.key]={v:0,n:p.min||1,add:{}});
 const gpos={};
 const TILE={stack:{img:'p/stack-1',d:'The table centerpiece, 12 or 16 pcs'}, box:{img:'p/box-1',d:'One gift box for each person'}, sharing:{img:'p/sharing-1',d:'One teddy each, from 12 pcs'}, cookies:{img:'p/cookies-1',d:'A sweet little thank you'}, drizzle:{img:'p/drizzle-1',d:'Drizzle, dip and share with someone dear'}};
 let openKey=null;
+const ICON_LABEL={'i-bb':'Brown Butter','i-dc':'Double Choco','i-stick':'Teddy Stick','i-vanilla':'Vanilla Cookie','i-choco':'Chocolate Cookie','i-peanut':'Peanut Cookie','i-pistachio':'Pistachio Cookie','i-matcha':'Matcha Cookie','i-strawberry':'Strawberry Earl Grey Cookie'};
 function renderTiles(){
   const eb=isEarlyBird();
   $('tiles').innerHTML=PRODUCTS.map((p,i)=>{
@@ -1212,8 +1287,8 @@ function renderCard(k, opt={}){
       ${p.variants.length>1?`<div class="choose"><span>${p.vlabel}</span><div class="seg" role="group" aria-label="${p.vlabel}">${p.variants.map((x,i)=>`<button aria-pressed="${i===st_.v}" data-vi="${i}">${x.label}</button>`).join('')}</div></div>`:''}
       <div class="priceline"><span><span class="num">${kOnly(shown)}<small>${p.unitLabel||''}</small></span>${eb?`<s>${kOnly(base)}</s>`:''}</span><span class="who">${v.who}</span></div>
       ${eb?`<span class="ebnote">Early bird price, until 18 Nov</span>`:''}
-      <p class="what">${v.what}</p>
-      <div class="inside">${v.inside.map((ic,i)=>`<img src="${IMG+ic}.png" alt="" style="animation-delay:${i*.04}s">`).join('')}${v.tot?`<span>${v.tot}</span>`:''}</div>
+      <p class="what sr">${v.what}</p>
+      <div class="inside" aria-hidden="true">${v.inside.map((x,i)=>{const [ic,n]=x.split('*');return `<span class="it"><img src="${IMG+ic}.png" alt="" style="animation-delay:${i*.04}s">${n?`<b>×${n}</b>`:''}<span>${ICON_LABEL[ic]||''}</span></span>`;}).join('')}${v.tot?`<span class="tot">${v.tot}</span>`:''}</div>
       ${p.addons?`<div style="margin-top:16px">${p.addons.map(a=>`
         <div class="addon"><div>${a.label}<small>5K each, enough for 2–3 teddies</small></div>
         <div class="qty sm"><button data-ad="${a.id}" data-d="-1" aria-label="Fewer">−</button><input readonly value="${st_.add[a.id]||0}" aria-label="${a.label}"><button data-ad="${a.id}" data-d="1" aria-label="More">+</button></div></div>`).join('')}</div>`:''}
@@ -1403,7 +1478,7 @@ function send(){
   if(!phone) return fail('Fill in your phone number.');
   if(!date) return fail('Choose a receive date.');
   if(BLOCKED_DATES.includes(date)) return fail('We are off on Dec 24–25. Choose another date.');
-  if(date<$('fDate').min || date>LAST_DELIVERY) return fail('That date is not available. '+$('dateNote').textContent);
+  if(date<$('fDate').min || date>LAST_DELIVERY) return fail('That date is not available. Please choose another date.');
   if(!time) return fail('Choose a time.');
   if(!method) return fail('Choose pickup or delivery.');
   const methodText = method==='pickup'?`Ambil sendiri (${$('fPickup').value})`:method==='one'?'Dikirim ke 1 alamat':'Dikirim ke beberapa alamat';
@@ -1500,6 +1575,23 @@ addEventListener('scroll',syncBar,{passive:true});
     $('lbImg').src=c.dataset.img; $('lbImg').alt=c.dataset.name; $('lbCap').innerHTML=`${c.dataset.name}<small>${c.dataset.price}</small>`; lb.classList.add('open'); });
   lb.addEventListener('click',()=>lb.classList.remove('open'));
   addEventListener('keydown',e=>{ if(e.key==='Escape') lb.classList.remove('open'); });
+})();
+
+/* ===================== TESTIMONIALS: tap to see the original chat ===================== */
+(function(){
+  const lb=$('lb'), rail=$('tmRail'); if(!rail) return;
+  // gentle auto-scroll that loops; pauses while the visitor touches or hovers
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches; let paused=false, t, last=0, pos=0;
+  const pause=()=>{ paused=true; clearTimeout(t); }, resume=()=>{ clearTimeout(t); t=setTimeout(()=>{ pos=rail.scrollLeft; paused=false; },2500); };
+  rail.addEventListener('pointerdown',pause); rail.addEventListener('touchstart',pause,{passive:true});
+  rail.addEventListener('pointerup',resume); rail.addEventListener('touchend',resume); rail.addEventListener('mouseenter',pause); rail.addEventListener('mouseleave',resume);
+  function step(now){ const dt=last?Math.min(now-last,50):16; last=now;
+    if(!paused && !document.hidden){ const half=rail.scrollWidth/2; pos+=dt*0.035; if(pos>=half) pos-=half; rail.scrollLeft=pos; }
+    else { const half=rail.scrollWidth/2; if(rail.scrollLeft>=half) rail.scrollLeft-=half; }
+    requestAnimationFrame(step); }
+  if(!reduce) requestAnimationFrame(step);
+  rail.addEventListener('click',e=>{ const c=e.target.closest('.tm-card'); if(!c) return;
+    $('lbImg').src=c.dataset.chat; $('lbImg').alt='Original WhatsApp chat'; $('lbCap').innerHTML='Original chat<small>Name hidden for privacy</small>'; lb.classList.add('open'); track('review_open'); });
 })();
 
 /* ===================== INIT ===================== */
