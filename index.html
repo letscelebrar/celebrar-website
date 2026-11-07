@@ -417,6 +417,83 @@
        narrow screens. */
     body.has-cart-items .wa-float{bottom:96px;}
   }
+
+  /* ══════ CHRISTMAS 2026 HERO (seasonal, borrowed from /christmas/) ══════ */
+  .xh,.xh *{box-sizing:border-box;}
+  .xh-in>*{min-width:0;}
+  .xh{position:relative;background:#FFFBF3;overflow:hidden;padding-bottom:34px;font-family:'Quicksand',sans-serif;}
+  .xh-band{--bh:clamp(56px,15vw,150px);position:relative;height:var(--bh);}
+  .xh-band .fabric{position:absolute;inset:0;background:url('assets/christmas/gingham-tile.png') 0 0/calc(var(--bh)*.42) repeat;-webkit-mask:url('assets/christmas/wave-mask.png') 0 0/100% 100% no-repeat;mask:url('assets/christmas/wave-mask.png') 0 0/100% 100% no-repeat;}
+  .xh-band .st{position:absolute;height:auto;}
+  .xh-band .dot{position:absolute;width:calc(var(--bh)*.04);height:calc(var(--bh)*.04);border-radius:50%;background:#fff;}
+  .xh-band .bow{position:absolute;left:71.2%;top:38%;width:calc(var(--bh)*.40);}
+  .xh-band .cloud{position:absolute;left:83.6%;top:54%;width:calc(var(--bh)*.66);z-index:2;}
+  .xh-in{max-width:1060px;margin:0 auto;padding:10px 22px 0;display:grid;grid-template-columns:43% 1fr;grid-template-areas:"win copy" "win after";column-gap:18px;align-items:end;text-align:left;}
+  .xh-copy{grid-area:copy;}
+  .xh-eye{display:block;font-weight:700;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#5B8DB8;margin-bottom:4px;}
+  .xh h2{font-family:'Homemade Apple',cursive;font-weight:400;text-transform:none;color:#8E2B3A;font-size:clamp(26px,7.2vw,34px);line-height:1.2;letter-spacing:-.5px;margin:0;}
+  .xh h2::after{content:none;}
+  .xh-sub{color:#6B3B26;font-size:14.5px;font-weight:500;line-height:1.45;margin:8px 0 0;}
+  .xh-win{grid-area:win;position:relative;display:block;width:100%;aspect-ratio:3/4.1;margin-bottom:16px;}
+  .xh-win .glass{position:absolute;inset:0;border-radius:999px 999px 18px 18px;overflow:hidden;border:7px solid #fff;box-shadow:0 26px 50px -20px rgba(70,90,110,.4);background:#EAF4FC;}
+  .xh-win .glass img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 62%;opacity:0;transition:opacity 1s ease;}
+  .xh-win .glass img.on{opacity:1;}
+  .xh-win .glass::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 65%,rgba(40,28,20,.32));pointer-events:none;}
+  .xh-win .cap{position:absolute;left:0;right:0;bottom:30px;z-index:2;text-align:center;color:#fff;font-weight:700;font-size:13px;text-shadow:0 1px 6px rgba(0,0,0,.35);transition:opacity .4s;}
+  .xh-win .hd{position:absolute;left:0;right:0;bottom:16px;z-index:2;display:flex;justify-content:center;gap:5px;}
+  .xh-win .hd i{width:6px;height:6px;border-radius:999px;background:rgba(255,255,255,.55);transition:all .35s;}
+  .xh-win .hd i.on{width:16px;background:#fff;}
+  .xh-win .sill{position:absolute;left:-16%;right:-16%;bottom:-16px;height:40px;z-index:2;pointer-events:none;background:radial-gradient(ellipse 30% 70% at 18% 100%,#fff 60%,transparent 62%),radial-gradient(ellipse 34% 80% at 50% 100%,#fff 60%,transparent 62%),radial-gradient(ellipse 30% 65% at 82% 100%,#fff 60%,transparent 62%);}
+  .xh-win .sticker{position:absolute;left:-14px;top:-16px;z-index:3;width:82px;height:82px;border-radius:50%;background:#FFF1C5;color:#8E2B3A;display:grid;place-content:center;text-align:center;transform:rotate(10deg);box-shadow:0 10px 22px -10px rgba(120,80,40,.5);outline:1.2px dashed rgba(142,43,58,.4);outline-offset:-5px;animation:xhwob 3.2s ease-in-out infinite;}
+  .xh-win .sticker small{display:block;font-size:11px;font-weight:700;line-height:1.1;}
+  .xh-win .sticker b{display:block;font-family:'Dongle',sans-serif;font-size:30px;line-height:.8;margin-top:4px;}
+  @keyframes xhwob{50%{transform:rotate(4deg) scale(1.04)}}
+  .xh-win .sstar{position:absolute;right:-12px;bottom:20%;width:28px;z-index:3;filter:drop-shadow(0 2px 3px rgba(120,80,30,.45)) drop-shadow(0 0 1px rgba(165,94,60,.6));}
+  .xh-after{grid-area:after;align-self:start;}
+  .xh-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;}
+  .xh-chips span{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;color:#6B3B26;background:#fff;border-radius:999px;padding:5px 11px;box-shadow:inset 0 0 0 1.2px #D4E8F7;}
+  .xh-chips span.hl{background:#FFF1C5;box-shadow:none;}
+  .xh-chips b{color:#8E2B3A;}
+  .xh-facts{font-size:11px;color:#9A7462;margin-top:8px;font-weight:600;line-height:1.5;}
+  .xh-btn{display:inline-flex;align-items:center;gap:10px;margin-top:14px;white-space:nowrap;text-decoration:none;background:#8E2B3A;color:#fff;font-weight:700;font-size:15px;border-radius:999px;padding:6px 6px 6px 18px;box-shadow:0 12px 24px -12px rgba(142,43,58,.8);}
+  .xh-btn i{font-style:normal;width:34px;height:34px;border-radius:50%;background:#fff;color:#8E2B3A;display:grid;place-items:center;}
+  .xh-down{display:block;margin-top:12px;font-size:12.5px;font-weight:700;color:#2E6DA4;text-decoration:underline;text-underline-offset:3px;}
+  .xstrip{display:flex;align-items:center;justify-content:center;gap:10px;background:#8E2B3A;color:#FFF1C5;font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap;overflow:hidden;max-height:0;padding:0 14px;transition:max-height .35s ease,padding .35s ease;}
+  .xstrip.show{max-height:48px;padding:8px 12px;}
+  .xs-cd{display:inline-flex;align-items:baseline;gap:2px;background:#fff;border-radius:999px;padding:3px 10px 1px;}
+  .xs-cd i{font-style:normal;font-family:'Dongle',sans-serif;font-weight:700;font-size:21px;line-height:.8;color:#8E2B3A;display:inline-block;min-width:1.1em;text-align:center;font-variant-numeric:tabular-nums;}
+  .xs-cd small{font-size:10.5px;color:#9A7462;margin-right:3px;}
+  .xstrip .xs-a{color:#fff;text-decoration:underline;flex:none;}
+  @media(max-width:400px){.xstrip{font-size:11.5px;gap:6px;}.xs-cd i{font-size:19px;}.xs-cd small{font-size:9.5px;}}
+  @media(max-width:350px){.xstrip .xs-a{display:none;}}
+  .xh-drift{position:absolute;left:0;right:0;top:-1px;height:38px;z-index:5;pointer-events:none;transform:scaleY(-1);
+    background:radial-gradient(circle at 26px 38px,#FFFBF3 26px,transparent 27px) 0 0/52px 38px repeat-x,radial-gradient(circle at 46px 46px,#FFFBF3 36px,transparent 37px) 18px 0/92px 38px repeat-x;
+    filter:drop-shadow(0 -3px 4px rgba(40,25,15,.18));}
+  .xh{padding-bottom:22px;}
+  @media(min-width:900px){
+    .xh{padding-bottom:56px;}
+    .xh-in{grid-template-columns:1.05fr .95fr;grid-template-areas:"copy win" "after win";column-gap:60px;}
+    .xh-win{justify-self:center;align-self:center;width:340px;margin:0;}
+    .xh h2{font-size:72px;}
+    .xh-eye{font-size:12.5px;}
+    .xh-sub{font-size:18px;}
+    .xh-win .sticker{width:112px;height:112px;left:auto;right:-46px;top:10%;}
+    .xh-win .sticker small{font-size:13px;}.xh-win .sticker b{font-size:44px;}
+    .xh-win .cap{font-size:15px;bottom:42px;}.xh-win .hd{bottom:24px;}
+  }
+  @media(max-width:899px){
+    .xh-in{max-width:560px;grid-template-columns:44% 1fr;column-gap:clamp(14px,4.5vw,26px);align-items:center;}
+    .xh-win{align-self:center;margin:14px 0 20px;}
+    .xh-copy,.xh-after{position:relative;z-index:4;}
+    .xh-win .sill{left:-8%;right:-8%;}
+    .xh-win .sticker{width:clamp(62px,19vw,84px);height:clamp(62px,19vw,84px);left:-10px;top:-14px;}
+    .xh-win .sticker b{font-size:clamp(23px,7vw,30px);}
+    .xh-win .sticker small{font-size:clamp(9px,2.6vw,11px);}
+    .xh h2{font-size:clamp(24px,6.8vw,34px);line-height:1.15;}
+    .xh-down{line-height:1.4;}
+  }
+  @media(max-width:370px){.xh-btn{font-size:13.5px;padding:11px 16px;gap:6px;}.xh-btn i{display:none;}.xh-chips span{font-size:11.5px;padding:4px 9px;}.xh-win .sticker{width:70px;height:70px;}.xh-win .sticker b{font-size:25px;}.xh-win .sticker small{font-size:9.5px;}}
+  @media (prefers-reduced-motion: reduce){.xh-win .sticker{animation:none;}}
 </style>
 </head>
 <body>
@@ -427,6 +504,7 @@
     <a href="#home" class="logo"><img src="assets/logo-main-brown.svg" alt="Celebrar" /></a>
     <ul class="nav-links" id="navLinks">
       <li><a href="#home">Home</a></li>
+      <li id="xmasNav"><a href="/christmas/" style="color:#8E2B3A;font-weight:700;">&#127876; Christmas</a></li>
       <li><a href="#menu">Shop</a></li>
       <li><a href="#about">Our Story</a></li>
       <li><a href="#faq">FAQ</a></li>
@@ -437,31 +515,49 @@
   <div id="backToStoryBar" style="display:none;background:var(--butter-soft);text-align:center;padding:10px 16px;font-size:13.5px;font-weight:700;color:var(--toasted-dark);">
     <a href="/teddy-stack/" style="text-decoration:underline;">&larr; Back to the Teddy Stack story</a>
   </div>
-  <a href="/mooncake/" id="mooncakeBanner" class="mooncake-banner">
-    <span class="mb-emoji">🌕</span>
-    <span class="mb-text" id="mooncakeBannerText">Mid-Autumn Mooncake &mdash; limited quantity, order through Sept 30 for late delivery.</span>
-    <span class="mb-arrow">Shop Now &rarr;</span>
-  </a>
+  <a href="/christmas/" class="xstrip" id="xmasStrip" aria-hidden="true" tabindex="-1"><span class="xs-t" id="xmasStripText">&#127876; Early bird &minus;10% ends in</span><span class="xs-cd" id="xsCd"><i id="xsD">0</i><small>d</small><i id="xsH">00</i><small>h</small><i id="xsM">00</i><small>m</small><i id="xsS">00</i><small>s</small></span><span class="xs-a">Shop &rarr;</span></a>
 </header>
 
-<!-- ═══════════════ MID-AUTUMN MOONCAKE HIGHLIGHT (temporary — remove/retire after the order window closes, alongside the banner above) ═══════════════ -->
-<section class="mc-highlight" id="mooncakeHighlight">
-  <div class="container mc-highlight-inner">
-    <div class="mc-highlight-photo">
-      <img src="assets/mooncake/photos/hero-1.jpg" alt="Celebrar Mid-Autumn Mooncake Box of 4" loading="lazy" />
+
+<!-- ═══════════════ CHRISTMAS 2026 HERO (seasonal: hides itself after Dec 30, 2026) ═══════════════ -->
+<section class="xh" id="xmasHero" aria-label="Christmas Menu 2026">
+  <div class="xh-band" aria-hidden="true">
+    <div class="fabric"></div>
+    <img class="st" src="assets/christmas/star.png" alt="" style="left:91.7%;top:36%;width:calc(var(--bh)*0.088)"><img class="st" src="assets/christmas/star.png" alt="" style="left:52%;top:43%;width:calc(var(--bh)*0.182)"><img class="st" src="assets/christmas/star.png" alt="" style="left:10.4%;top:46%;width:calc(var(--bh)*0.201)"><img class="st" src="assets/christmas/star.png" alt="" style="left:31.3%;top:63%;width:calc(var(--bh)*0.145)"><img class="st" src="assets/christmas/star.png" alt="" style="left:44.1%;top:73%;width:calc(var(--bh)*0.101)"><img class="st" src="assets/christmas/star.png" alt="" style="left:4.2%;top:77%;width:calc(var(--bh)*0.107)">
+    <span class="dot" style="left:18.5%;top:22%"></span><span class="dot" style="left:38.9%;top:33%"></span><span class="dot" style="left:60.2%;top:22%"></span><span class="dot" style="left:79.6%;top:33%"></span><span class="dot" style="left:24.1%;top:77%"></span>
+    <img class="bow" src="assets/christmas/bow.png" alt=""><img class="cloud" src="assets/christmas/cloud.png" alt="">
+  </div>
+  <div class="xh-in">
+    <div class="xh-copy">
+      <span class="xh-eye">Christmas Edition 2026</span>
+      <h2>Cosy Christmas</h2>
+      <p class="xh-sub">For the ones who made your year.</p>
     </div>
-    <div class="mc-highlight-text">
-      <span class="mc-highlight-eyebrow">Limited Mid-Autumn Edition</span>
-      <h2 class="mc-highlight-title">Mid-Autumn Mooncake Is Here</h2>
-      <p class="mc-highlight-desc">6 flavors, baked traditional style. Box of 4 to gift, or a Single Pack just for you.</p>
-      <div class="mc-highlight-price" id="mcHighlightPrice">From <strong>Rp186.000</strong> &mdash; limited quantity, order through Sept 30 for late delivery.</div>
-      <a href="/mooncake/" class="btn btn-primary">Shop Mid-Autumn Mooncake &rarr;</a>
+    <a class="xh-win" href="/christmas/" aria-label="See the Christmas Menu">
+      <span class="glass" id="xhShow">
+        <img class="on" src="assets/christmas/p/stack-1.jpg" alt="Teddy Stack, Christmas edition" data-cap="Teddy Stack">
+        <img src="assets/christmas/p/box-1.jpg" alt="Christmas Box" data-cap="Christmas Box" loading="lazy">
+        <img src="assets/christmas/p/sharing-1.jpg" alt="Teddy Sharing" data-cap="Teddy Sharing" loading="lazy">
+        <img src="assets/christmas/p/cookies-1.jpg" alt="Christmas Cookies" data-cap="Christmas Cookies" loading="lazy">
+        <img src="assets/christmas/p/drizzle-1.jpg" alt="Teddy Drizzle" data-cap="Teddy Drizzle" loading="lazy">
+        <span class="cap" id="xhCap">Teddy Stack</span><span class="hd" id="xhDots"></span>
+      </span>
+      <span class="sticker" id="xhSticker"><small>Early bird</small><b>−10%</b></span>
+      <img class="sstar" src="assets/christmas/star.png" alt="">
+      <span class="sill"></span>
+    </a>
+    <div class="xh-after">
+      <div class="xh-chips"><span class="hl">From IDR 35K</span><span><b>&#9829;</b> Make it personal</span></div>
+      <p class="xh-facts">No gluten ingredients* &middot; Less sugar<br><span style="font-weight:500;font-size:10px">*Shared kitchen, sanitized before each production.</span></p>
+      <a class="xh-btn" href="/christmas/">Shop Christmas <i>&rarr;</i></a>
+      <a class="xh-down" href="#menu">or see our everyday menu &darr;</a>
     </div>
   </div>
 </section>
 
 <!-- ═══════════════ HERO ═══════════════ -->
 <section class="hero" id="home">
+  <div class="xh-drift" id="xhDrift" aria-hidden="true"></div>
   <div class="hero-photo"></div>
   <div class="hero-overlay"></div>
   <img class="hero-twinkle" src="assets/doodle-3.png" alt="" style="width:24px;top:15%;left:8%;animation-duration:3.6s;" />
@@ -2201,6 +2297,9 @@
     openModal(key);
 
     const bar = document.getElementById('backToStoryBar');
+    if (bar && params.get('from') === 'christmas') {
+      const a = bar.querySelector('a'); if (a) { a.href = '/christmas/'; a.innerHTML = '&larr; Back to the Christmas Menu'; }
+    }
     if (bar) bar.style.display = 'block';
   })();
 
@@ -2237,6 +2336,47 @@
       el.innerHTML = 'Mid-Autumn Mooncake &mdash; limited quantity, order through Sept 30 for late delivery.';
       if (highlightPrice) highlightPrice.innerHTML = 'From <strong>Rp186.000</strong> &mdash; limited quantity, order through Sept 30 for late delivery.';
     }
+  })();
+
+  /* ══════════════ Christmas 2026 hero: slideshow + season dates ══════════════
+     TEMPORARY. Hides itself (and the nav link) after Dec 30, 2026; the early bird
+     sticker hides after Nov 18. Remove #xmasHero, #xmasNav and the .xh CSS after the season. */
+  (function xmasHero(){
+    const sec = document.getElementById('xmasHero'); if (!sec) return;
+    const now = new Date();
+    if (now > new Date('2026-12-30T23:59:59+07:00')) {
+      sec.style.display = 'none';
+      const dr = document.getElementById('xhDrift'); if (dr) dr.remove();
+      const nav = document.getElementById('xmasNav'); if (nav) nav.style.display = 'none';
+      const xs = document.getElementById('xmasStrip'); if (xs) xs.remove();
+      return;
+    }
+    const ebEnd = new Date('2026-11-18T23:59:59+07:00'), ebOn = now <= ebEnd;
+    if (!ebOn) { const st = document.getElementById('xhSticker'); if (st) st.style.display = 'none'; }
+    /* thin reminder strip in the sticky header, shown once the Christmas hero scrolls away */
+    const strip = document.getElementById('xmasStrip'), stTxt = document.getElementById('xmasStripText');
+    if (strip) {
+      const pad = n => String(n).padStart(2, '0');
+      const tick = () => {
+        const left = ebEnd - Date.now();
+        if (left > 0) {
+          const t = Math.floor(left / 1000), v = { xsD: Math.floor(t / 86400), xsH: pad(Math.floor(t % 86400 / 3600)), xsM: pad(Math.floor(t % 3600 / 60)), xsS: pad(t % 60) };
+          for (const id in v) { const el = document.getElementById(id); if (el.textContent != String(v[id])) el.textContent = v[id]; }
+        } else { stTxt.innerHTML = '&#127876; Christmas Menu: order by Dec 22 for Christmas'; const cd = document.getElementById('xsCd'); if (cd) cd.remove(); }
+      };
+      tick(); setInterval(tick, 1000);
+      new IntersectionObserver(es => es.forEach(e => { strip.classList.toggle('show', !e.isIntersecting); strip.setAttribute('aria-hidden', e.isIntersecting); strip.tabIndex = e.isIntersecting ? -1 : 0; }), { threshold: 0 }).observe(sec);
+    }
+    const imgs = [...document.querySelectorAll('#xhShow img')], cap = document.getElementById('xhCap'), dots = document.getElementById('xhDots');
+    dots.innerHTML = imgs.map((_, j) => '<i class="' + (j ? '' : 'on') + '"></i>').join('');
+    let i = 0;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    setInterval(() => {
+      if (document.hidden) return;
+      imgs[i].classList.remove('on'); i = (i + 1) % imgs.length; imgs[i].classList.add('on');
+      [...dots.children].forEach((d, j) => d.classList.toggle('on', j === i));
+      cap.style.opacity = 0; setTimeout(() => { cap.textContent = imgs[i].dataset.cap; cap.style.opacity = 1; }, 250);
+    }, 3600);
   })();
 </script>
 
