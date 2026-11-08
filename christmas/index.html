@@ -23,7 +23,7 @@
 
 <!-- Google Analytics 4: paste your Measurement ID (G-XXXXXXXXXX) into GA_ID. Empty = tracking off. -->
 <script>
-  window.GA_ID = '';
+  window.GA_ID = 'G-CVG4S7MY5Q';
   if (window.GA_ID) {
     var s = document.createElement('script'); s.async = true;
     s.src = 'https://www.googletagmanager.com/gtag/js?id=' + window.GA_ID;
@@ -227,6 +227,7 @@
   .chart .gl.bot{top:calc(100% + 37px);left:50%;transform:translateX(-50%);}
   .chart .gl.lft{left:7.5%;top:52.6%;}
   .chart .gl.rgt{right:7.5%;top:52.6%;}
+  @media(max-width:340px){.chart .gl{z-index:2;background:#FFFBF3;padding:2px 4px;border-radius:4px;}}
   .gcard{position:absolute;width:20.4%;background:#fff;border-radius:clamp(6px,1.4vw,12px);padding:1.1%;box-shadow:0 8px 20px -8px rgba(70,90,110,.35);text-decoration:none;text-align:center;transition:transform .35s var(--ease);}
   .gcard:hover{transform:translateY(-3px);}
   .gcard img{width:100%;aspect-ratio:196/172;object-fit:cover;border-radius:clamp(4px,1vw,8px);}
@@ -615,6 +616,7 @@
   .toast .undo{margin-left:10px;color:#fff;font-weight:700;text-decoration:underline;text-underline-offset:3px;font-size:13.5px;padding:2px 0;}
   .rmx{flex:none;width:30px;height:36px;margin-left:-4px;display:grid;place-items:center;color:var(--soft);opacity:.75;border-radius:10px;transition:opacity .2s,color .2s;}
   .rmx svg{width:18px;height:18px;}
+  @media(max-width:360px){.line{gap:9px;}.line img{width:40px;height:40px;}.line .nm{font-size:13.5px;}.rmx{width:26px;margin-left:-3px;}}
   .rmx:hover,.rmx:focus-visible{opacity:1;color:var(--berry);}
 
   /* soft reveal on scroll (replays both ways) */
@@ -1722,9 +1724,9 @@ addEventListener('scroll',syncBar,{passive:true});
 (function(){
   const lb=$('lb'), rail=$('tmRail'); if(!rail) return;
   // gentle auto-scroll (CSS animation, works in Safari too); pauses while touched or hovered
-  const track=rail.querySelector('.tm-track'); let t;
-  const pause=()=>{ clearTimeout(t); track.classList.add('hold'); };
-  const resume=()=>{ clearTimeout(t); t=setTimeout(()=>track.classList.remove('hold'),2500); };
+  const lane=rail.querySelector('.tm-track'); let t;
+  const pause=()=>{ clearTimeout(t); lane.classList.add('hold'); };
+  const resume=()=>{ clearTimeout(t); t=setTimeout(()=>lane.classList.remove('hold'),2500); };
   ['pointerdown','touchstart','mouseenter','focusin'].forEach(ev=>rail.addEventListener(ev,pause,{passive:true}));
   ['pointerup','touchend','touchcancel','mouseleave','focusout'].forEach(ev=>rail.addEventListener(ev,resume,{passive:true}));
   rail.addEventListener('click',e=>{ const c=e.target.closest('.tm-card'); if(!c) return;
