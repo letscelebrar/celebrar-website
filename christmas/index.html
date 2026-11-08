@@ -611,6 +611,11 @@
   .bar a{background:var(--berry);color:#fff;font-weight:700;border-radius:999px;padding:11px 18px;text-decoration:none;font-size:14px;}
   .toast{position:fixed;top:72px;left:50%;z-index:70;transform:translate(-50%,-14px);opacity:0;background:var(--cocoa);color:#fff;font-weight:600;font-size:13.5px;padding:10px 18px;border-radius:999px;transition:all .35s var(--ease);pointer-events:none;max-width:calc(100% - 32px);text-align:center;}
   .toast.show{opacity:1;transform:translate(-50%,0);}
+  .toast.act{pointer-events:auto;white-space:nowrap;}
+  .toast .undo{margin-left:10px;color:#fff;font-weight:700;text-decoration:underline;text-underline-offset:3px;font-size:13.5px;padding:2px 0;}
+  .rmx{flex:none;width:30px;height:36px;margin-left:-4px;display:grid;place-items:center;color:var(--soft);opacity:.75;border-radius:10px;transition:opacity .2s,color .2s;}
+  .rmx svg{width:18px;height:18px;}
+  .rmx:hover,.rmx:focus-visible{opacity:1;color:var(--berry);}
 
   /* soft reveal on scroll (replays both ways) */
   .rv{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform 1s var(--ease);}
@@ -1077,26 +1082,26 @@
     <div class="head"><span class="eyebrow">FAQ</span><h2 class="title">good to Know</h2></div>
     <div class="langs"><div class="seg" id="faqLang" role="group" aria-label="Language"><button aria-pressed="true" data-v="en">English</button><button aria-pressed="false" data-v="id">Bahasa Indonesia</button></div></div>
     <div data-lang="en">
-    <details><summary>How do I pay?</summary><p>Full payment upfront. Once it's paid, your slot is all yours 🤍 Just so you know, paid orders can't be refunded.</p></details>
-    <details><summary>When should I order?</summary><p>The sooner, the safer! Our daily quota is limited, so it's first pay, first served. Ordering 25+ packs? Give us a heads-up at least 4 days before, okay?</p></details>
-    <details><summary>I need it soon, or even today. Can I?</summary><p>Just chat us on WhatsApp. If there's still a slot, we'll do our best to make it happen 🥹</p></details>
+    <details><summary>How do I pay?</summary><p>Full payment upfront. Once it's paid, your slot is all yours 🤍 Please note, paid orders can't be refunded.</p></details>
+    <details><summary>When should I order?</summary><p>The sooner, the safer! Our daily quota is limited, so it's first pay, first served. Ordering 25+ packs? Give us a heads-up at least 4 days before (˶ˆᗜˆ˵)</p></details>
+    <details><summary>I need it soon or even today. Can I?</summary><p>Just chat us on WhatsApp. If there's still a slot, we'll do our best to make it happen 🥹</p></details>
     <details><summary>Where do you deliver?</summary><p>Anywhere in Jakarta and Tangerang, for now.</p></details>
-    <details><summary>How much is delivery?</summary><p>Delivery is on you. But no worries, we can book a Lalamove and pay for it first, then you simply transfer it back :)</p></details>
-    <details><summary>Can I pick up my order?</summary><p>Of course! Come by <a href="https://maps.app.goo.gl/3ns7BLpdJK2iW6AMA" target="_blank" rel="noopener">Celebrar Madeleine &amp; Cookies, Daan Mogot, Kalideres, West Jakarta</a> (daily 11.00–18.00) or <a href="https://maps.app.goo.gl/ZYt4uhK2ngBSVeLR8" target="_blank" rel="noopener">TritonVille, Batuceper, Tangerang</a> (weekdays 09.30–16.30).</p></details>
+    <details><summary>How much is delivery?</summary><p>Delivery is on you, but we can help book a Lalamove for you. Just chat us~</p></details>
+    <details><summary>Can I pick up my order?</summary><p>Of course! Come by <a href="https://maps.app.goo.gl/3ns7BLpdJK2iW6AMA" target="_blank" rel="noopener">Celebrar Madeleine &amp; Cookies, Daan Mogot, Kalideres, West Jakarta</a> (daily 11.00–18.00) or <a href="https://maps.app.goo.gl/ZYt4uhK2ngBSVeLR8" target="_blank" rel="noopener">TritonVille, Batuceper, Tangerang</a> (weekdays 09.30–16.30). Please let us know at least a day before.</p></details>
     <details><summary>Can you send to many addresses?</summary><p>Yes! Just send us the address list at least 3 days before delivery.</p></details>
     <details><summary>Can I add a greeting card?</summary><p>Yes, write your own message and we'll tuck it in. Sometimes a few words are what they remember most 🧸</p></details>
     <details><summary>Is it gluten-free?</summary><p>We don't use any gluten ingredients. Our kitchen is shared with gluten products though, so every tool and surface is sanitized before each production. A gentler pick if you're simply avoiding gluten day to day.</p></details>
     </div>
     <div data-lang="id" hidden>
-    <details><summary>Bayarnya gimana?</summary><p>Full payment di awal yaa. Begitu lunas, slot kamu langsung aman 🤍 Oh iya, pesanan yang sudah dibayar nggak bisa di-refund.</p></details>
-    <details><summary>Kapan sebaiknya pesan?</summary><p>Makin cepat, makin aman! Kuota kami per hari terbatas, jadi first pay, first served. Kalau mau pesan 25+ pack, kabarin kami minimal 4 hari sebelumnya yaa.</p></details>
+    <details><summary>Bayarnya gimana?</summary><p>Full payment di awal yaa. Begitu lunas, slot langsung aman 🤍 Pesanan yang sudah dibayar nggak bisa di-refund.</p></details>
+    <details><summary>Kapan sebaiknya pesan?</summary><p>Makin cepat, makin aman! Kuota kami per hari terbatas, jadi first pay, first served. Kalau mau pesan 25+ pack, kindly inform us 4 days in advance (˶ˆᗜˆ˵)</p></details>
     <details><summary>Butuh cepat, atau bahkan hari ini. Bisa?</summary><p>Langsung chat kami di WhatsApp aja. Kalau slotnya masih ada, we'll do our best to make it happen 🥹</p></details>
-    <details><summary>Bisa kirim ke mana aja?</summary><p>Untuk sekarang kami kirim ke Jakarta dan Tangerang yaa.</p></details>
-    <details><summary>Ongkirnya berapa?</summary><p>Ongkir ditanggung pembeli. Tapi tenang, kami bisa pesankan Lalamove dan talangin dulu, nanti kamu tinggal transfer balik :)</p></details>
-    <details><summary>Bisa ambil sendiri?</summary><p>Bisa banget! Ambil di <a href="https://maps.app.goo.gl/3ns7BLpdJK2iW6AMA" target="_blank" rel="noopener">Celebrar Madeleine &amp; Cookies, Daan Mogot, Kalideres, Jakarta Barat</a> (setiap hari 11.00–18.00) atau <a href="https://maps.app.goo.gl/ZYt4uhK2ngBSVeLR8" target="_blank" rel="noopener">TritonVille, Batuceper, Tangerang</a> (Senin–Jumat 09.30–16.30).</p></details>
+    <details><summary>Bisa kirim ke mana aja?</summary><p>Untuk sekarang kami kirim ke Jakarta dan Tangerang.</p></details>
+    <details><summary>Ongkirnya berapa?</summary><p>Ongkir ditanggung pembeli. Tapi kami bisa bantu pesankan Lalamove. Please contact us~</p></details>
+    <details><summary>Bisa ambil sendiri?</summary><p>Bisa banget! Ambil di <a href="https://maps.app.goo.gl/3ns7BLpdJK2iW6AMA" target="_blank" rel="noopener">Celebrar Madeleine &amp; Cookies, Daan Mogot, Kalideres, Jakarta Barat</a> (setiap hari 11.00–18.00) atau <a href="https://maps.app.goo.gl/ZYt4uhK2ngBSVeLR8" target="_blank" rel="noopener">TritonVille, Batuceper, Tangerang</a> (Senin–Jumat 09.30–16.30). Kindly let us know at least H-1.</p></details>
     <details><summary>Bisa kirim ke banyak alamat?</summary><p>Bisa! Kirim aja daftar alamatnya minimal 3 hari sebelum pengiriman.</p></details>
-    <details><summary>Bisa tambah kartu ucapan?</summary><p>Bisa dong! Tulis pesanmu sendiri, nanti kami selipkan. Because sometimes a few words are what they remember most 🧸</p></details>
-    <details><summary>Apakah gluten-free?</summary><p>Kami nggak pakai bahan yang mengandung gluten. Tapi karena dapur kami juga dipakai untuk produk bergluten, semua alat dan permukaan selalu kami sanitasi sebelum produksi. Jadi lebih cocok buat kamu yang sekadar mau mengurangi gluten sehari-hari yaa.</p></details>
+    <details><summary>Bisa tambah kartu ucapan?</summary><p>Bisa dong! Tulis pesanmu, nanti kami selipkan. Because sometimes a few words are what they remember most 🧸</p></details>
+    <details><summary>Apakah gluten-free?</summary><p>Kami nggak pakai bahan yang mengandung gluten. Tapi karena dapur kami juga dipakai untuk produk bergluten, semua alat dan permukaan selalu kami sanitasi sebelum produksi. Jadi lebih cocok buat kamu yang sekadar mau mengurangi gluten sehari-hari.</p></details>
     </div>
     <p class="ask">Still wondering about something? We'd love to help. <a class="text-link" id="faqWa" href="#" target="_blank" rel="noopener">Chat with us</a></p>
     <div class="cta-row"><a class="btn btn-berry cta" href="#menu">Order now</a></div>
@@ -1284,7 +1289,10 @@ function ymd(d){ const p=n=>String(n).padStart(2,'0'); return d.getFullYear()+'-
 function addDays(d,n){ const x=new Date(d); x.setDate(x.getDate()+n); return x; }
 const waLink = t => 'https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(t);
 const groupCount = t => Object.keys(ITEMS).filter(k=>ITEMS[k].tier===t).reduce((s,k)=>s+qty[k],0);
-function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),1800); }
+function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.remove('act'); t.classList.add('show'); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),1800); }
+function toastUndo(msg,fn){ const t=$('toast'); t.innerHTML=esc(msg)+' <button class="undo" type="button">Undo</button>'; t.classList.add('show','act'); clearTimeout(t._h);
+  const done=()=>{ t.classList.remove('show','act'); };
+  t.querySelector('.undo').onclick=()=>{ fn(); done(); }; t._h=setTimeout(done,4500); }
 function esc(s){ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function press(group, btn){ group.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed', b===btn)); }
 /* Homemade Apple's capital T reads like a J: script headings use a small t */
@@ -1457,7 +1465,7 @@ function askOne(k){
   (p.addons||[]).forEach(a=>{ const n=st_.add[a.id]||0; if(n) lines.push(`${++i}. ${ITEMS[a.id].name} - ${ITEMS[a.id].variant} x${n}`); });
   if(k==='stack' && st_.n>=9) lines.push(`${++i}. FREE Teddy Stack 12 pcs x${Math.floor(st_.n/9)} (Buy 9 Get 1)`);
   const notes=[]; if(e.unit<e.base) notes.push('harga bulk'); if(e.eb) notes.push('early bird 10%');
-  const msg=`Hi Celebrar! Mau tanya dulu, slot untuk pesanan ini masih ada?\n\n${lines.join('\n')}\n\nTanggal & jam terima: \nDiambil atau dikirim? \n\nEstimasi: ${fmtK(e.total)}${notes.length?` (sudah termasuk ${notes.join(' & ')})`:''}\n(belum termasuk ongkir)\n\nDari website: Christmas Menu 2026`;
+  const msg=`Hi Celebrar! Mau tanya dulu, slot untuk pesanan ini masih ada?\n\n${lines.join('\n')}\n\nTanggal & jam terima: \nDiambil atau dikirim? \n\nEstimasi: ${fmtK(e.total)}${notes.length?` (sudah termasuk ${notes.join(' & ')})`:''}\n(belum termasuk ongkir)`;
   track('generate_lead',{currency:'IDR',value:e.total,items:st_.n,where:'product',product:k});
   window.open(waLink(msg),'_blank');
 }
@@ -1553,7 +1561,7 @@ function renderCart(){
         ${l.it.swap?`<br><select data-sw="${l.k}" aria-label="Change ${l.it.name} variant"><option selected>${l.it.variant}</option><option value="${l.it.swap}">${ITEMS[l.it.swap].variant}</option></select>`:(l.it.variant?`<small>${l.it.variant}</small>`:'')}
         ${l.unit<l.base?`<small>Bulk price ${kOnly(l.unit)} each</small>`:''}
       </div>
-      ${confirmRm===l.k?`<div class="rmq">Remove?<button data-rm="${l.k}">Yes</button><button data-keep>Keep</button></div>`:`<div class="qty sm"><button data-ck="${l.k}" data-d="-1" aria-label="Fewer">−</button><input type="number" inputmode="numeric" data-ci="${l.k}" value="${l.n}" aria-label="Quantity"><button data-ck="${l.k}" data-d="1" aria-label="More">+</button></div>`}
+      ${confirmRm===l.k?`<div class="rmq">Remove?<button data-rm="${l.k}">Yes</button><button data-keep>Keep</button></div>`:`<div class="qty sm"><button data-ck="${l.k}" data-d="-1" aria-label="Fewer">−</button><input type="number" inputmode="numeric" data-ci="${l.k}" value="${l.n}" aria-label="Quantity"><button data-ck="${l.k}" data-d="1" aria-label="More">+</button></div><button class="rmx" data-del="${l.k}" aria-label="Remove ${l.it.name}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4.5h6V7M6.5 7l1 12.5h9l1-12.5M10 11v5.5M14 11v5.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`}
     </div>`).join('') :
     `<div class="empty"><span class="star" aria-hidden="true"></span>Your basket is empty.<br><a class="btn btn-berry emptybtn" href="#menu">See the menu</a></div>`;
   let h='';
@@ -1574,6 +1582,7 @@ function renderCart(){
 }
 let confirmRm=null;
 $('cart').addEventListener('click',e=>{
+  const x=e.target.closest('[data-del]'); if(x){ const k=x.dataset.del, was=qty[k]; confirmRm=null; setQty(k,0); renderCards(); toastUndo('Item removed',()=>{ setQty(k,was); renderCards(); }); return; }
   const y=e.target.closest('[data-rm]'); if(y){ confirmRm=null; setQty(y.dataset.rm,0); renderCards(); toast('Removed from your order'); return; }
   if(e.target.closest('[data-keep]')){ confirmRm=null; renderCart(); return; }
   const b=e.target.closest('[data-ck]'); if(!b) return; const k=b.dataset.ck, d=+b.dataset.d;
@@ -1619,7 +1628,7 @@ function send(){
   let msg=`Hi Celebrar! Mau cek ketersediaan tanggal untuk pesanan ini dulu ya:\n\nNama: ${name}\nNo. HP: ${phone}\n\nPesanan (produk + varian + jumlah):\n${lines.join('\n')}\n\nTanggal & jam terima: ${fmtDateID(date)}, ${time}\nDiambil atau dikirim? ${methodText}\n\nEstimasi total: ${fmtK(r.total)}`;
   const notes=[]; if(r.bulkSave>0) notes.push('harga bulk'); if(r.eb>0) notes.push('early bird 10%');
   if(notes.length) msg+=` (sudah termasuk ${notes.join(' & ')})`;
-  msg+=`\n(belum termasuk ongkir)\n\nDari website: Christmas Menu 2026`;
+  msg+=`\n(belum termasuk ongkir)`;
   track('generate_lead',{currency:'IDR',value:r.total,items:r.count});
   window.open(waLink(msg),'_blank');
 }
