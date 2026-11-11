@@ -801,6 +801,26 @@
   .why-card .ic{width:44px!important;height:44px!important;flex:none;display:grid!important;place-items:center;background:var(--snow);border-radius:12px;}
   .why-card .ic img{max-width:32px!important;max-height:32px!important;width:auto!important;height:auto!important;object-fit:contain;}
   @media(max-width:899px){.why-card{gap:14px!important;padding:14px 16px!important;}}
+  /* section colours v2: snow / frost / butter, never the same twice in a row */
+  .finder,.more{background:var(--butter)!important;}
+  .why{background:var(--snow)!important;}
+  .tm{background:var(--butter)!important;}
+  .tm-card:nth-child(3n+2){background:var(--frost)!important;}
+  .bulk{background:#D3E9F8;isolation:isolate;}
+  .bulk::before{opacity:1!important;}
+  .custom{background:var(--snow)!important;}
+  .faq{background:var(--butter)!important;}
+  .menu .drift.bottom{--drift:var(--butter)!important;}
+  .more .drift.top{display:none!important;}
+  .bulk .drift.top{--drift:var(--butter)!important;}
+  .bulk .drift.bottom{--drift:var(--snow)!important;}
+  .care .drift.top{--drift:var(--butter)!important;}
+  .vnote{font-size:13px;color:var(--cocoa);font-weight:600;margin-top:4px;}
+  .bulkbtn{display:flex;justify-content:center;align-items:center;gap:5px;margin-top:10px;padding:10px 14px;border:1px dashed #E3CFC0;border-radius:999px;font-size:13px;color:var(--soft);text-decoration:none;background:#fff;}
+  .bulkbtn b{color:var(--berry);font-weight:700;}
+  .bulkbtn:hover{border-color:var(--berry);}
+  .manylink{font-size:13px;color:var(--soft);margin-top:10px;}
+  .manylink a{color:var(--berry);font-weight:700;text-decoration:underline;text-underline-offset:3px;}
 </style>
 </head>
 <body>
@@ -1227,13 +1247,13 @@ const ITEMS = {
 const qty = {}; Object.keys(ITEMS).forEach(k => qty[k]=0);
 
 const PRODUCTS = [
-  { key:'stack', title:'Teddy Stack', icon:'i-bb', for:'A centerpiece for the table, the host, or someone special.',
+  { key:'stack', title:'Teddy Stack', icon:'i-bb', for:'A thoughtful gift for someone special.',
     gallery:['p/stack-1|#Teddy Stack 16 pcs and 12 pcs','p/stack-2|#16 pcs','p/stack-3|#12 pcs','p/stack-4|#Up close','p/stack-5|#The whole packaging','p/stack-6|#Brown Butter and Double Choco','p/care-1|#Care card included','p/stack-7|#Greeting card for your message','p/card-custom|Custom card: “Have a Blessed Christmas!”'], vlabel:'Size',
     variants:[
-      {id:'stack16', label:'16 pcs', who:'For the whole crowd, 8–10 people', what:'8 Brown Butter Teddy Madeleines and 8 Double Choco Teddy Madeleines', inside:['i-bb*8','i-dc*8'], photo:1},
-      {id:'stack12', label:'12 pcs', who:'For your close circle, 5–7 people', what:'6 Brown Butter Teddy Madeleines and 6 Double Choco Teddy Madeleines', inside:['i-bb*6','i-dc*6'], photo:2}
+      {id:'stack16', label:'16 pcs', who:'For the whole crowd, or 8–10 people', note:'One gift, enough for everyone at their home.', what:'8 Brown Butter Teddy Madeleines and 8 Double Choco Teddy Madeleines', inside:['i-bb*8','i-dc*8'], photo:1},
+      {id:'stack12', label:'12 pcs', who:'For your close circle, or 5–7 people', what:'6 Brown Butter Teddy Madeleines and 6 Double Choco Teddy Madeleines', inside:['i-bb*6','i-dc*6'], photo:2}
     ],
-    whyH:"Made for the centre of the table", why:["A tower of teddies in Christmas hats, half Brown Butter and half Double Choco.", "Pick by your crowd: 16 pcs for 8 to 10 people, 12 pcs for 5 to 7.", "Comes with a Christmas banner, mini party hat and a greeting card.", "Ordering for many tables? Buy 9 stacks and get 1 free."],
+    whyH:"A little celebration, ready to give", why:["12 or 16 teddies, topped with one in a Christmas hat", "Half Brown Butter, half Double Choco", "Gift-ready, no extra wrapping needed", "Greeting card with your message, free", "Ordering many? Buy 9, get 1 free"],
     includes:['Christmas banner and mini party hat','Greeting card with your message','Care card with storage tips','Clear gift box with Christmas ornaments'],
     custom:'Write your own message on the greeting card. Want your logo or custom text on it? Free from 5 stacks.',
     perk:'Order 9 stacks or more and we add 1 Teddy Stack 12 pcs, free.' },
@@ -1365,7 +1385,7 @@ $('chart').addEventListener('click',e=>{ const a=e.target.closest('.gcard'); if(
 /* ===================== MENU (all products, one card each) ===================== */
 const pstate={}; PRODUCTS.forEach(p=>pstate[p.key]={v:0,n:p.min||1,add:{}});
 const gpos={};
-const TILE={stack:{img:'p/stack-1',d:'Made for the centre of the table'}, box:{img:'p/box-1',d:'Our favourite for sharing'}, sharing:{img:'p/sharing-1',d:'One teddy for every person'}, cookies:{img:'p/cookies-1',d:'Our most affordable gift'}, drizzle:{img:'p/drizzle-1',d:'A small gift with a little moment'}};
+const TILE={stack:{img:'p/stack-1',d:'A little celebration, ready to give'}, box:{img:'p/box-1',d:'Our favourite for sharing'}, sharing:{img:'p/sharing-1',d:'One teddy for every person'}, cookies:{img:'p/cookies-1',d:'Our most affordable gift'}, drizzle:{img:'p/drizzle-1',d:'A small gift with a little moment'}};
 let openKey=null;
 const ICON_LABEL={'i-bb':'Brown Butter','i-dc':'Double Choco','i-stick':'Teddy Stick','i-vanilla':'Vanilla Cookie','i-choco':'Chocolate Cookie','i-peanut':'Peanut Cookie','i-pistachio':'Pistachio Cookie','i-matcha':'Matcha Cookie','i-strawberry':'Strawberry Earl Grey Cookie'};
 function renderTiles(){
@@ -1428,6 +1448,7 @@ function renderCard(k, opt={}){
       <p class="for">${p.for}</p>
       ${p.variants.length>1?`<div class="choose"><span>${p.vlabel}</span><div class="seg" role="group" aria-label="${p.vlabel}">${p.variants.map((x,i)=>`<button aria-pressed="${i===st_.v}" data-vi="${i}">${x.label}</button>`).join('')}</div></div>`:''}
       <div class="priceline"><span><span class="num">${kOnly(shown)}<small>${p.unitLabel||''}</small></span>${eb?`<s>${kOnly(base)}</s>`:''}</span><span class="who">${v.who}</span></div>
+      ${v.note?`<p class="vnote">${v.note}</p>`:''}
       ${eb?`<span class="ebnote">Early bird price, until 18 Nov</span>`:''}
       <p class="what sr">${v.what}</p>
       <div class="inside" aria-hidden="true">${v.inside.map((x,i)=>{const [ic,n]=x.split('*');return `<span class="it"><img src="${IMG+ic}.png" alt="" style="animation-delay:${i*.04}s">${n?`<b>×${n}</b>`:''}<span>${ICON_LABEL[ic]||''}</span></span>`;}).join('')}${v.tot?`<span class="tot">${v.tot}</span>`:''}</div>
@@ -1438,12 +1459,12 @@ function renderCard(k, opt={}){
         <div class="qty"><button data-pn="-1" aria-label="Fewer">−</button><input data-in="n" type="number" inputmode="numeric" value="${st_.n}" aria-label="Quantity"><button data-pn="1" aria-label="More">+</button></div>
         ${closedNow()?`<button class="btn btn-berry" disabled style="opacity:.5">Orders closed for 2026</button>`:`<button class="btn btn-berry" data-act="add">Add to my order</button>`}
       </div>
+      <a class="bulkbtn" href="#bulk" data-calc="${k==='box'?(st_.v===2?'boxM':'boxS'):({stack:'stack',sharing:'share',cookies:'cookie',drizzle:'drizzle'})[k]}">Ordering many? <b>See bulk prices</b></a>
       ${e.save>0?`<p class="save">You save <b>${fmtK(e.save)}</b> <span>${[e.eb?'early bird':'',unit<base?'bulk price':''].filter(Boolean).join(' + ')}</span></p>`:''}
       ${k==='stack'&&st_.n>=9?`<p class="save">+ ${Math.floor(st_.n/9)} free Teddy Stack 12 pcs</p>`:''}
       ${closedNow()?'':`<p class="alt">Not sure yet? <button class="wa-mini" data-act="ask">${WA_SVG}Ask us on WhatsApp</button></p>`}
       ${qty[v.id]?`<p class="hint">You have ${qty[v.id]} in your order.</p>`:''}
       ${p.custom?`<p class="custom-note"><b>&#9829; Make it personal.</b> ${p.custom} <button class="text-link" data-ex>See example</button></p>`:''}
-      <p class="perk">${p.perk} <a href="#bulk">See bulk prices</a></p>
       <div class="pwhy"><p class="pwhy-k">Why choose ${p.title}</p><p class="pwhy-h">${p.whyH}</p><ul>${p.why.map(i=>`<li>${i}</li>`).join('')}</ul></div>
     </div>`;
   if(opt.anim) el.classList.add('swap');
@@ -1473,7 +1494,7 @@ function askOne(k){
 }
 $('pmBody').addEventListener('click',ev=>{
   const el=$('pmBody');
-  const a=ev.target.closest('a[href^="#"]'); if(a){ ev.preventDefault(); const t=a.getAttribute('href'); closeSheet(); setTimeout(()=>{ const x=document.querySelector(t); if(x) x.scrollIntoView({behavior:'smooth'}); },420); return; }
+  const a=ev.target.closest('a[href^="#"]'); if(a){ ev.preventDefault(); if(a.dataset.calc) pickCalc(a.dataset.calc); const t=a.getAttribute('href'); closeSheet(); setTimeout(()=>{ const x=document.querySelector(t); if(x) x.scrollIntoView({behavior:'smooth'}); },420); return; }
   const k=el.dataset.key, p=PRODUCTS.find(x=>x.key===k), st_=pstate[k], tr=el.querySelector('.track');
   const vi=ev.target.closest('[data-vi]');
   if(vi){ st_.v=+vi.dataset.vi; renderCard(k,{jump:true}); return; }
@@ -1519,6 +1540,7 @@ const CALC=[
   {k:'drizzle', label:'Teddy Drizzle', item:'drizzle', unit:'Boxes', def:10}
 ];
 let calcSel=CALC[0];
+function pickCalc(k){ const c=CALC.find(x=>x.k===k); if(!c) return; calcSel=c; const r=$('calcRange'); r.min=c.min||1; r.max=c.max||100; r.value=c.def; renderCalcOpts(); updateCalc(); track('cta_click',{where:'bulk_link',product:k}); }
 function renderCalcOpts(){ $('calcOpts').innerHTML=CALC.map(c=>`<button aria-pressed="${c===calcSel}" data-k="${c.k}">${c.label}</button>`).join(''); }
 $('calcOpts').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; calcSel=CALC.find(c=>c.k===b.dataset.k);
   const r=$('calcRange'); r.min=calcSel.min||1; r.max=calcSel.max||100; r.value=calcSel.def; renderCalcOpts(); updateCalc(); });
@@ -1753,6 +1775,9 @@ if(ymd(new Date())>LAST_DELIVERY){ $('closedMsg').style.display='block'; $('send
 $('customWa').href=waLink('Hi Celebrar! Aku mau tanya soal custom logo/message untuk pesanan Natal.');
 $('faqWa').href=waLink('Hi Celebrar! Aku mau tanya soal Christmas Menu 2026.');
 $('footWa').href=waLink('Hi Celebrar!');
+/* ===================== DEEP LINK: ?item=stack opens that product ===================== */
+(function(){ const k=new URLSearchParams(location.search).get('item'); if(!k||!PRODUCTS.some(p=>p.key===k)) return;
+  $('menu').scrollIntoView(); setTimeout(()=>openSheet(k),350); })();
 ['customWa','faqWa','footWa'].forEach(id=>$(id).addEventListener('click',()=>track('wa_click',{where:id})));
 </script>
 </body>
