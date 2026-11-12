@@ -32,7 +32,33 @@
     window.gtag = function(){ dataLayer.push(arguments); };
     gtag('js', new Date()); gtag('config', window.GA_ID);
   }
-  window.track = function(name, params){ try { if (window.gtag && window.GA_ID) gtag('event', name, params || {}); } catch(e){} };
+  window.track = function(name, params){
+    params = params || {};
+    try { if (window.gtag && window.GA_ID) gtag('event', name, params); } catch(e){}
+    try {
+      var m = {view_item:'ViewContent', add_to_order:'AddToCart', generate_lead:'Lead', wa_click:'Contact'}[name];
+      if (window.fbq && m) {
+        var p = {};
+        if (params.value != null) { p.value = Number(params.value) || 0; p.currency = params.currency || 'IDR'; }
+        if (params.product) p.content_name = String(params.product);
+        fbq('track', m, p);
+      }
+    } catch(e){}
+  };
+</script>
+
+<!-- Meta Pixel (dataset "Celebrar Website"). Empty META_PIXEL_ID = Pixel off. -->
+<script>
+  window.META_PIXEL_ID = '1719196936496156';
+  if (window.META_PIXEL_ID) {
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', window.META_PIXEL_ID);
+    fbq('track', 'PageView');
+  }
 </script>
 
 <style>
