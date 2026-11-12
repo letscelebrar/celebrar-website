@@ -503,6 +503,29 @@
   gtag('js', new Date());
   gtag('config', 'G-CVG4S7MY5Q');
 </script>
+
+<!-- Meta Pixel (dataset "Celebrar Website"). Empty META_PIXEL_ID = Pixel off. -->
+<script>
+  window.META_PIXEL_ID = '1719196936496156';
+  if (window.META_PIXEL_ID) {
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', window.META_PIXEL_ID);
+    fbq('track', 'PageView');
+    // Klik tombol/link WhatsApp = Contact
+    document.addEventListener('click', function(ev){
+      try {
+        var a = ev.target.closest && ev.target.closest('a[href]');
+        if (!a) return;
+        var h = a.getAttribute('href') || '';
+        if (/wa\.me\//.test(h)) fbq('track', 'Contact');
+      } catch(e){}
+    }, true);
+  }
+</script>
 </head>
 <body>
 
@@ -2078,6 +2101,7 @@
       lines.push("Looking forward to hearing from you!");
 
       const message = lines.join("\n");
+      try { if (window.fbq) fbq('track', 'Lead', {value: Number(cartTotal()) || 0, currency: 'IDR'}); } catch(e){}
       window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, "_blank");
       closeModal();
     });
