@@ -160,7 +160,7 @@
   .topband .st{position:absolute;height:auto;}
   .topband .dot{position:absolute;width:calc(var(--bh)*.04);height:calc(var(--bh)*.04);border-radius:50%;background:#fff;}
   .topband .bow{position:absolute;left:71.2%;top:38%;width:calc(var(--bh)*.40);}
-  .topband .cloud{position:absolute;left:83.6%;top:54%;width:calc(var(--bh)*.66);z-index:2;}
+  .topband .cloud{position:absolute;left:83.6%;top:26%;width:calc(var(--bh)*.66);z-index:2;}
   .hero .in{display:grid;grid-template-columns:43% 1fr;grid-template-areas:"win copy" "win after";column-gap:18px;row-gap:0;align-items:end;justify-items:start;text-align:left;padding-top:10px;}
   .hero .copy{grid-area:copy;align-self:end;}
   .hero .window{grid-area:win;}
@@ -230,8 +230,25 @@
     .hero h1{font-size:clamp(24px,6.8vw,34px);line-height:1.15;}
   }
   /* one orchestrated load moment */
-  .hero .window{animation:rise 1.2s var(--ease) both;}
-  .hero .copy>*{animation:fadeup .9s var(--ease) both;}
+  /* hero tampil langsung (tanpa animasi masuk) */
+  .hero .window,.hero .copy>*{animation:none;}
+  /* What's in the Stack: foto dijejer (tanpa swipe) */
+  .feat{position:relative;background:var(--snow);padding:12px 0 56px;}
+  .feat .head{margin-bottom:20px;}
+  .feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:980px;margin:0 auto;}
+  .feat-card{margin:0;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 8px 22px -14px rgba(60,40,30,.35);}
+  .feat-card img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;}
+  .feat-card figcaption{padding:10px 12px 14px;}
+  .feat-card b{display:block;color:var(--cocoa);font-size:14.5px;line-height:1.3;}
+  .feat-card span{display:block;color:var(--soft);font-size:13px;line-height:1.4;margin-top:4px;}
+  @media(min-width:900px){.feat-grid{grid-template-columns:repeat(3,1fr);gap:20px;}.feat-card b{font-size:16px;}.feat-card span{font-size:14px;}}
+  /* kartu produk: 1 foto sesuai ukuran, tidak bisa di-swipe */
+  .product.solo .gal .track{overflow-x:hidden;scroll-snap-type:none;}
+  .product.solo .gal,.product.solo .pwhy,.product.solo .custom-note{display:none!important;}
+  .menu .product.solo{grid-template-columns:1fr!important;max-width:620px!important;}
+  .hero .drift.bottom{--drift:var(--snow)!important;}
+  /* HP: harga & tombol hero tidak keluar layar */
+  @media(max-width:520px){.hero .after{max-width:100%;}.hero .price{white-space:normal;max-width:100%;}.hero .scrollbtn{font-size:14px;padding-left:14px;gap:6px;max-width:100%;}.hero .scrollbtn i{width:30px;height:30px;flex:none;}}
   .hero .window{animation-delay:.1s}.hero .copy>*:nth-child(2){animation-delay:.1s}.hero .copy>*:nth-child(3){animation-delay:.16s}.hero .copy>*:nth-child(4){animation-delay:.22s}.hero .copy>*:nth-child(5){animation-delay:.28s}
   @keyframes rise{from{opacity:0;transform:translateY(24px) scale(.97)}to{opacity:1;transform:none}}
   @keyframes fadeup{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
@@ -864,6 +881,44 @@
   .regnote{text-align:center;font-size:12.5px;color:var(--soft);margin-top:18px;}
   .regnote a{color:var(--cocoa);font-weight:700;text-decoration:underline;text-underline-offset:3px;}
   .care .cards{grid-template-columns:minmax(0,260px)!important;justify-content:center;}
+
+  /* ===== 13 Nov: warna beda tiap bagian + sambungan awan ===== */
+  .hero .drift.bottom{display:none!important;}
+  .feat{background:#EAF4FC!important;padding:64px 0 56px!important;}
+  .tm{background:#FFF1C5!important;padding:76px 0 52px!important;}
+  .tm::before,.tm::after{display:none!important;}
+  .tm-card:nth-child(3n+2){background:#FFFBF3!important;}
+  .menu{background:#FBEDEF!important;padding-top:72px!important;}
+  .order{background:#FFFBF3!important;}
+  .how{background:#EAF4FC!important;}
+  .why{background:#FFF1C5!important;padding:76px 0 64px!important;}
+  .bulk{background:#D3E9F8!important;}
+  .custom{background:#FFFBF3!important;}
+  .faq{position:relative;background:#FBEDEF!important;}
+  .care{background:#EAF4FC!important;}
+  .everyday{background:#FFFBF3!important;}
+  .feat .ebbar{margin:-6px auto 22px;}
+  .feat-card{cursor:zoom-in;transition:transform .2s var(--ease);}
+  .feat-card:active{transform:scale(.98);}
+  .product.solo .for{display:none!important;}
+  /* warna awan = warna bagian sebelumnya */
+  #features>.drift.top{--drift:#FFFBF3!important;display:block!important;}
+  #reviews>.drift.top{--drift:#EAF4FC!important;display:block!important;}
+  #menu>.drift.top{--drift:#FFF1C5!important;display:block!important;}
+  #order>.drift.top{--drift:#FBEDEF!important;display:block!important;}
+  #how>.drift.top{--drift:#FFFBF3!important;display:block!important;}
+  #why>.drift.top{--drift:#EAF4FC!important;display:block!important;}
+  #bulk>.drift.top{--drift:#FFF1C5!important;display:block!important;}
+  #custom>.drift.top{--drift:#D3E9F8!important;display:block!important;}
+  #faq>.drift.top{--drift:#FFFBF3!important;display:block!important;}
+  #care>.drift.top{--drift:#FBEDEF!important;display:block!important;}
+  #more>.drift.top{--drift:#EAF4FC!important;display:block!important;}
+  .foot .drift.top{--drift:#FFFBF3!important;}
+  .how .drift.top{display:block!important;}
+  .how{padding:76px 0 64px!important;}
+  .menu{padding-bottom:64px!important;}
+  .order{padding-bottom:60px!important;}
+  @media(max-width:520px){.hero h1{font-size:38px!important;}}
 </style>
 </head>
 <body>
@@ -904,13 +959,14 @@
   </div>
   <div class="navpanel" id="navPanel">
     <div class="wrap">
-      <a href="#menu">Teddy Stack<small>Sizes, prices and order</small></a>
-            <a href="#reviews">Reviews<small>Straight from the chat</small></a>
+      <a href="#features">Why Teddy Stack<small>What's in the stack</small></a>
+      <a href="#reviews">Reviews<small>Straight from the chat</small></a>
+      <a href="#menu">Sizes &amp; Prices<small>Pick 16 or 12 pcs</small></a>
+      <a href="#order">Your Order<small>Basket and WhatsApp</small></a>
+      <a href="#how">How Ordering Works<small>Steps and important dates</small></a>
       <a href="#why">Why Celebrar<small>What makes ours different</small></a>
       <a href="#bulk">Ordering for Many<small>Bulk prices</small></a>
       <a href="#custom">Make It Personal<small>Custom text and logo</small></a>
-      <a href="#how">How Ordering Works<small>Steps and important dates</small></a>
-      <a href="#order">Your Order<small>Basket and WhatsApp</small></a>
       <a href="#faq">FAQ<small>Payment, delivery, pickup</small></a>
       <a href="#care">Care Guide<small>Keeping them fresh</small></a>
       <a href="#" id="navWa" target="_blank" rel="noopener" class="wa">Chat with us on WhatsApp</a>
@@ -923,8 +979,8 @@
   <div class="wrap in">
     <div class="copy">
       <span class="heroeyebrow">Christmas Teddy Stack</span>
-      <h1>Easy to share, made with care.</h1>
-      <p class="sub">A tower of teddies for someone special.</p>
+      <h1>Not Sure What to Bring This Christmas?</h1>
+      <p class="sub">Bring a tower of teddies everyone can share.</p>
     </div>
     <div class="window">
       <div class="glass" id="heroShow">
@@ -947,118 +1003,53 @@
   <div class="drift bottom"></div>
 </header>
 
-<!-- MENU -->
-<section class="menu" id="menu">
+<!-- WHAT'S IN THE STACK -->
+<section class="feat" id="features">
+  <div class="drift top" style="--drift:#FFFBF3"></div>
   <div class="wrap">
-    <div class="head">
-      <span class="eyebrow">Christmas 2026</span><h2 class="title">Christmas Teddy Stack</h2>
-    </div>
+    <div class="head"><span class="eyebrow">What's in the Stack</span><h2 class="title">Why Choose teddy Stack</h2></div>
     <div class="ebbar" id="earlybird" role="timer" aria-label="Early bird time left">Early bird −10% until 18 Nov, ends in
       <span class="t"><span class="num" id="cdD">0</span><small>d</small><span class="num" id="cdH">00</span><small>h</small><span class="num" id="cdM">00</span><small>m</small><span class="num" id="cdS">00</span><small>s</small></span>
     </div>
-    <div id="tiles" hidden></div>
-    <article class="product solo" id="pmBody" data-key="stack" aria-label="Teddy Stack"></article>
-    <p class="howto">Pick a size <i>&rarr;</i> Add to order <i>&rarr;</i> Send via WhatsApp</p>
-    <p class="fine">*No gluten ingredients. Made in a shared kitchen. Tools and surfaces are sanitized before each production.</p>
+    <div class="feat-grid">
+      <figure class="feat-card" role="button" tabindex="0" aria-label="Zoom photo"><img src="../../assets/christmas/p/stack-1.jpg" alt="Teddy Stack 16 pcs and 12 pcs" loading="lazy"><figcaption><b>Enough for everyone</b><span>Or a sweet gift for someone special in your close circle.</span></figcaption></figure>
+      <figure class="feat-card" role="button" tabindex="0" aria-label="Zoom photo"><img src="../../assets/christmas/p/stack-6.jpg" alt="Brown Butter and Double Choco teddies" loading="lazy"><figcaption><b>Two flavors in one stack</b><span>Half Brown Butter and half Double Choco (with choco chips).</span></figcaption></figure>
+      <figure class="feat-card" role="button" tabindex="0" aria-label="Zoom photo"><img src="../../assets/christmas/p/stack-5.jpg" alt="Teddy Stack in its Christmas gift box" loading="lazy"><figcaption><b>Ready to give</b><span>Clear gift box with Christmas ornaments.</span></figcaption></figure>
+      <figure class="feat-card" role="button" tabindex="0" aria-label="Zoom photo"><img src="../../assets/christmas/p/stack-7.jpg" alt="Greeting card for your message" loading="lazy"><figcaption><b>Personalized custom message</b><span>A free greeting card with your own words in every order.</span></figcaption></figure>
+      <figure class="feat-card" role="button" tabindex="0" aria-label="Zoom photo"><img src="../../assets/christmas/p/stack-4.jpg" alt="Teddy in a Christmas party hat, up close" loading="lazy" style="object-position:center 80%"><figcaption><b>Dressed for Christmas</b><span>Snowfall arc with white poms, and a teddy in a party hat on top.</span></figcaption></figure>
+      <figure class="feat-card" role="button" tabindex="0" aria-label="Zoom photo"><img src="../../assets/christmas/p/care-1.jpg" alt="Care card with storage tips" loading="lazy"><figcaption><b>Easy to keep fresh</b><span>Stays good 3–4 days at room temperature. No special care needed.</span></figcaption></figure>
+    </div>
+    <div class="cta-row"><a class="btn btn-berry cta" href="#menu" onclick="track('cta_click',{where:'features'})">Order now</a></div>
   </div>
-  <div class="drift bottom"></div>
 </section>
 
 <!-- GIFT GUIDE -->
 <!-- WHY CELEBRAR -->
 <section class="tm" id="reviews">
+  <div class="drift top" style="--drift:#EAF4FC"></div>
   <div class="wrap"><h2 class="tm-title">Straight from the Chat</h2></div>
   <div class="tm-rail" id="tmRail"><div class="tm-track"><button class="tm-card" data-chat="../../assets/christmas/testi/chat-1.jpg" aria-label="See the original chat"><span class="q">kuenya udh aku terima.. aman dan rapihhhh huhuhu cantikk kakkk</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../../assets/christmas/testi/chat-2.jpg" aria-label="See the original chat"><span class="q">gak seret dan butteryy. yang cokleat juga gak kering.</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../../assets/christmas/testi/chat-7.jpg" aria-label="See the original chat"><span class="q">Sukaaa bangett kaaaa, u really made my day 🤍</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../../assets/christmas/testi/chat-11.jpg" aria-label="See the original chat"><span class="q">katanya pada ngga tega makannya 🤣</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../../assets/christmas/testi/chat-3.jpg" aria-label="See the original chat"><span class="q">kakk dah sampee iii lucuu bangeett</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../../assets/christmas/testi/chat-4.jpg" aria-label="See the original chat"><span class="q">sizenya pas, teksturnya lembut, rasanya rich tapi ttp nggak terlalu manis</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../../assets/christmas/testi/chat-9.jpg" aria-label="See the original chat"><span class="q">kakkk temen aku sukaa pake bangettttt</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../../assets/christmas/testi/chat-10.jpg" aria-label="See the original chat"><span class="q">Next time aku pesen lg yaa untuk anakku karena kebetulan anakku ga makan gluten</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../../assets/christmas/testi/chat-5.jpg" aria-label="See the original chat"><span class="q">Sudah aku terima ya kak, aman dan lucu bangeettt</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../../assets/christmas/testi/chat-6.jpg" aria-label="See the original chat"><span class="q">Pckagingnya lucu dan rapi kakk, emang sayang sih kalo buat makan sendiri</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../../assets/christmas/testi/chat-8.jpg" aria-label="See the original chat"><span class="q">rasanya enakkk, makasi banyakkkk</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../../assets/christmas/testi/chat-10.jpg" aria-label="See the original chat"><span class="q">Lucu bgt plis 🥺🥺</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../../assets/christmas/testi/chat-1.jpg" aria-hidden="true" tabindex="-1"><span class="q">kuenya udh aku terima.. aman dan rapihhhh huhuhu cantikk kakkk</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../../assets/christmas/testi/chat-2.jpg" aria-hidden="true" tabindex="-1"><span class="q">gak seret dan butteryy. yang cokleat juga gak kering.</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../../assets/christmas/testi/chat-7.jpg" aria-hidden="true" tabindex="-1"><span class="q">Sukaaa bangett kaaaa, u really made my day 🤍</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../../assets/christmas/testi/chat-11.jpg" aria-hidden="true" tabindex="-1"><span class="q">katanya pada ngga tega makannya 🤣</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../../assets/christmas/testi/chat-3.jpg" aria-hidden="true" tabindex="-1"><span class="q">kakk dah sampee iii lucuu bangeett</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../../assets/christmas/testi/chat-4.jpg" aria-hidden="true" tabindex="-1"><span class="q">sizenya pas, teksturnya lembut, rasanya rich tapi ttp nggak terlalu manis</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../../assets/christmas/testi/chat-9.jpg" aria-hidden="true" tabindex="-1"><span class="q">kakkk temen aku sukaa pake bangettttt</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../../assets/christmas/testi/chat-10.jpg" aria-hidden="true" tabindex="-1"><span class="q">Next time aku pesen lg yaa untuk anakku karena kebetulan anakku ga makan gluten</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../../assets/christmas/testi/chat-5.jpg" aria-hidden="true" tabindex="-1"><span class="q">Sudah aku terima ya kak, aman dan lucu bangeettt</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../../assets/christmas/testi/chat-6.jpg" aria-hidden="true" tabindex="-1"><span class="q">Pckagingnya lucu dan rapi kakk, emang sayang sih kalo buat makan sendiri</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../../assets/christmas/testi/chat-8.jpg" aria-hidden="true" tabindex="-1"><span class="q">rasanya enakkk, makasi banyakkkk</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button><button class="tm-card" data-chat="../../assets/christmas/testi/chat-10.jpg" aria-hidden="true" tabindex="-1"><span class="q">Lucu bgt plis 🥺🥺</span><span class="by"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>via WhatsApp</span></button></div></div>
   <p class="tm-foot">Real messages, names hidden. Tap one to see the original chat.</p>
   <div class="cta-row"><a class="btn btn-berry cta" href="#menu">Order now</a></div>
 </section>
 
-<section class="why" id="why">
-  <div class="wrap head"><h2 class="title">why Celebrar</h2><p class="lede">Small gifts, made to be shared.</p></div>
-  <div class="why-rail">
-    <div class="why-card"><span class="ic"><img src="../../assets/christmas/i-bb.png" alt=""></span><span class="tx"><b>Gentle on everyone</b><span>No gluten ingredients*, less sugar. Even the friend who skips dessert can join in.</span></span></div>
-    <div class="why-card"><span class="ic"><img src="../../assets/christmas/i-vanilla.png" alt=""></span><span class="tx"><b>Pickup or delivery</b><span>Delivered within Jakarta &amp; Tangerang, or pick up in Kalideres or Batuceper.</span></span></div>
-    <div class="why-card"><span class="ic"><img src="../../assets/christmas/i-stick.png" alt=""></span><span class="tx"><b>Ready to share</b><span>Every piece wrapped on its own. No cutting, no plates.</span></span></div>
-    <div class="why-card"><span class="ic"><img src="../../assets/christmas/bow.png" alt=""></span><span class="tx"><b>Your words on every gift</b><span>A greeting card with your message, in any order.</span></span></div>
-    <div class="why-card"><span class="ic"><img src="../../assets/christmas/i-matcha.png" alt=""></span><span class="tx"><b>Easy for big orders</b><span>Buy 9 stacks, get 1 free. Custom logo, several addresses. Invoice available.</span></span></div>
-  </div>
-  <div class="cta-row"><a class="btn btn-berry cta" href="#menu">Order now</a></div>
-</section>
-
-<!-- TESTIMONIALS -->
-<!-- BULK -->
-<section class="bulk" id="bulk">
-  <div class="drift top"></div>
+<!-- MENU -->
+<section class="menu" id="menu">
+  <div class="drift top" style="--drift:#FFF1C5"></div>
   <div class="wrap">
     <div class="head">
-      <span class="eyebrow">Bulk prices</span><h2 class="title">Ordering for Many?</h2>
-      <p class="lede">Every 9 stacks, we add 1 Teddy Stack 12 pcs, free.</p>
+      <span class="eyebrow">Christmas 2026</span><h2 class="title">Christmas teddy Stack</h2>
     </div>
-    <div class="calc">
-      <div class="seg" id="calcOpts" role="group" aria-label="Size"></div>
-      <div class="count"><span id="calcLabel">Boxes</span><div class="cstep"><button type="button" data-cs="-1" aria-label="Fewer">−</button><span class="num" id="calcQty">10</span><button type="button" data-cs="1" aria-label="More">+</button></div></div>
-      <input type="range" id="calcRange" class="nudge" min="1" max="100" value="10" aria-label="Quantity">
-      <p class="slidehint" id="slideHint">&larr; Slide the star or tap &minus; / + &rarr;</p>
-      <div class="ladder" id="calcTiers"></div>
-      <div class="result">
-        <div><small>Your total</small><span class="num" id="calcTotal">-</span><p id="calcUnit"></p></div>
-        <div class="save" style="text-align:right"><small>You save</small><span class="num" id="calcSave">-</span><p id="calcSaveNote"></p></div>
-      </div>
-      <button class="btn btn-berry btn-block" id="calcAdd">Add to my order</button>
-      
-    </div>
+    <div id="tiles" hidden></div>
+    <article class="product solo" id="pmBody" data-key="stack" aria-label="Teddy Stack"></article>
+    <p class="howto">Pick a size <i>&rarr;</i> Add to order <i>&rarr;</i> Send via WhatsApp</p>
+    <p class="fine">*No gluten ingredients. Made in a shared kitchen. Tools and surfaces are sanitized before each production.</p>
   </div>
-  <div class="drift bottom"></div>
-</section>
-
-<!-- PERSONAL -->
-<section class="custom" id="custom">
-  <img src="../../assets/christmas/cloud.png" alt="" aria-hidden="true" style="position:absolute;right:-18px;top:46px;width:84px;z-index:2">
-  <div class="wrap grid">
-    <div class="stage">
-      <span class="tape"></span>
-      <div class="frame" id="stage"></div>
-    </div>
-    <div class="copy">
-      <span class="eyebrow">Free custom text and logo</span><h2 class="title">Make It Personal</h2>
-      <p>The treats say Merry Christmas. Your words make it theirs.</p>
-      <div class="pick3" id="custProd" role="group" aria-label="What to personalize" style="display:none">
-        <button aria-pressed="false" data-v="handle">Christmas handle<small>Teddy Sharing</small></button>
-        <button aria-pressed="false" data-v="topper">Cookie topper<small>Christmas Cookies</small></button>
-        <button aria-pressed="true" data-v="card">Greeting card<small>Stack, Box, Drizzle</small></button>
-      </div>
-      <div class="forwhat" id="forwhat"></div>
-      <p class="note" style="margin-top:10px">Send your file or text at least 3 days before delivery.</p>
-      <div class="cta-pair"><a class="btn btn-berry" href="#menu">Order now</a><a class="btn btn-line" id="customWa" href="#" target="_blank" rel="noopener">Ask about custom packaging</a></div>
-    </div>
-  </div>
-  <div class="drift bottom"></div>
-</section>
-
-<!-- HOW -->
-<section class="how" id="how">
-  <div class="drift top"></div>
-  <div class="wrap">
-    <div class="head"><span class="eyebrow">4 easy steps</span><h2 class="title">How Ordering Works</h2></div>
-    <ol class="steps">
-      <li><b>Pick your treats</b><p>Choose a product and how many.</p></li>
-      <li><b>Ask on WhatsApp</b><p>Tap the button. Your order is written for you.</p></li>
-      <li><b>We check your date</b><p>And reply with your order summary.</p></li>
-      <li><b>Pay in full</b><p>Your date is secured once paid. First pay, first served.</p></li>
-    </ol>
-    <div class="dates">
-      <div class="date"><span class="mon">DEC</span><span class="dn">22</span><p>Last day<br>to order</p></div>
-      <div class="date"><span class="mon">DEC</span><span class="dn">24-25</span><p>No deliveries/<br>Off</p></div>
-      <div class="date"><span class="mon">DEC</span><span class="dn">30</span><p>Last delivery</p></div>
-    </div>
-    <p class="note" style="text-align:center;margin-top:16px">Delivery within Jakarta and Tangerang.</p>
-    <div class="cta-row"><a class="btn btn-berry cta" href="#menu">Start my order</a></div>
-  </div>
-  <div class="drift bottom"></div>
 </section>
 
 <!-- ORDER -->
 <section class="order" id="order">
+  <div class="drift top" style="--drift:#FBEDEF"></div>
   <div class="wrap">
     <div class="head">
       <span class="eyebrow">Almost there</span><h2 class="title">Your Order</h2>
@@ -1080,7 +1071,6 @@
         <h3>Your Details</h3>
         <div class="form">
           <div class="field"><label for="fName">Name</label><input id="fName" type="text" autocomplete="name"></div>
-          <div class="field"><label for="fPhone">Phone number</label><input id="fPhone" type="tel" autocomplete="tel" placeholder="08xx xxxx xxxx"></div>
           <div class="two">
             <div class="field"><label for="fDate">Receive date</label><input id="fDate" type="date"></div>
             <div class="field"><label for="fTime">Time</label><input id="fTime" type="time" min="09:00" max="18:00"></div>
@@ -1102,6 +1092,7 @@
             <p class="note" id="methodNote"></p>
           </div>
           <p class="err" id="formErr" role="alert"></p>
+          <p class="note" style="text-align:center;margin:0 0 10px">All fields are optional. We can fill in the rest on WhatsApp.</p>
           <button class="btn btn-berry btn-block" id="sendBtn" type="button"><svg width="18" height="18"><use href="#i-wa"/></svg>Ask on WhatsApp</button>
           <p class="note" style="text-align:center">Limited quota per day. Your date is secured once payment is complete.</p>
         </div>
@@ -1110,10 +1101,94 @@
   </div>
 </section>
 
+<!-- HOW -->
+<section class="how" id="how">
+  <div class="drift top" style="--drift:#FFFBF3"></div>
+  <div class="wrap">
+    <div class="head"><span class="eyebrow">4 easy steps</span><h2 class="title">How Ordering Works</h2></div>
+    <ol class="steps">
+      <li><b>Pick your treats</b><p>Choose a product and how many.</p></li>
+      <li><b>Ask on WhatsApp</b><p>Tap the button. Your order is written for you.</p></li>
+      <li><b>We check your date</b><p>And reply with your order summary.</p></li>
+      <li><b>Pay in full</b><p>Your date is secured once paid. First pay, first served.</p></li>
+    </ol>
+    <div class="dates">
+      <div class="date"><span class="mon">DEC</span><span class="dn">22</span><p>Last day<br>to order</p></div>
+      <div class="date"><span class="mon">DEC</span><span class="dn">24-25</span><p>No deliveries/<br>Off</p></div>
+      <div class="date"><span class="mon">DEC</span><span class="dn">30</span><p>Last delivery</p></div>
+    </div>
+    <p class="note" style="text-align:center;margin-top:16px">Delivery within Jakarta and Tangerang.</p>
+    <div class="cta-row"><a class="btn btn-berry cta" href="#order">Back to my order</a></div>
+  </div>
+</section>
+
+<section class="why" id="why">
+  <div class="drift top" style="--drift:#EAF4FC"></div>
+  <div class="wrap head"><h2 class="title">Why Celebrar</h2><p class="lede">Small gifts, made to be shared.</p></div>
+  <div class="why-rail">
+    <div class="why-card"><span class="ic"><img src="../../assets/christmas/i-bb.png" alt=""></span><span class="tx"><b>Gentle on everyone</b><span>No gluten ingredients*, less sugar. Even the friend who skips dessert can join in.</span></span></div>
+    <div class="why-card"><span class="ic"><img src="../../assets/christmas/i-vanilla.png" alt=""></span><span class="tx"><b>Pickup or delivery</b><span>Delivered within Jakarta &amp; Tangerang, or pick up in Kalideres or Batuceper.</span></span></div>
+    <div class="why-card"><span class="ic"><img src="../../assets/christmas/i-stick.png" alt=""></span><span class="tx"><b>Ready to share</b><span>Every piece wrapped on its own. No cutting, no plates.</span></span></div>
+    <div class="why-card"><span class="ic"><img src="../../assets/christmas/bow.png" alt=""></span><span class="tx"><b>Your words on every gift</b><span>A greeting card with your message, in any order.</span></span></div>
+    <div class="why-card"><span class="ic"><img src="../../assets/christmas/i-matcha.png" alt=""></span><span class="tx"><b>Easy for big orders</b><span>Buy 9 stacks, get 1 free. Custom logo, several addresses. Invoice available.</span></span></div>
+  </div>
+  <div class="cta-row"><a class="btn btn-berry cta" href="#menu">Order now</a></div>
+</section>
+
+<!-- TESTIMONIALS -->
+<!-- BULK -->
+<section class="bulk" id="bulk">
+  <div class="drift top" style="--drift:#FFF1C5"></div>
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Bulk prices</span><h2 class="title">Ordering for Many?</h2>
+      <p class="lede">Every 9 stacks, we add 1 Teddy Stack 12 pcs, free.</p>
+    </div>
+    <div class="calc">
+      <div class="seg" id="calcOpts" role="group" aria-label="Size"></div>
+      <div class="count"><span id="calcLabel">Boxes</span><div class="cstep"><button type="button" data-cs="-1" aria-label="Fewer">−</button><span class="num" id="calcQty">10</span><button type="button" data-cs="1" aria-label="More">+</button></div></div>
+      <input type="range" id="calcRange" class="nudge" min="1" max="100" value="10" aria-label="Quantity">
+      <p class="slidehint" id="slideHint">&larr; Slide the star or tap &minus; / + &rarr;</p>
+      <div class="ladder" id="calcTiers"></div>
+      <div class="result">
+        <div><small>Your total</small><span class="num" id="calcTotal">-</span><p id="calcUnit"></p></div>
+        <div class="save" style="text-align:right"><small>You save</small><span class="num" id="calcSave">-</span><p id="calcSaveNote"></p></div>
+      </div>
+      <button class="btn btn-berry btn-block" id="calcAdd">Add to my order</button>
+      
+    </div>
+  </div>
+</section>
+
+<!-- PERSONAL -->
+<section class="custom" id="custom">
+  <div class="drift top" style="--drift:#D3E9F8"></div>
+  <img src="../../assets/christmas/cloud.png" alt="" aria-hidden="true" style="position:absolute;right:10px;top:40px;width:72px;z-index:2">
+  <div class="wrap grid">
+    <div class="stage">
+      <span class="tape"></span>
+      <div class="frame" id="stage"></div>
+    </div>
+    <div class="copy">
+      <span class="eyebrow">Free custom text and logo</span><h2 class="title">Make It Personal</h2>
+      <p>The treats say Merry Christmas. Your words make it theirs.</p>
+      <div class="pick3" id="custProd" role="group" aria-label="What to personalize" style="display:none">
+        <button aria-pressed="false" data-v="handle">Christmas handle<small>Teddy Sharing</small></button>
+        <button aria-pressed="false" data-v="topper">Cookie topper<small>Christmas Cookies</small></button>
+        <button aria-pressed="true" data-v="card">Greeting card<small>Stack, Box, Drizzle</small></button>
+      </div>
+      <div class="forwhat" id="forwhat"></div>
+      <p class="note" style="margin-top:10px">Send your file or text at least 3 days before delivery.</p>
+      <div class="cta-pair"><a class="btn btn-berry" href="#menu">Order now</a><a class="btn btn-line" id="customWa" href="#" target="_blank" rel="noopener">Ask about custom packaging</a></div>
+    </div>
+  </div>
+</section>
+
 <!-- FAQ -->
 <section class="faq" id="faq">
+  <div class="drift top" style="--drift:#FFFBF3"></div>
   <div class="wrap slim">
-    <div class="head"><span class="eyebrow">FAQ</span><h2 class="title">good to Know</h2></div>
+    <div class="head"><span class="eyebrow">FAQ</span><h2 class="title">Good to Know</h2></div>
     <div class="langs"><div class="seg" id="faqLang" role="group" aria-label="Language"><button aria-pressed="true" data-v="en">English</button><button aria-pressed="false" data-v="id">Bahasa Indonesia</button></div></div>
     <div data-lang="en">
     <details><summary>How do I pay?</summary><p>Full payment upfront. Once it's paid, your slot is all yours 🤍 Please note, paid orders can't be refunded.</p></details>
@@ -1144,7 +1219,7 @@
 
 <!-- CARE -->
 <section class="care" id="care">
-  <div class="drift top"></div>
+  <div class="drift top" style="--drift:#FBEDEF"></div>
   <div class="wrap slim">
     <div class="head"><span class="eyebrow">Care guide</span><h2 class="title">Keeping them Fresh</h2><p class="lede">Tap each photo to flip it for storage tips.</p></div>
     <div class="cards">
@@ -1165,9 +1240,9 @@
 
 <!-- FOOTER -->
 <section class="everyday more" id="more">
-  <div class="drift top"></div>
+  <div class="drift top" style="--drift:#EAF4FC"></div>
   <div class="wrap">
-    <div class="head"><span class="eyebrow">Christmas 2026</span><h2 class="title">More Christmas Treats</h2><p class="lede">Gifting more than one person? Pick a little something for everyone.</p></div>
+    <div class="head"><span class="eyebrow">Christmas 2026</span><h2 class="title">More Christmas treats</h2><p class="lede">Gifting more than one person? Pick a little something for everyone.</p></div>
     <div class="ed-grid" id="moreGrid"></div>
     <div class="ed-cta"><a class="btn btn-berry" href="../#menu" id="moreAll">See more Christmas menu &rarr;</a></div>
     <p class="regnote">Looking for our everyday treats? <a href="../../#menu" onclick="track('cta_click',{where:'regular_menu'})">See the regular menu &rarr;</a></p>
@@ -1250,10 +1325,10 @@ const PRODUCTS = [
   { key:'stack', title:'Teddy Stack', icon:'i-bb', for:'A thoughtful gift for someone special.',
     gallery:['p/stack-1|#Teddy Stack 16 pcs and 12 pcs','p/stack-2|#16 pcs','p/stack-3|#12 pcs','p/stack-4|#Up close','p/stack-5|#The whole packaging','p/stack-6|#Brown Butter and Double Choco','p/care-1|#Care card included','p/stack-7|#Greeting card for your message','p/card-custom|Custom card: “Have a Blessed Christmas!”'], vlabel:'Size',
     variants:[
-      {id:'stack12', label:'12 pcs', who:'For your close circle, or 5–7 people', what:'6 Brown Butter Teddy Madeleines and 6 Double Choco Teddy Madeleines', inside:['i-bb*6','i-dc*6'], photo:2},
-      {id:'stack16', label:'16 pcs', who:'For the whole crowd, or 8–10 people', note:'One gift, enough for everyone at their home.', what:'8 Brown Butter Teddy Madeleines and 8 Double Choco Teddy Madeleines', inside:['i-bb*8','i-dc*8'], photo:1}
+      {id:'stack16', label:'16 pcs', who:'For the whole crowd, or 8–10 people', note:'One gift, enough for everyone at their home.', what:'8 Brown Butter Teddy Madeleines and 8 Double Choco Teddy Madeleines', inside:['i-bb*8','i-dc*8'], photo:1},
+      {id:'stack12', label:'12 pcs', who:'For your close circle, or 5–7 people', what:'6 Brown Butter Teddy Madeleines and 6 Double Choco Teddy Madeleines', inside:['i-bb*6','i-dc*6'], photo:2}
     ],
-    whyH:"A little celebration, ready to give", why:["12 or 16 teddies, topped with one in a Christmas hat", "Half Brown Butter, half Double Choco", "Gift-ready, no extra wrapping needed", "Greeting card with your message, free", "Ordering many? Buy 9, get 1 free"],
+    whyH:"A little celebration, ready to give", why:["16 or 12 teddies, topped with one in a Christmas hat", "Half Brown Butter, half Double Choco", "Gift-ready, no extra wrapping needed", "Greeting card with your message, free", "Ordering many? Buy 9, get 1 free"],
     includes:['Christmas banner and mini party hat','Greeting card with your message','Care card with storage tips','Clear gift box with Christmas ornaments'],
     custom:'Write your own message on the greeting card. Want your logo or custom text on it? Free from 5 stacks.',
     perk:'Order 9 stacks or more and we add 1 Teddy Stack 12 pcs, free.' },
@@ -1309,7 +1384,9 @@ const isEarlyBird = () => Date.now() <= EARLY_BIRD_END.getTime();
 const closedNow = () => ymd(new Date()) > LAST_DELIVERY;
 function ymd(d){ const p=n=>String(n).padStart(2,'0'); return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate()); }
 function addDays(d,n){ const x=new Date(d); x.setDate(x.getDate()+n); return x; }
-const waLink = t => 'https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(t);
+/* emoji dibuang: lewat wa.me sebagian HP menampilkannya sebagai simbol tanda tanya */
+const noEmoji = t => String(t).replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE0F}\u{200D}]/gu,'').replace(/[ \t]+\n/g,'\n').replace(/[ \t]+$/,'').trim();
+const waLink = t => 'https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(noEmoji(t));
 const groupCount = t => Object.keys(ITEMS).filter(k=>ITEMS[k].tier===t).reduce((s,k)=>s+qty[k],0);
 function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.remove('act'); t.classList.add('show'); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),1800); }
 function toastUndo(msg,fn){ const t=$('toast'); t.innerHTML=esc(msg)+' <button class="undo" type="button">Undo</button>'; t.classList.add('show','act'); clearTimeout(t._h);
@@ -1487,7 +1564,7 @@ function askOne(k){
   (p.addons||[]).forEach(a=>{ const n=st_.add[a.id]||0; if(n) lines.push(`${++i}. ${ITEMS[a.id].name} - ${ITEMS[a.id].variant} x${n}`); });
   if(k==='stack' && st_.n>=9) lines.push(`${++i}. FREE Teddy Stack 12 pcs x${Math.floor(st_.n/9)} (Buy 9 Get 1)`);
   const notes=[]; if(e.unit<e.base) notes.push('harga bulk'); if(e.eb) notes.push('early bird 10%');
-  const msg=`Hi Celebrar! Mau tanya dulu, slot untuk pesanan ini masih ada?\n\n${lines.join('\n')}\n\nTanggal & jam terima: \nDiambil atau dikirim? \n\nEstimasi: ${fmtK(e.total)}${notes.length?` (sudah termasuk ${notes.join(' & ')})`:''}\n(belum termasuk ongkir)`;
+  const msg=`Halo Celebrar! Mau tanya, slotnya masih ada? 🎄\n\n${lines.join('\n')}\n\nTanggal terima: \n\nEstimasi: ${fmtK(e.total)}${notes.length?` (sudah termasuk ${notes.join(' & ')})`:''}\n(belum termasuk ongkir)`;
   track('generate_lead',{currency:'IDR',value:e.total,items:st_.n,where:'product',product:k});
   window.open(waLink(msg),'_blank');
 }
@@ -1508,6 +1585,7 @@ $('pmBody').addEventListener('click',ev=>{
     const v=p.variants[st_.v]; addItem(v.id, st_.n);
     Object.entries(st_.add).forEach(([id,n])=>{ if(n) setQty(id, qty[id]+n); });
     st_.n=p.min||1; st_.add={}; renderCard(k); setTimeout(closeSheet,250);
+    setTimeout(()=>{ const o=$('order'); if(o) o.scrollIntoView({behavior:'smooth',block:'start'}); },450);
   }
 });
 $('pmBody').addEventListener('change',ev=>{ if(ev.target.dataset.in!=='n') return; const el=$('pmBody'), k=el.dataset.key, p=PRODUCTS.find(x=>x.key===k);
@@ -1531,8 +1609,8 @@ $('faqLang').addEventListener('click',e=>{ const b=e.target.closest('button'); i
 
 /* ===================== BULK CALCULATOR ===================== */
 const CALC=[
-  {k:'stack12', label:'12 pcs', item:'stack12', unit:'Stacks', def:9, max:50},
   {k:'stack', label:'16 pcs', item:'stack16', unit:'Stacks', def:9, max:50},
+  {k:'stack12', label:'12 pcs', item:'stack12', unit:'Stacks', def:9, max:50},
 ];
 let calcSel=CALC[0];
 function pickCalc(k){ const c=CALC.find(x=>x.k===k); if(!c) return; calcSel=c; const r=$('calcRange'); r.min=c.min||1; r.max=c.max||100; r.value=c.def; renderCalcOpts(); updateCalc(); track('cta_click',{where:'bulk_link',product:k}); }
@@ -1630,25 +1708,24 @@ function fmtDateID(v){ const [y,m,d]=v.split('-').map(Number); return new Date(y
 function send(){
   const err=$('formErr'); err.classList.remove('show');
   const fail=m=>{ err.textContent=m; err.classList.add('show'); };
-  const r=calc(), name=$('fName').value.trim(), phone=$('fPhone').value.trim(), date=$('fDate').value, time=$('fTime').value;
+  const r=calc(), name=$('fName').value.trim(), date=$('fDate').value, time=$('fTime').value;
   const method=(document.querySelector('input[name=method]:checked')||{}).value;
-  if(!r.count) return fail('Add at least one item to your basket.');
+  /* semua isian boleh kosong; yang kosong dilengkapi di chat WA */
   if(r.shareTotal>0 && r.shareTotal<12) return fail('Teddy Sharing starts at 12 pcs in total.');
-  if(!name) return fail('Fill in your name.');
-  if(!phone) return fail('Fill in your phone number.');
-  if(!date) return fail('Choose a receive date.');
-  if(BLOCKED_DATES.includes(date)) return fail('We are off on Dec 24–25. Choose another date.');
-  if(date<$('fDate').min || date>LAST_DELIVERY) return fail('That date is not available. Please choose another date.');
-  if(!time) return fail('Choose a time.');
-  if(!method) return fail('Choose pickup or delivery.');
-  const methodText = method==='pickup'?`Ambil sendiri (${$('fPickup').value})`:method==='one'?'Dikirim ke 1 alamat':'Dikirim ke beberapa alamat';
+  if(date && BLOCKED_DATES.includes(date)) return fail('We are off on Dec 24–25. Choose another date.');
+  if(date && (date<$('fDate').min || date>LAST_DELIVERY)) return fail('That date is not available. Please choose another date.');
+  const methodText = method==='pickup'?`Ambil sendiri (${$('fPickup').value})`:method==='one'?'Dikirim ke 1 alamat':method==='multi'?'Dikirim ke beberapa alamat':'Ambil sendiri / dikirim? ';
+  const when = date ? fmtDateID(date)+(time?`, ${time}`:'') : (time?`jam ${time}`:'');
   let i=0; const lines=r.lines.map(l=>`${++i}. ${l.it.name}${l.it.variant?' - '+l.it.variant:''} x${l.n}`);
   if(r.freeStacks) lines.push(`${++i}. FREE Teddy Stack 12 pcs x${r.freeStacks} (Buy 9 Get 1)`);
-  let msg=`Hi Celebrar! Mau cek ketersediaan tanggal untuk pesanan ini dulu ya:\n\nNama: ${name}\nNo. HP: ${phone}\n\nPesanan (produk + varian + jumlah):\n${lines.join('\n')}\n\nTanggal & jam terima: ${fmtDateID(date)}, ${time}\nDiambil atau dikirim? ${methodText}\n\nEstimasi total: ${fmtK(r.total)}`;
-  const notes=[]; if(r.bulkSave>0) notes.push('harga bulk'); if(r.eb>0) notes.push('early bird 10%');
-  if(notes.length) msg+=` (sudah termasuk ${notes.join(' & ')})`;
-  msg+=`\n(belum termasuk ongkir)`;
-  track('generate_lead',{currency:'IDR',value:r.total,items:r.count});
+  let msg=`Halo Celebrar! ${r.count?'Mau tanya, slotnya masih ada?':'Mau tanya soal Teddy Stack Natal'} 🎄\n\n${r.count?lines.join('\n'):'Pesanan: '}\n\nNama: ${name}\nTerima: ${when}\n${methodText}`;
+  if(r.count){
+    msg+=`\nEstimasi: ${fmtK(r.total)}`;
+    const notes=[]; if(r.bulkSave>0) notes.push('harga bulk'); if(r.eb>0) notes.push('early bird 10%');
+    if(notes.length) msg+=` (sudah termasuk ${notes.join(' & ')})`;
+    msg+=`\n(belum termasuk ongkir)`;
+  }
+  track('generate_lead',{currency:'IDR',value:r.count?r.total:0,items:r.count});
   window.open(waLink(msg),'_blank');
 }
 $('sendBtn').addEventListener('click',send);
@@ -1773,9 +1850,13 @@ $('footWa').href=waLink('Hi Celebrar!');
 /* ===================== DEEP LINK: ?item=stack opens that product ===================== */
 (function(){ const k=new URLSearchParams(location.search).get('item'); if(!k||!PRODUCTS.some(p=>p.key===k)) return;
   $('menu').scrollIntoView(); setTimeout(()=>openSheet(k),350); })();
+/* feature cards: tap to zoom */
+(function(){ const lb=$('lb'); document.querySelectorAll('.feat-card').forEach(c=>{ const open=()=>{ const im=c.querySelector('img'), b=c.querySelector('b'), t=c.querySelector('figcaption span'); $('lbImg').src=im.src; $('lbImg').alt=im.alt; $('lbCap').innerHTML=`${b.textContent}<small>${t.textContent}</small>`; lb.classList.add('open'); track('feature_zoom',{item:b.textContent}); };
+  c.addEventListener('click',open); c.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); open(); } }); }); })();
 /* ===================== TEDDY STACK LANDING: product shown inline ===================== */
 (function(){
   openKey='stack';
+  { const sp=PRODUCTS.find(p=>p.key==='stack'); sp.gallery=['p/stack-2|#16 pcs','p/stack-3|#12 pcs']; sp.variants.forEach(v=>{ v.photo = v.id==='stack16'?0:1; }); }
   const goMenu=k=>{ track('cta_click',{where:'more_menu',product:k}); location.href='../?item='+k; };
   openSheet=function(k,v){ if(k!=='stack'){ goMenu(k); return; } if(v!=null) pstate.stack.v=v; renderCard('stack',{jump:true}); $('menu').scrollIntoView({behavior:'smooth'}); };
   showProduct=openSheet; closeSheet=function(){};
