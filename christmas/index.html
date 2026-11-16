@@ -847,6 +847,11 @@
   .bulkbtn:hover{border-color:var(--berry);}
   .manylink{font-size:13px;color:var(--soft);margin-top:10px;}
   .manylink a{color:var(--berry);font-weight:700;text-decoration:underline;text-underline-offset:3px;}
+  /* "How did you find us?" dropdown */
+  #fSrc:invalid,#fSrc option[value=""]{color:var(--soft);}
+  #fSrc option{color:var(--cocoa);}
+  #srcField.miss #fSrc{box-shadow:0 0 0 2px #E7A4AE;}
+  .req{color:var(--berry);}
 </style>
 </head>
 <body>
@@ -1094,7 +1099,6 @@
         <h3>Your Details</h3>
         <div class="form">
           <div class="field"><label for="fName">Name</label><input id="fName" type="text" autocomplete="name"></div>
-          <div class="field"><label for="fPhone">Phone number</label><input id="fPhone" type="tel" autocomplete="tel" placeholder="08xx xxxx xxxx"></div>
           <div class="two">
             <div class="field"><label for="fDate">Receive date</label><input id="fDate" type="date"></div>
             <div class="field"><label for="fTime">Time</label><input id="fTime" type="time" min="09:00" max="18:00"></div>
@@ -1115,7 +1119,23 @@
             </div>
             <p class="note" id="methodNote"></p>
           </div>
+          <div class="field" id="srcField">
+            <label for="fSrc">How did you find us? <b class="req">*</b></label>
+            <select id="fSrc" aria-required="true">
+              <option value="" selected disabled>Choose one</option>
+              <option value="Instagram">Instagram</option>
+              <option value="Iklan IG/FB">IG/FB ad</option>
+              <option value="TikTok">TikTok</option>
+              <option value="Threads">Threads</option>
+              <option value="Google">Google</option>
+              <option value="Google Maps">Google Maps</option>
+              <option value="Teman/keluarga">Friends or fams</option>
+              <option value="Pernah order">Repeat order</option>
+              <option value="Lainnya">Other</option>
+            </select>
+          </div>
           <p class="err" id="formErr" role="alert"></p>
+          <p class="note" style="text-align:center;margin:0 0 10px">Only <b>How did you find us</b> is required. The rest can wait for WhatsApp.</p>
           <button class="btn btn-berry btn-block" id="sendBtn" type="button"><svg width="18" height="18"><use href="#i-wa"/></svg>Ask on WhatsApp</button>
           <p class="note" style="text-align:center">Limited quota per day. Your date is secured once payment is complete.</p>
         </div>
@@ -1335,7 +1355,9 @@ const isEarlyBird = () => Date.now() <= EARLY_BIRD_END.getTime();
 const closedNow = () => ymd(new Date()) > LAST_DELIVERY;
 function ymd(d){ const p=n=>String(n).padStart(2,'0'); return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate()); }
 function addDays(d,n){ const x=new Date(d); x.setDate(x.getDate()+n); return x; }
-const waLink = t => 'https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(t);
+/* emoji dibuang: lewat wa.me sebagian HP menampilkannya sebagai simbol tanda tanya */
+const noEmoji = t => String(t).replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE0F}\u{200D}]/gu,'').replace(/[ \t]+\n/g,'\n').replace(/[ \t]+$/,'').trim();
+const waLink = t => 'https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(noEmoji(t));
 const groupCount = t => Object.keys(ITEMS).filter(k=>ITEMS[k].tier===t).reduce((s,k)=>s+qty[k],0);
 function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.remove('act'); t.classList.add('show'); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),1800); }
 function toastUndo(msg,fn){ const t=$('toast'); t.innerHTML=esc(msg)+' <button class="undo" type="button">Undo</button>'; t.classList.add('show','act'); clearTimeout(t._h);
@@ -1661,28 +1683,31 @@ function fmtDateID(v){ const [y,m,d]=v.split('-').map(Number); return new Date(y
 function send(){
   const err=$('formErr'); err.classList.remove('show');
   const fail=m=>{ err.textContent=m; err.classList.add('show'); };
-  const r=calc(), name=$('fName').value.trim(), phone=$('fPhone').value.trim(), date=$('fDate').value, time=$('fTime').value;
+  const r=calc(), name=$('fName').value.trim(), date=$('fDate').value, time=$('fTime').value;
   const method=(document.querySelector('input[name=method]:checked')||{}).value;
+  const src=$('fSrc').value;
+  /* wajib: ada menu di keranjang + "tahu dari mana"; isian lain boleh kosong */
   if(!r.count) return fail('Add at least one item to your basket.');
   if(r.shareTotal>0 && r.shareTotal<12) return fail('Teddy Sharing starts at 12 pcs in total.');
-  if(!name) return fail('Fill in your name.');
-  if(!phone) return fail('Fill in your phone number.');
-  if(!date) return fail('Choose a receive date.');
-  if(BLOCKED_DATES.includes(date)) return fail('We are off on Dec 24–25. Choose another date.');
-  if(date<$('fDate').min || date>LAST_DELIVERY) return fail('That date is not available. Please choose another date.');
-  if(!time) return fail('Choose a time.');
-  if(!method) return fail('Choose pickup or delivery.');
-  const methodText = method==='pickup'?`Ambil sendiri (${$('fPickup').value})`:method==='one'?'Dikirim ke 1 alamat':'Dikirim ke beberapa alamat';
+  $('srcField').classList.remove('miss');
+  if(!src){ $('srcField').classList.add('miss'); $('srcField').scrollIntoView({behavior:'smooth',block:'center'}); return fail('Tell us how you found us first.'); }
+  if(date && BLOCKED_DATES.includes(date)) return fail('We are off on Dec 24–25. Choose another date.');
+  if(date && (date<$('fDate').min || date>LAST_DELIVERY)) return fail('That date is not available. Please choose another date.');
+  const methodText = method==='pickup'?`Ambil sendiri (${$('fPickup').value})`:method==='one'?'Dikirim ke 1 alamat':method==='multi'?'Dikirim ke beberapa alamat':'Ambil sendiri / dikirim?';
+  const when = date ? fmtDateID(date)+(time?`, ${time}`:'') : (time?`jam ${time}`:'');
   let i=0; const lines=r.lines.map(l=>`${++i}. ${l.it.name}${l.it.variant?' - '+l.it.variant:''} x${l.n}`);
   if(r.freeStacks) lines.push(`${++i}. FREE Teddy Stack 12 pcs x${r.freeStacks} (Buy 9 Get 1)`);
-  let msg=`Hi Celebrar! Mau cek ketersediaan tanggal untuk pesanan ini dulu ya:\n\nNama: ${name}\nNo. HP: ${phone}\n\nPesanan (produk + varian + jumlah):\n${lines.join('\n')}\n\nTanggal & jam terima: ${fmtDateID(date)}, ${time}\nDiambil atau dikirim? ${methodText}\n\nEstimasi total: ${fmtK(r.total)}`;
+  let msg=`Halo Celebrar! Mau tanya, slotnya masih ada?\n\n${lines.join('\n')}\n\nNama: ${name}\nTerima: ${when}\n${methodText}\nTahu Celebrar dari: ${src}\nEstimasi: ${fmtK(r.total)}`;
   const notes=[]; if(r.bulkSave>0) notes.push('harga bulk'); if(r.eb>0) notes.push('early bird 10%');
   if(notes.length) msg+=` (sudah termasuk ${notes.join(' & ')})`;
   msg+=`\n(belum termasuk ongkir)`;
-  track('generate_lead',{currency:'IDR',value:r.total,items:r.count});
+  track('generate_lead',{currency:'IDR',value:r.total,items:r.count,source:src});
   window.open(waLink(msg),'_blank');
 }
 $('sendBtn').addEventListener('click',send);
+$('fSrc').addEventListener('change',()=>{ $('srcField').classList.remove('miss'); $('formErr').classList.remove('show'); track('source_pick',{source:$('fSrc').value}); });
+/* datang dari link iklan (utm_medium=paid): otomatis pilih "IG/FB ad", tetap bisa diganti */
+try{ const q=new URLSearchParams(location.search); if(q.get('utm_medium')==='paid' && /meta|facebook|instagram|ig|fb/i.test(q.get('utm_source')||'')) $('fSrc').value='Iklan IG/FB'; }catch(e){}
 document.querySelectorAll('input[name=method]').forEach(x=>x.addEventListener('change',()=>{
   const v=document.querySelector('input[name=method]:checked').value;
   $('pickupWrap').style.display=v==='pickup'?'block':'none';
