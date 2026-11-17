@@ -906,6 +906,10 @@
   #fSrc option{color:var(--cocoa);}
   #srcField.miss #fSrc{box-shadow:0 0 0 2px #E7A4AE;}
   .req{color:var(--berry);}
+  /* HP kecil (<=360px): teks hero tidak keluar layar */
+  .hero .copy,.hero .after{min-width:0;}
+  .hero .heroeyebrow{overflow-wrap:anywhere;}
+  @media(max-width:360px){.hero h1{font-size:31px!important;}.hero .heroeyebrow{font-size:9.5px!important;letter-spacing:.08em!important;}.hero .sub{font-size:13px!important;}.hero .price{font-size:13px;}.hero .scrollbtn{font-size:12.5px!important;padding-left:12px!important;gap:5px!important;}.hero .scrollbtn i{width:26px!important;height:26px!important;}}
   /* warna awan = warna bagian sebelumnya */
   #features>.drift.top{--drift:#FFFBF3!important;display:block!important;}
   #reviews>.drift.top{--drift:#EAF4FC!important;display:block!important;}
