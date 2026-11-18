@@ -1411,6 +1411,12 @@ function addDays(d,n){ const x=new Date(d); x.setDate(x.getDate()+n); return x; 
 /* emoji dibuang: lewat wa.me sebagian HP menampilkannya sebagai simbol tanda tanya */
 const noEmoji = t => String(t).replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE0F}\u{200D}]/gu,'').replace(/[ \t]+\n/g,'\n').replace(/[ \t]+$/,'').trim();
 const waLink = t => 'https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(noEmoji(t));
+// Open WhatsApp: inside Instagram/Facebook's in-app browser new tabs get lost, so use the same tab there.
+const openWA = url => {
+  const inApp = /FBAN|FBAV|FB_IAB|Instagram/i.test(navigator.userAgent||'');
+  if (inApp) { setTimeout(()=>{ location.href = url; }, 300); return; }
+  const w = window.open(url,'_blank'); if (!w) location.href = url;
+};
 const groupCount = t => Object.keys(ITEMS).filter(k=>ITEMS[k].tier===t).reduce((s,k)=>s+qty[k],0);
 function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.remove('act'); t.classList.add('show'); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),1800); }
 function toastUndo(msg,fn){ const t=$('toast'); t.innerHTML=esc(msg)+' <button class="undo" type="button">Undo</button>'; t.classList.add('show','act'); clearTimeout(t._h);
@@ -1590,7 +1596,7 @@ function askOne(k){
   const notes=[]; if(e.unit<e.base) notes.push('harga bulk'); if(e.eb) notes.push('early bird 10%');
   const msg=`Halo Celebrar! Mau tanya, slotnya masih ada? 🎄\n\n${lines.join('\n')}\n\nTanggal terima: \n\nEstimasi: ${fmtK(e.total)}${notes.length?` (sudah termasuk ${notes.join(' & ')})`:''}\n(belum termasuk ongkir)`;
   track('generate_lead',{currency:'IDR',value:e.total,items:st_.n,where:'product',product:k});
-  window.open(waLink(msg),'_blank');
+  openWA(waLink(msg));
 }
 $('pmBody').addEventListener('click',ev=>{
   const el=$('pmBody');
@@ -1753,7 +1759,7 @@ function send(){
     msg+=`\n(belum termasuk ongkir)`;
   }
   track('generate_lead',{currency:'IDR',value:r.count?r.total:0,items:r.count,source:src});
-  window.open(waLink(msg),'_blank');
+  openWA(waLink(msg));
 }
 $('sendBtn').addEventListener('click',send);
 $('fSrc').addEventListener('change',()=>{ $('srcField').classList.remove('miss'); $('formErr').classList.remove('show'); track('source_pick',{source:$('fSrc').value}); });

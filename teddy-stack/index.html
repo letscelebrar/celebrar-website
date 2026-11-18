@@ -291,6 +291,23 @@
     }, true);
   }
 </script>
+<script>
+  // Keep the ad's UTM for this visit so the order form on the homepage knows the visitor came from an ad.
+  try {
+    var q = new URLSearchParams(location.search);
+    if (q.get('utm_source')) sessionStorage.setItem('celebrar_utm', JSON.stringify({source: q.get('utm_source'), medium: q.get('utm_medium') || '', campaign: q.get('utm_campaign') || ''}));
+  } catch(e){}
+  // GA events for the two exits of this page: order button and WhatsApp
+  document.addEventListener('click', function(ev){
+    try {
+      var a = ev.target.closest && ev.target.closest('a[href]');
+      if (!a || !window.gtag) return;
+      var h = a.getAttribute('href') || '';
+      if (/wa\.me\//.test(h)) gtag('event', 'whatsapp_click', {page: 'teddy-stack'});
+      else if (/(#menu|[?&]open=)/.test(h)) gtag('event', 'order_cta_click', {item_name: 'Teddy Stack'});
+    } catch(e){}
+  }, true);
+</script>
 </head>
 <body>
 
@@ -302,7 +319,7 @@
       <li><a href="/#menu">Shop</a></li>
       <li><a href="/#about">Our Story</a></li>
       <li><a href="/#faq">FAQ</a></li>
-      <li><a href="/?open=stack#menu" target="_blank" rel="noopener" class="cta">Order Teddy Stack</a></li>
+      <li><a href="/?open=stack#menu" class="cta">Order Teddy Stack</a></li>
     </ul>
     <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
   </nav>
@@ -339,7 +356,7 @@
         <p class="hero-disclaimer">*Made in a shared kitchen. Tools and surfaces are sanitized before each production.</p>
         <div class="hero-price">Starts from <strong>IDR 119K</strong><span style="display:block;font-size:13px;font-weight:500;opacity:.85;margin-top:4px;">More teddies to share, less per teddy: from 19.8K to 13.5K each.</span></div>
         <div class="hero-buttons">
-          <a href="/?open=stack#menu" target="_blank" rel="noopener" class="btn btn-primary">Check Custom Price</a>
+          <a href="/?open=stack#menu" class="btn btn-primary">Check Custom Price</a>
         </div>
         <div class="hero-micro">Order at least 2 days ahead so it arrives right on time.</div>
       </div>
@@ -428,7 +445,7 @@
 
     </div>
     <div style="text-align:center;margin-top:40px;">
-      <a href="/?open=stack#menu" target="_blank" rel="noopener" class="btn btn-primary">Check Custom Price</a>
+      <a href="/?open=stack#menu" class="btn btn-primary">Check Custom Price</a>
     </div>
   </div>
 </section>
@@ -503,7 +520,7 @@
     <p style="text-align:center;font-size:12px;color:var(--text-soft);margin-top:20px;max-width:520px;margin-left:auto;margin-right:auto;">*No gluten ingredients used, but made in a shared kitchen. Tools and surfaces are sanitized before each production. Not recommended for severe gluten allergies or celiac disease.</p>
 
     <div style="text-align:center;margin-top:36px;">
-      <a href="/?open=stack#menu" target="_blank" rel="noopener" class="btn btn-primary">Order Teddy Stack</a>
+      <a href="/?open=stack#menu" class="btn btn-primary">Order Teddy Stack</a>
     </div>
   </div>
 </section>
@@ -562,7 +579,7 @@
     <h2 class="section-title reveal">Who's On Your Mind Today?</h2>
     <p class="section-sub reveal">Order now and let Teddy Stack say it for you.</p>
     <div class="hero-buttons">
-      <a href="/?open=stack#menu" target="_blank" rel="noopener" class="btn btn-primary">Order Teddy Stack</a>
+      <a href="/?open=stack#menu" class="btn btn-primary">Order Teddy Stack</a>
       <a href="/#menu" class="btn btn-outline">Explore Other Products</a>
     </div>
   </div>
@@ -594,7 +611,7 @@
 </a>
 
 <div class="sticky-cta">
-  <a href="/?open=stack#menu" target="_blank" rel="noopener" class="btn btn-primary">Check Price</a>
+  <a href="/?open=stack#menu" class="btn btn-primary">Check Price</a>
   <a href="/#menu" class="btn btn-outline">Explore Menu</a>
 </div>
 

@@ -1896,6 +1896,9 @@
     cart.push(item);
     saveCart();
     updateCartBar();
+    // Tracking: add to cart (Meta Pixel + GA)
+    try { if (window.fbq) fbq('track', 'AddToCart', {content_name: item.productName || '', value: Number(item.price) || 0, currency: 'IDR'}); } catch(e){}
+    try { if (window.gtag) gtag('event', 'add_to_cart', {currency: 'IDR', value: Number(item.price) || 0, items: [{item_name: item.productName || ''}]}); } catch(e){}
   }
   function updateCartItem(id, item){
     const idx = cart.findIndex(i => i.id === id);
@@ -1946,8 +1949,9 @@
       <div class="cart-total-row"><span>Total</span><span>${priceStr(cartTotal())}</span></div>
 
       <div class="checkout-fields">
-        <div class="config-field"><label>Your Name (Nama Pemesan)</label><input type="text" id="ckOrderer" autocomplete="name" /></div>
-        <div class="config-field"><label>Recipient Name (Nama Penerima)</label>
+        <div class="field-note" style="margin-bottom:14px;">Only "How did you find Celebrar?" is required. Everything else is optional and can be completed on WhatsApp (Selain "dari mana tahu Celebrar", semua opsional, bisa dilengkapi di WhatsApp).</div>
+        <div class="config-field"><label>Your Name (Nama Pemesan) · optional</label><input type="text" id="ckOrderer" autocomplete="name" /></div>
+        <div class="config-field"><label>Recipient Name (Nama Penerima) · optional</label>
           <select id="ckRecipientType" style="width:100%;padding:11px 14px;border:1.5px solid var(--wood-line);border-radius:var(--radius-sm);font-family:'Quicksand',sans-serif;font-size:14.5px;background:var(--cream);color:var(--text);">
             <option value="same">Same as orderer (Sama dengan pemesan)</option>
             <option value="other">Other (Lainnya, isi di bawah)</option>
@@ -1956,16 +1960,16 @@
           <input type="text" id="ckRecipientPhone" inputmode="tel" autocomplete="off" placeholder="Recipient WhatsApp number (No. WhatsApp penerima)" style="margin-top:10px;display:none;" />
           <div class="field-note" id="ckRecipientPhoneNote" style="display:none;">Only needed if you'd like us to arrange delivery for you (hanya diperlukan kalau ingin kami bantu atur pengiriman).</div>
         </div>
-        <div class="config-field"><label>Recipient Address (Alamat Penerima)</label><textarea id="ckAddress" autocomplete="street-address"></textarea>
+        <div class="config-field"><label>Recipient Address (Alamat Penerima) · optional</label><textarea id="ckAddress" autocomplete="street-address"></textarea>
           <div class="field-note">To determine the nearest pickup point (untuk menentukan titik pickup terdekat).</div>
         </div>
-        <div class="config-field"><label>WhatsApp Number (No. WhatsApp)</label><input type="text" id="ckWa" inputmode="tel" autocomplete="tel" placeholder="e.g. 6281234567890" />
+        <div class="config-field"><label>WhatsApp Number (No. WhatsApp) · optional</label><input type="text" id="ckWa" inputmode="tel" autocomplete="tel" placeholder="e.g. 6281234567890" />
           <div class="field-note">This is the orderer's WhatsApp number, used to confirm your order (nomor WhatsApp pemesan, dipakai untuk konfirmasi pesanan).</div>
         </div>
-        <div class="config-field"><label>Preferred Date (Tanggal Pickup)</label><input type="date" id="ckDate" />
+        <div class="config-field"><label>Preferred Date (Tanggal Pickup) · optional</label><input type="date" id="ckDate" />
           <div class="field-note">Minimum order is 2 days ahead, so today and tomorrow can't be selected (minimal pesan 2 hari sebelumnya). Need it sooner? Contact our admin directly.</div>
         </div>
-        <div class="config-field"><label>Preferred Time (Jam Pickup)</label>
+        <div class="config-field"><label>Preferred Time (Jam Pickup) · optional</label>
           <select id="ckTime" style="width:100%;padding:11px 14px;border:1.5px solid var(--wood-line);border-radius:var(--radius-sm);font-family:'Quicksand',sans-serif;font-size:14.5px;background:var(--cream);color:var(--text);">
             <option value="">Select a time (Pilih jam)</option>
             <option value="09:00">09:00</option>
@@ -1980,13 +1984,15 @@
             <option value="18:00">18:00</option>
           </select>
         </div>
-        <div class="config-field"><label>How did you find Celebrar? (Dari mana kamu tahu Celebrar?)</label>
+        <div class="config-field"><label>How did you find Celebrar? (Dari mana kamu tahu Celebrar?) *</label>
           <select id="ckSource" style="width:100%;padding:11px 14px;border:1.5px solid var(--wood-line);border-radius:var(--radius-sm);font-family:'Quicksand',sans-serif;font-size:14.5px;background:var(--cream);color:var(--text);">
             <option value="" selected>Select an option (Pilih salah satu)</option>
             <option value="Family/Friends">Family / Friends</option>
             <option value="Instagram">Instagram</option>
+            <option value="IG/FB Ads">IG/FB Ads (Iklan IG/FB)</option>
             <option value="TikTok">TikTok</option>
             <option value="Threads">Threads</option>
+            <option value="Google">Google</option>
             <option value="Google Maps">Google Maps</option>
             <option value="Others">Others</option>
           </select>
@@ -2021,6 +2027,11 @@
     sourceSelect.addEventListener('change', ()=>{
       sourceOther.style.display = sourceSelect.value === 'Others' ? 'block' : 'none';
     });
+    // Came from an IG/FB ad (utm saved on landing)? Pre-select it; customer can still change.
+    try {
+      const u = JSON.parse(sessionStorage.getItem('celebrar_utm') || '{}');
+      if (!sourceSelect.value && u.medium === 'paid' && /meta|facebook|instagram|ig|fb/i.test(u.source || '')) sourceSelect.value = 'IG/FB Ads';
+    } catch(e){}
 
     function clearFieldErrors(){
       modalContent.querySelectorAll('.config-field.has-error').forEach(f => {
@@ -2058,14 +2069,10 @@
 
       clearFieldErrors();
       let firstErrorField = null;
+      // Only "how did you find us" is required; everything else can be completed on WhatsApp.
       const checks = [
-        [document.getElementById('ckOrderer'), orderer, 'Please enter your name (Nama pemesan belum diisi).'],
-        [document.getElementById('ckAddress'), address, 'Please enter the recipient address (Alamat belum diisi).'],
-        [document.getElementById('ckWa'), wa, 'Please enter your WhatsApp number (No. WhatsApp belum diisi).'],
-        [dateInput, date, 'Please select a preferred date (Tanggal belum dipilih).'],
-        [document.getElementById('ckTime'), time, 'Please select a preferred time (Jam belum dipilih).']
+        [sourceSelect, sourceSelect.value, 'Tell us how you found Celebrar first (Pilih dulu dari mana kamu tahu Celebrar).']
       ];
-      if (isOtherRecipient) checks.push([recipientName, recipient, 'Please enter the recipient name (Nama penerima belum diisi).']);
 
       checks.forEach(([el, val, message]) => {
         if (!val) {
@@ -2087,14 +2094,14 @@
       });
       lines.push(`*Total: ${priceStr(cartTotal())}*`);
       lines.push("");
-      const dateFormatted = new Date(date + 'T00:00:00').toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'});
-      lines.push(`*Nama Pemesan:* ${orderer}`);
-      lines.push(`*Nama Penerima:* ${recipient}`);
+      const dateFormatted = date ? new Date(date + 'T00:00:00').toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'}) : '';
+      if (orderer) lines.push(`*Nama Pemesan:* ${orderer}`);
+      if (isOtherRecipient && recipient) lines.push(`*Nama Penerima:* ${recipient}`);
       if (isOtherRecipient && recipientPhoneVal) lines.push(`*No. WhatsApp Penerima:* ${recipientPhoneVal}`);
-      lines.push(`*Alamat:* ${address}`);
-      lines.push(`*No. WhatsApp:* ${wa}`);
-      lines.push(`*Preferred Date:* ${dateFormatted}`);
-      lines.push(`*Preferred Time:* ${time}`);
+      if (address) lines.push(`*Alamat:* ${address}`);
+      if (wa) lines.push(`*No. WhatsApp:* ${wa}`);
+      lines.push(`*Preferred Date:* ${dateFormatted || '(belum ditentukan)'}`);
+      if (time) lines.push(`*Preferred Time:* ${time}`);
       if (source) lines.push(`*Found us via:* ${source}`);
       if (notes) lines.push(`*Notes:* ${notes}`);
       lines.push("");
@@ -2102,8 +2109,13 @@
 
       const message = lines.join("\n");
       try { if (window.fbq) fbq('track', 'Lead', {value: Number(cartTotal()) || 0, currency: 'IDR'}); } catch(e){}
-      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, "_blank");
+      try { if (window.gtag) gtag('event', 'generate_lead', {currency: 'IDR', value: Number(cartTotal()) || 0, lead_source: source || ''}); } catch(e){}
+      const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+      // Instagram/Facebook in-app browsers often block new tabs: open WhatsApp in the same tab there.
+      const inApp = /FBAN|FBAV|FB_IAB|Instagram/i.test(navigator.userAgent || '');
       closeModal();
+      if (inApp) { setTimeout(() => { window.location.href = waUrl; }, 250); }
+      else { const w = window.open(waUrl, "_blank"); if (!w) window.location.href = waUrl; }
     });
   }
 
@@ -2321,6 +2333,12 @@
      ?open=<key> auto-opens that product's modal (any valid CARD_META key: stack, treats,
      sharing, bouquet) and shows a small bar linking back to the story page. Purely additive:
      does nothing unless the query param is present, so normal visits are unaffected. */
+  (function saveAdUtm(){
+    try {
+      const q = new URLSearchParams(window.location.search);
+      if (q.get('utm_source')) sessionStorage.setItem('celebrar_utm', JSON.stringify({source: q.get('utm_source'), medium: q.get('utm_medium') || '', campaign: q.get('utm_campaign') || ''}));
+    } catch(e){}
+  })();
   (function applyStoryPageDeepLink(){
     const params = new URLSearchParams(window.location.search);
     const key = params.get('open');
